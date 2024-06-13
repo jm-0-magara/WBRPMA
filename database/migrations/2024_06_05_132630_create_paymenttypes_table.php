@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('paymenttypes', function (Blueprint $table) {
+            $table->string('paymentType');
+            $table->integer('rentalNo')->index('rentalno');
+            $table->integer('price')->nullable();
+
+            $table->primary(['paymentType', 'rentalNo']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('paymenttypes');
+    }
+};
