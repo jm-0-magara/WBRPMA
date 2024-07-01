@@ -1,3 +1,13 @@
+<script>
+    var percentageIncrease = {{ $percentageIncrease }};
+</script>
+<script>
+    var percentageDecrease = {{ $percentageDecrease }};
+</script>
+<script>
+    var months = @json($months);
+    var amounts = @json($amounts);
+</script>
 @extends('layouts.master')
 
 @section('content')
@@ -18,7 +28,7 @@
             <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5">
                 <div class="col-span-12 md:order-1 xl:col-span-8 2xl:col-span-6">
                     <h5 class="mb-2">Welcome {{ Session::get('name') }}</h5>
-                    <p class="mb-5 text-slate-500 dark:text-zink-200">MPESA/BANK payment of <a href="#!" class="underline text-slate-800 dark:text-zink-50">person</a> made on <a href="#!" class="text-red-500">date</a></p>
+                    <p class="mb-5 text-slate-500 dark:text-zink-200">MPESA/BANK payment of <a href="#!" class="text-green-500">PERSON</a> made on (select from notifications) <a href="#!" class="text-green-500">DATE</a></p>
                 </div>
                 <div class="col-span-12 md:order-2 xl:col-span-4 2xl:col-start-9 card">
                     <div class="p-4">
@@ -62,7 +72,7 @@
                             @endforeach
                         </table>
                         <div class="flex justify-center gap-2 mt-6">
-                            <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Add Property</button>
+                            <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><a  href="{{ route('page/propertyInput') }}" >Add Property</a></button>
                         </div>
                     </div>
                 </div>
@@ -85,15 +95,14 @@
                         <div class="grid grid-cols-12">
                             <div class="col-span-8 md:col-span-9">
                                 <p class="text-slate-500 dark:text-slate-200">Total Gross Profit</p>
-                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="">1000</h5>
+                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="{{$totalGrossProfit}}"></h5>
                             </div>
                             <div class="col-span-4 md:col-span-3">
-                                <div id="totalEmployee" data-chart-colors='["bg-custom-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <div id="totalGrossProfit" data-chart-colors='["bg-custom-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <p id="percentageIncreaseText" class="text-slate-500 dark:text-slate-200 grow">
+                                    <span class="font-medium" id="percentageIncreaseValue">{{ $percentageIncrease }}%</span> Increase
+                                </p> 
                             </div>
-                        </div>
-                        <div class="flex items-center gap-3 mt-3">
-                            <p class="text-slate-500 dark:text-slate-200 grow"><span class="font-medium text-green-500">15%</span> Increase</p>
-                            <p class="text-slate-500 dark:text-slate-200">This Month</p>
                         </div>
                     </div>
                 </div>
@@ -102,15 +111,14 @@
                         <div class="grid grid-cols-12">
                             <div class="col-span-8 md:col-span-9">
                                 <p class="text-slate-500 dark:text-slate-200">Total Expenditure</p>
-                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="174">0</span></h5>
+                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="{{$totalExpenditure}}"></span></h5>
                             </div>
                             <div class="col-span-4 md:col-span-3">
-                                <div id="totalApplication" data-chart-colors='["bg-purple-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <div id="totalExpenditure" data-chart-colors='["bg-purple-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <p id="percentageDecreaseText" class="text-slate-500 dark:text-slate-200 grow">
+                                    <span class="font-medium" id="percentageDecreaseValue">{{ $percentageDecrease }}%</span> Decrease
+                                </p>   
                             </div>
-                        </div>
-                        <div class="flex items-center gap-3 mt-3">
-                            <p class="text-slate-500 dark:text-slate-200 grow"><span class="font-medium text-green-500">26%</span> Increase</p>
-                            <p class="text-slate-500 dark:text-slate-200">This Month</p>
                         </div>
                     </div>
                 </div>
@@ -125,7 +133,7 @@
                                 <button type="button" class="flex items-center justify-center p-0 text-xs transition-all duration-200 ease-linear size-8 text-sky-500 btn bg-sky-100 hover:text-white hover:bg-sky-600 focus:text-white focus:bg-sky-600 focus:ring focus:ring-sky-100 active:text-white active:bg-sky-600 active:ring active:ring-sky-100 dark:bg-sky-500/20 dark:text-sky-400 dark:hover:bg-sky-500 dark:hover:text-white dark:focus:bg-sky-500 dark:focus:text-white dark:active:bg-sky-500 dark:active:text-white dark:ring-sky-400/20">1Y</button>
                             </div>
                         </div>
-                        <div id="applicationReceivedChart" class="apex-charts" data-chart-colors='["bg-custom-500", "bg-green-500"]' dir="ltr"></div>
+                        <div id="profitsChart" class="apex-charts" data-chart-colors='["bg-custom-500", "bg-green-500"]' dir="ltr"></div>
                     </div>
                 </div>
                 <div class="col-span-12 md:order-5 2xl:order-6 lg:col-span-6 2xl:col-span-3 card">
@@ -133,15 +141,12 @@
                         <div class="grid grid-cols-12">
                             <div class="col-span-8 md:col-span-9">
                                 <p class="text-slate-500 dark:text-slate-200">Total Net Profit</p>
-                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="64">0</span></h5>
+                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="{{$totalGrossProfit - $totalExpenditure}}"></span></h5>
                             </div>
                             <div class="col-span-4 md:col-span-3">
-                                <div id="hiredCandidates" data-chart-colors='["bg-green-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <div id="totalNetProfit" data-chart-colors='["bg-green-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <p class="text-slate-500 dark:text-slate-200 grow"><span class="font-medium text-green-500">05%</span> Increase</p>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-3 mt-3">
-                            <p class="text-slate-500 dark:text-slate-200 grow"><span class="font-medium text-red-500">05%</span> Increase</p>
-                            <p class="text-slate-500 dark:text-slate-200">This Month</p>
                         </div>
                     </div>
                 </div>
@@ -153,12 +158,9 @@
                                 <h5 class="mt-3 mb-4"><span class="counter-value" data-target="110">0</span></h5>
                             </div>
                             <div class="col-span-4 md:col-span-3">
-                                <div id="rejectedCandidates" data-chart-colors='["bg-red-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <div id="totalDebts" data-chart-colors='["bg-red-500"]' dir="ltr" class="grow apex-charts"></div>
+                                <p class="text-slate-500 dark:text-slate-200 grow"><span class="font-medium text-red-500">16%</span> Increase</p>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-3 mt-3">
-                            <p class="text-slate-500 dark:text-slate-200 grow"><span class="font-medium text-red-500">16%</span> Increase</p>
-                            <p class="text-slate-500 dark:text-slate-200">This Month</p>
                         </div>
                     </div>
                 </div>
@@ -180,173 +182,105 @@
                         </div><!--end grid-->
                         <div class="-mx-5 overflow-x-auto">
                             <table class="w-full whitespace-nowrap">
-                                <thead class="ltr:text-left rtl:text-right bg-slate-100 text-slate-500 dark:text-zink-200 dark:bg-zink-600">
-                                    <tr>
-                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-y border-slate-200 dark:border-zink-500 w-10">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheckAll" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </th>
-                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-y border-slate-200 dark:border-zink-500">ID</th>
-                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-y border-slate-200 dark:border-zink-500">Name</th>
-                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-y border-slate-200 dark:border-zink-500">Designation</th>
-                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-y border-slate-200 dark:border-zink-500">Performance</th>
-                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-y border-slate-200 dark:border-zink-500">Status</th>
-                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-y border-slate-200 dark:border-zink-500">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck1" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1001</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="bg-green-100 rounded-full size-10 dark:bg-green-500/20 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-10.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Kristen Redden</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">kredden@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">Designer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-green-500">Good</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Active</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck2" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1002</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="rounded-full size-10 bg-sky-100 dark:bg-sky-500/20 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-2.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Howard George</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">george@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">ASP.Net Developer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-red-500">Low</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Active</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck3" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1003</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="rounded-full size-10 bg-slate-100 dark:bg-zink-600 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-3.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Laura Carlson</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">carlson15@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">React Developer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-green-500">Good</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Active</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck4" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1004</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="bg-yellow-100 rounded-full size-10 dark:bg-yellow-500/20 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-4.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Joseph Hawkins</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">joseph@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">Angular Developer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-green-500">Good</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-slate-100 border-slate-200 text-slate-500 dark:bg-slate-500/20 dark:border-slate-500/20 dark:text-zink-200">Disabled</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck5" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1005</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="bg-yellow-100 rounded-full size-10 dark:bg-yellow-500/20 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-5.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Jeremy  Clifford</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">joseph@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">UI / UX Designer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-red-500">Low</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-slate-100 border-slate-200 text-slate-500 dark:bg-slate-500/20 dark:border-slate-500/20 dark:text-zink-200">Disabled</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                            <thead class="ltr:text-left rtl:text-right">
+                                <tr class="bg-slate-100 dark:bg-zink-600">
+                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 ID">
+                                        Employee No
+                                    </th>
+                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 Name">
+                                        First Name
+                                    </th>
+                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 Role">
+                                        Last Name
+                                    </th>
+                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 Email">
+                                        Role
+                                    </th>
+                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 Phone">
+                                        Phone Number
+                                    </th>
+                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 Country">
+                                        Salary
+                                    </th>
+                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 Action">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" id="employeeList">
+            @foreach ($employees as $employee)
+            <tr>
+                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 ID">
+                    <a href="#!" class="transition-all duration-150 ease-linear text-custom-500 hover:text-custom-600">#{{ $employee->employeeNo }}</a>
+                </td>
+                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Name">
+                    <a href="#!" class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full shrink-0 bg-slate-100">
+                            <img src="{{ $employee->img }}" alt="" class="h-6 rounded-full">
+                        </div>
+                        <h6 class="grow">{{ $employee->fname }}</h6>
+                    </a>
+                </td>
+                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
+                    {{ $employee->lname }}
+                </td>
+                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Email">
+                    {{ $employee->employeeRole }}
+                </td>
+                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Phone">
+                    {{ $employee->phoneNo }}
+                </td>
+                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Country">
+                    {{ $employee->salary }}
+                </td>
+                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Action">
+                    <div class="flex gap-3">
+                        <a class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500" href="pages-account.html">
+                            <i data-lucide="eye" class="inline-block size-3"></i>
+                        </a>
+                        <a href="#" data-modal-target="updateEmployeeModal" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                            <i data-lucide="pencil" class="size-4"></i>
+                        </a>
+                        <a href="#" data-modal-target="deleteModal" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 remove-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                            <i data-lucide="trash-2" class="size-4"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+    <div id="deleteModal" modal-center=""
+        class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
+        <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
+            <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
+                <div class="float-right">
+                    <button data-modal-close="deleteModal" id="deleteRecord-close"
+                        class="transition-all duration-200 ease-linear text-slate-500 hover:text-red-500"><i
+                            data-lucide="x" class="size-5"></i></button>
+                </div>
+                <img src="data:image/png;base64,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"
+                    alt="" class="block h-12 mx-auto">
+                <div class="mt-5 text-center">
+                    <h5 class="mb-1">Are you sure?</h5>
+                    <p class="text-slate-500 dark:text-zink-200">Are you certain you want to delete this record?</p>
+                    <div class="flex justify-center gap-2 mt-6">
+                        <button type="reset" data-modal-close="deleteModal"
+                            class="bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-600 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10">Cancel</button>
+                        <button type="submit" id="delete-record"
+                            class="text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20">Yes,
+                            <form action="{{ route('deleteEmployee', ['employeeNo' => $employee->employeeNo]) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear bg-white text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500">
+                                <i data-lucide="trash-2" class="inline-block mr-1 size-3"></i> Delete
+                            </button>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end delete modal-->
+            @endforeach
+        </tbody>
                             </table>
                         </div>
                         <div class="flex flex-col items-center mt-5 md:flex-row">
@@ -379,83 +313,13 @@
                         <div id="calendar" class="w-auto p-1"></div>
                         <div class="flex flex-col gap-4 mt-3">
                             <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0"><h6>28</h6>  <span class="text-sm text-slate-500 dark:text-zink-200">July</span></div>
-                                <div class="grow">
-                                    <h6 class="mb-1">Meeting with Designer <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">09:57 AM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by Admin</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
                                 <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>08</h6> <span class="text-sm text-slate-500 dark:text-zink-200">June</span>
+                                    <h6>28</h6>  <span class="text-sm text-slate-500 dark:text-zink-200">July</span>
                                 </div>
                                 <div class="grow">
-                                    <h6 class="mb-1">Developing Line Managers Conference <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">10:54 AM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by HR</p>
+                                    <h6 class="mb-1">Maintenance Title<small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">Time: 09:57 AM</small></h6>
+                                    <p class="text-slate-500 dark:text-zink-200">Serviced By: Name</p>
                                 </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>17</h6> <span class="text-sm text-slate-500 dark:text-zink-200">July</span>
-                                </div>
-                                <div class="grow">
-                                    <h6 class="mb-1">Airplane in Las Vegas <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">12:00 PM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by HR</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>11</h6> <span class="text-sm text-slate-500 dark:text-zink-200">Nov</span>
-                                </div>
-                                <div class="grow">
-                                    <h6 class="mb-1">Hospitality Project Discuses</h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by Admin</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>20</h6> <span class="text-sm text-slate-500 dark:text-zink-200">Nov</span>
-                                </div>
-                                <div class="grow">
-                                    <h6 class="mb-1">Gartner Digital Workplace <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">03:49 PM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by HR</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>04</h6> <span class="text-sm text-slate-500 dark:text-zink-200">Dec</span>
-                                </div>
-                                <div class="grow">
-                                    <h6 class="mb-1">Nordic People Analytics <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">11:00 AM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by Admin</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>17</h6> <span class="text-sm text-slate-500 dark:text-zink-200">Jan</span>
-                                </div>
-                                <div class="grow">
-                                    <h6 class="mb-1">CIPD Festival of Work <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">01:29 PM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by HR</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>03</h6> <span class="text-sm text-slate-500 dark:text-zink-200">Feb</span>
-                                </div>
-                                <div class="grow">
-                                    <h6 class="mb-1">HRO Today Forum <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">02:15 PM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Created by Admin</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex gap-3 p-2 mt-3 rounded-md bg-custom-500">
-                            <div class="shrink-0">
-                                <img src="{{ URL::to('assets/images/support.png') }}" alt="" class="h-24">
-                            </div>
-                            <div>
-                                <h6 class="mb-1 text-15 text-custom-50">Need Help ?</h6>
-                                <p class="text-custom-200">If you would like to learn more about transferring the license to a customer</p>
                             </div>
                         </div>
                     </div>
@@ -488,7 +352,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div id="totalProjectChart" class="-ml-2 apex-charts" data-chart-colors='["bg-custom-500", "bg-yellow-500", "bg-green-400", "bg-red-400"]' dir="ltr"></div>
+                        <div id="totalExpenditureTable" class="-ml-2 apex-charts" data-chart-colors='["bg-custom-500", "bg-yellow-500", "bg-green-400", "bg-red-400"]' dir="ltr"></div>
                     </div>
                 </div>
                 <div class="col-span-12 md:order-11 lg:col-span-6 xl:col-span-4 2xl:col-span-3 card">
@@ -534,22 +398,6 @@
                 </div>
                 <div class="col-span-12 md:order-12 lg:col-span-12 xl:col-span-8 2xl:col-span-3">
                     <div class="grid grid-cols-12 gap-x-5">
-                        <div class="relative col-span-12 card bg-gradient-to-r to-custom-100 dark:to-custom-500/20 from-transparent">
-                            <div class="bg-[url('../images/hr-dashboard.png')] absolute inset-0 bg-cover opacity-30"></div>
-                            <div class="relative card-body">
-                                <div class="flex gap-3 mb-4">
-                                    <div class="bg-purple-100 rounded-full size-10 dark:bg-purple-500/20 shrink-0">
-                                        <img src="{{ URL::to('assets/images/avatar-6.png') }}" alt="" class="h-10 rounded-full">
-                                    </div>
-                                    <div class="grow">
-                                        <h6 class="mb-1">Nakisha Short</h6>
-                                        <p class="text-slate-500 dark:text-zink-200">Her Birthday Today</p>
-                                    </div>
-                                </div>
-                                <button type="button" class="px-2 py-1.5 text-xs text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Wish Her</button>
-                            </div>
-                            <img src="{{ URL::to('assets/images/birthday.png') }}" alt="" class="absolute bottom-0 right-0">
-                        </div>
                         <div class="col-span-12 card">
                             <div class="!pb-0 card-body">
                                 <div class="flex items-center gap-2 mb-3">
@@ -575,148 +423,26 @@
                             </div>
                             <div class="pb-5">
                                 <div data-simplebar="" class="flex flex-col h-[198px] gap-4 px-5">
-                                    <div class="flex flex-col gap-3">
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-red-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-up-right" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Christopher Horn</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$145.32</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
-                                            </div>
+                                <div class="flex flex-col gap-3">
+                                    @foreach($transactions as $transaction)
+                                    <div class="flex flex-wrap items-center gap-3">
+                                        <div class="flex items-center justify-center {{ $transaction->type == 'expenditure' ? 'text-red-500' : 'text-green-500' }} rounded-full size-6 shrink-0">
+                                            <i data-lucide="{{ $transaction->type == 'expenditure' ? 'move-up-right' : 'move-down-left' }}" class="size-4"></i>
                                         </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-green-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-down-left" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Richard Peters</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$4512.99</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-yellow-100 border-transparent text-yellow-500 dark:bg-yellow-500/20 dark:border-transparent">Pending</span>
-                                            </div>
+                                        <div class="grow">
+                                            <h6 class="mb-0">{{ $transaction->name }}</h6>
                                         </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-green-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-down-left" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">James Perez</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$879.99</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
-                                            </div>
+                                        <div class="shrink-0">
+                                            <h6>${{ number_format($transaction->amount, 2) }}</h6>
                                         </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-red-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-up-right" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Myrtle Velez</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$978.14</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">Cancelled</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-green-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-down-left" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Brad Castillo</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$412.59</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-yellow-100 border-transparent text-yellow-500 dark:bg-yellow-500/20 dark:border-transparent">Pending</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-green-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-down-left" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Robert Jump</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$666.99</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-red-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-up-right" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Myrtle Velez</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$978.14</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">Cancelled</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-red-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-up-right" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Christopher Horn</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$145.32</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-green-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-down-left" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">Richard Peters</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$4512.99</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-yellow-100 border-transparent text-yellow-500 dark:bg-yellow-500/20 dark:border-transparent">Pending</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-wrap items-center gap-3">
-                                            <div class="flex items-center justify-center text-green-500 rounded-full size-6 shrink-0">
-                                                <i data-lucide="move-down-left" class="size-4"></i>
-                                            </div>
-                                            <div class="grow">
-                                                <h6 class="mb-0">James Perez</h6>
-                                            </div>
-                                            <div class="shrink-0">
-                                                <h6>$879.99</h6>
-                                            </div>
-                                            <div class="w-20 ltr:text-right rtl:text-left shrink-0">
-                                                <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
-                                            </div>
+                                        <div class="w-20 ltr:text-right rtl:text-left shrink-0">
+                                            <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border {{ $transaction->type == 'expenditure' ? 'bg-red-100 text-red-500 dark:bg-red-500/20' : 'bg-green-100 text-green-500 dark:bg-green-500/20' }}">
+                                            {{ $transaction->type == 'expenditure' ? 'Spent' : 'Paid' }}
+                                            </span>
                                         </div>
                                     </div>
+                                    @endforeach
+                                </div>
                                 </div>
                             </div>
                         </div>

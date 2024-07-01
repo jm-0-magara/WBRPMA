@@ -16,7 +16,6 @@
                     </li>
                 </ul>
             </div>
-            {!! Toastr::message() !!}
             <div class="grid grid-cols-1 xl:grid-cols-12 gap-x-5">
                 <div class="xl:col-span-9">
                     <div class="card">
@@ -52,7 +51,7 @@
                                                 data-choices="" data-choices-search-false="" name="structureType" id="structureType">
                                                 @foreach ($structureTypes as $structureType)
                                                     <option value="{{$structureType->structureType}}">{{$structureType->structureType}}</option>
-                                               @endforeach
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>

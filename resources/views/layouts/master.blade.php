@@ -92,13 +92,8 @@
                                     <i data-lucide="sun" class="inline-block w-5 h-5 stroke-1 fill-slate-100 group-data-[topbar=dark]:fill-topbar-item-bg-hover-dark group-data-[topbar=brand]:fill-topbar-item-bg-hover-brand"></i>
                                 </button>
                             </div>
-        
-                            <div class="relative flex items-center h-header">
-                                <button type="button" data-drawer-target="cartSidePenal" class="inline-flex relative justify-center items-center p-0 text-topbar-item transition-all w-[37.5px] h-[37.5px] duration-200 ease-linear bg-topbar rounded-md btn hover:bg-topbar-item-bg-hover hover:text-topbar-item-hover group-data-[topbar=dark]:bg-topbar-dark group-data-[topbar=dark]:hover:bg-topbar-item-bg-hover-dark group-data-[topbar=dark]:hover:text-topbar-item-hover-dark group-data-[topbar=brand]:bg-topbar-brand group-data-[topbar=brand]:hover:bg-topbar-item-bg-hover-brand group-data-[topbar=brand]:hover:text-topbar-item-hover-brand group-data-[topbar=dark]:dark:bg-zink-700 group-data-[topbar=dark]:dark:hover:bg-zink-600 group-data-[topbar=brand]:text-topbar-item-brand group-data-[topbar=dark]:dark:hover:text-zink-50 group-data-[topbar=dark]:dark:text-zink-200 group-data-[topbar=dark]:text-topbar-item-dark">
-                                    <i data-lucide="shopping-cart" class="inline-block w-5 h-5 stroke-1 fill-slate-100 group-data-[topbar=dark]:fill-topbar-item-bg-hover-dark group-data-[topbar=brand]:fill-topbar-item-bg-hover-brand"></i>
-                                    <span class="absolute flex items-center justify-center w-[16px] h-[16px] text-xs text-white bg-red-400 border-white rounded-full -top-1 -right-1">3</span>
-                                </button>
-                            </div>
+
+                            <!-- shopping cart removed -->
         
                             <div class="relative flex items-center dropdown h-header">
                                 <button type="button" class="inline-flex justify-center relative items-center p-0 text-topbar-item transition-all w-[37.5px] h-[37.5px] duration-200 ease-linear bg-topbar rounded-md dropdown-toggle btn hover:bg-topbar-item-bg-hover hover:text-topbar-item-hover group-data-[topbar=dark]:bg-topbar-dark group-data-[topbar=dark]:hover:bg-topbar-item-bg-hover-dark group-data-[topbar=dark]:hover:text-topbar-item-hover-dark group-data-[topbar=brand]:bg-topbar-brand group-data-[topbar=brand]:hover:bg-topbar-item-bg-hover-brand group-data-[topbar=brand]:hover:text-topbar-item-hover-brand group-data-[topbar=dark]:dark:bg-zink-700 group-data-[topbar=dark]:dark:hover:bg-zink-600 group-data-[topbar=brand]:text-topbar-item-brand group-data-[topbar=dark]:dark:hover:text-zink-50 group-data-[topbar=dark]:dark:text-zink-200 group-data-[topbar=dark]:text-topbar-item-dark" id="notificationDropdown" data-bs-toggle="dropdown">
@@ -113,76 +108,22 @@
                                         <h6 class="mb-4 text-16">Notifications <span class="inline-flex items-center justify-center w-5 h-5 ml-1 text-[11px] font-medium border rounded-full text-white bg-orange-500 border-orange-500">15</span></h6>
                                         <ul class="flex flex-wrap w-full p-1 mb-2 text-sm font-medium text-center rounded-md filter-btns text-slate-500 bg-slate-100 nav-tabs dark:bg-zink-500 dark:text-zink-200" data-filter-target="notification-list">
                                             <li class="grow">
-                                                <a href="javascript:void(0);" data-filter="all" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px] active">View All</a>
+                                                <a href="javascript:void(0);" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px] active">View All</a>
                                             </li>
                                             <li class="grow">
-                                                <a href="javascript:void(0);" data-filter="mention" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px]">Mentions</a>
+                                                <a href="javascript:void(0);" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px]">Payments</a>
                                             </li>
                                             <li class="grow">
-                                                <a href="javascript:void(0);" data-filter="follower" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px]">Followers</a>
+                                                <a href="javascript:void(0);" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px]">Utilities</a>
                                             </li>
                                             <li class="grow">
-                                                <a href="javascript:void(0);" data-filter="invite" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px]">Invites</a>
+                                                <a href="javascript:void(0);" class="inline-block nav-link px-1.5 w-full py-1 text-xs transition-all duration-300 ease-linear rounded-md text-slate-500 border border-transparent [&.active]:bg-white [&.active]:text-custom-500 hover:text-custom-500 active:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:[&.active]:bg-zink-600 -mb-[1px]">Complaints</a>
                                             </li>
                                         </ul>
         
                                     </div>
                                     <div data-simplebar="" class="max-h-[350px]">
                                         <div class="flex flex-col gap-1" id="notification-list">
-                                            <a href="#!" class="flex gap-3 p-4 product-item hover:bg-slate-50 dark:hover:bg-zink-500 follower">
-                                                <div class="w-10 h-10 rounded-md shrink-0 bg-slate-100">
-                                                    <img src="assets/images/avatar-3.png" alt="" class="rounded-md">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6 class="mb-1 font-medium"><b>@willie_passem</b> followed you</h6>
-                                                    <p class="mb-0 text-sm text-slate-500 dark:text-zink-300"><i data-lucide="clock" class="inline-block w-3.5 h-3.5 mr-1"></i> <span class="align-middle">Wednesday 03:42 PM</span></p>
-                                                </div>
-                                                <div class="flex items-center self-start gap-2 text-xs text-slate-500 shrink-0 dark:text-zink-300">
-                                                    <div class="w-1.5 h-1.5 bg-custom-500 rounded-full"></div> 4 sec
-                                                </div>
-                                            </a>
-                                            <a href="#!" class="flex gap-3 p-4 product-item hover:bg-slate-50 dark:hover:bg-zink-500 mention">
-                                                <div class="w-10 h-10 bg-yellow-100 rounded-md shrink-0">
-                                                    <img src="assets/images/avatar-5.png" alt="" class="rounded-md">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6 class="mb-1 font-medium"><b>@caroline_jessica</b> commented on your post</h6>
-                                                    <p class="mb-3 text-sm text-slate-500 dark:text-zink-300"><i data-lucide="clock" class="inline-block w-3.5 h-3.5 mr-1"></i> <span class="align-middle">Wednesday 03:42 PM</span></p>
-                                                    <div class="p-2 rounded bg-slate-100 text-slate-500 dark:bg-zink-500 dark:text-zink-300">Amazing! Fast, to the point, professional and really amazing to work with them!!!</div>
-                                                </div>
-                                                <div class="flex items-center self-start gap-2 text-xs text-slate-500 shrink-0 dark:text-zink-300">
-                                                    <div class="w-1.5 h-1.5 bg-custom-500 rounded-full"></div> 15 min
-                                                </div>
-                                            </a>
-                                            <a href="#!" class="flex gap-3 p-4 product-item hover:bg-slate-50 dark:hover:bg-zink-500 invite">
-                                                <div class="flex items-center justify-center w-10 h-10 bg-red-100 rounded-md shrink-0">
-                                                    <i data-lucide="shopping-bag" class="w-5 h-5 text-red-500 fill-red-200"></i>
-                                                </div>
-                                                <div class="grow">
-                                                    <h6 class="mb-1 font-medium">Successfully purchased a business plan for <span class="text-red-500">$199.99</span></h6>
-                                                    <p class="mb-0 text-sm text-slate-500 dark:text-zink-300"><i data-lucide="clock" class="inline-block w-3.5 h-3.5 mr-1"></i> <span class="align-middle">Monday 11:26 AM</span></p>
-                                                </div>
-                                                <div class="flex items-center self-start gap-2 text-xs text-slate-500 shrink-0 dark:text-zink-300">
-                                                    <div class="w-1.5 h-1.5 bg-custom-500 rounded-full"></div> Yesterday
-                                                </div>
-                                            </a>
-                                            <a href="#!" class="flex gap-3 p-4 product-item hover:bg-slate-50 dark:hover:bg-zink-500 mention">
-                                                <div class="relative shrink-0">
-                                                    <div class="w-10 h-10 bg-pink-100 rounded-md">
-                                                        <img src="assets/images/avatar-7.png" alt="" class="rounded-md">
-                                                    </div>
-                                                    <div class="absolute text-orange-500 -bottom-0.5 -right-0.5 text-16">
-                                                        <i class="ri-heart-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="grow">
-                                                    <h6 class="mb-1 font-medium"><b>@scott</b> liked your post</h6>
-                                                    <p class="mb-0 text-sm text-slate-500 dark:text-zink-300"><i data-lucide="clock" class="inline-block w-3.5 h-3.5 mr-1"></i> <span class="align-middle">Thursday 06:59 AM</span></p>
-                                                </div>
-                                                <div class="flex items-center self-start gap-2 text-xs text-slate-500 shrink-0 dark:text-zink-300">
-                                                    <div class="w-1.5 h-1.5 bg-custom-500 rounded-full"></div> 1 Week
-                                                </div>
-                                            </a>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2 p-4 border-t border-slate-200 dark:border-zink-500">
@@ -195,13 +136,7 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <div class="relative items-center hidden h-header md:flex">
-                                <button data-drawer-target="customizerButton" type="button" class="inline-flex justify-center items-center p-0 text-topbar-item transition-all w-[37.5px] h-[37.5px] duration-200 ease-linear bg-topbar group-data-[topbar=dark]:text-topbar-item-dark rounded-md btn hover:bg-topbar-item-bg-hover hover:text-topbar-item-hover group-data-[topbar=dark]:bg-topbar-dark group-data-[topbar=dark]:hover:bg-topbar-item-bg-hover-dark group-data-[topbar=dark]:hover:text-topbar-item-hover-dark group-data-[topbar=brand]:bg-topbar-brand group-data-[topbar=brand]:hover:bg-topbar-item-bg-hover-brand group-data-[topbar=brand]:hover:text-topbar-item-hover-brand group-data-[topbar=dark]:dark:bg-zink-700 group-data-[topbar=dark]:dark:hover:bg-zink-600 group-data-[topbar=brand]:text-topbar-item-brand group-data-[topbar=dark]:dark:hover:text-zink-50 group-data-[topbar=dark]:dark:text-zink-200">
-                                    <i data-lucide="settings" class="inline-block w-5 h-5 stroke-1 fill-slate-100 group-data-[topbar=dark]:fill-topbar-item-bg-hover-dark group-data-[topbar=brand]:fill-topbar-item-bg-hover-brand"></i>
-                                </button>
-                            </div>
-        
+
                             <div class="relative flex items-center dropdown h-header">
                                 <button type="button" class="inline-block p-0 transition-all duration-200 ease-linear bg-topbar rounded-full text-topbar-item dropdown-toggle btn hover:bg-topbar-item-bg-hover hover:text-topbar-item-hover group-data-[topbar=dark]:text-topbar-item-dark group-data-[topbar=dark]:bg-topbar-dark group-data-[topbar=dark]:hover:bg-topbar-item-bg-hover-dark group-data-[topbar=dark]:hover:text-topbar-item-hover-dark group-data-[topbar=brand]:bg-topbar-brand group-data-[topbar=brand]:hover:bg-topbar-item-bg-hover-brand group-data-[topbar=brand]:hover:text-topbar-item-hover-brand group-data-[topbar=dark]:dark:bg-zink-700 group-data-[topbar=dark]:dark:hover:bg-zink-600 group-data-[topbar=brand]:text-topbar-item-brand group-data-[topbar=dark]:dark:hover:text-zink-50 group-data-[topbar=dark]:dark:text-zink-200" id="dropdownMenuButton" data-bs-toggle="dropdown">
                                     <div class="bg-pink-100 rounded-full">
@@ -229,20 +164,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500" href="apps-mailbox.html">
-                                                <i data-lucide="mail" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Inbox 
-                                                <span class="inline-flex items-center justify-center w-5 h-5 ltr:ml-2 rtl:mr-2 text-[11px] font-medium border rounded-full text-white bg-red-500 border-red-500">15</span>
-                                            </a>
-                                        </li>
-                                        <li>
                                             <a class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500" href="apps-chat.html">
-                                                <i data-lucide="messages-square" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Chat
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500" href="pages-pricing.html">
-                                                <i data-lucide="gem" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Upgrade 
-                                                <span class="inline-flex items-center justify-center w-auto h-5 ltr:ml-2 rtl:mr-2 px-1 text-[12px] font-medium border rounded text-white bg-sky-500 border-sky-500">Pro</span>
+                                                <i data-lucide="user-2" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Add Property Participant  
                                             </a>
                                         </li>
                                         <li class="pt-2 mt-2 border-t border-slate-200 dark:border-zink-500">
@@ -396,7 +319,7 @@
                 <div class="group-data-[layout=horizontal]:mx-auto group-data-[layout=horizontal]:max-w-screen-2xl w-full">
                     <div class="grid items-center grid-cols-1 text-center lg:grid-cols-2 text-slate-400 dark:text-zink-200 ltr:lg:text-left rtl:lg:text-right">
                         <div>
-                            <script>document.write(new Date().getFullYear())</script>BIG Rentals
+                            <script>document.write(new Date().getFullYear())</script>BUMA Rentals
                         </div>
                         <div class="hidden lg:block">
                             <div class="ltr:text-right rtl:text-left">
@@ -616,6 +539,8 @@
     <script src="{{ URL::to('assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::to('assets/libs/lucide/umd/lucide.js') }}"></script>
     <script src="{{ URL::to('assets/js/starcode.bundle.js') }}"></script>
+    <!--MPESA-->
+    <script src="{{ URL::to('assets/js/MpesaNotifications.js') }}"></script>
     <!--apexchart js-->
     <script src="{{ URL::to('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/pages/dashboards-hr.init.js') }}"></script>

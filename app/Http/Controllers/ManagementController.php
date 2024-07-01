@@ -25,7 +25,8 @@ class ManagementController extends Controller
     /** holiday Page */
     public function housesPage()
     {
-        $houses = Houses::all();
+        $rentalNo = Session::get('rentalNo');
+        $houses = Houses::where('rentalNo', $rentalNo)->orderBy('structureName', 'asc')->get();
         return view('management.houses', compact('houses'));
     }
 

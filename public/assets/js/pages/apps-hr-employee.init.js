@@ -1,9 +1,5 @@
 
-/*
-Template Name: StarCode & Dashboard Template
-Author: StarCode Kh
-Website: https://StarCode Kh.in/
-Contact: StarCode Kh@gmail.com
+/*...
 File: apps hr employee init js
 */
 

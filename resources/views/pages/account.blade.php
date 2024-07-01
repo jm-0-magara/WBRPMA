@@ -1,3 +1,8 @@
+<script>
+    var months = @json($months);
+    var paymentAmounts = @json($paymentAmounts);
+    var expenditureAmounts = @json($expenditureAmounts);
+</script>
 @extends('layouts.master')
 @section('content')
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -78,9 +83,6 @@
                     <ul class="flex flex-wrap w-full text-sm font-medium text-center nav-tabs">
                         <li class="group active">
                             <a href="javascript:void(0);" data-tab-toggle="" data-target="overviewTabs" class="inline-block px-4 py-2 text-base transition-all duration-300 ease-linear rounded-t-md text-slate-500 dark:text-zink-200 border-b border-transparent group-[.active]:text-custom-500 dark:group-[.active]:text-custom-500 group-[.active]:border-b-custom-500 dark:group-[.active]:border-b-custom-500 hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">Overview</a>
-                        </li>
-                        <li class="group">
-                            <a href="javascript:void(0);" data-tab-toggle="" data-target="documentsTabs" class="inline-block px-4 py-2 text-base transition-all duration-300 ease-linear rounded-t-md text-slate-500 dark:text-zink-200 border-b border-transparent group-[.active]:text-custom-500 dark:group-[.active]:text-custom-500 group-[.active]:border-b-custom-500 dark:group-[.active]:border-b-custom-500 hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">Documents</a>
                         </li>
                         <li class="group">
                             <a href="javascript:void(0);" data-tab-toggle="" data-target="propertiesTabs" class="inline-block px-4 py-2 text-base transition-all duration-300 ease-linear rounded-t-md text-slate-500 dark:text-zink-200 border-b border-transparent group-[.active]:text-custom-500 dark:group-[.active]:text-custom-500 group-[.active]:border-b-custom-500 dark:group-[.active]:border-b-custom-500 hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">Properties</a>
@@ -166,183 +168,6 @@
                         <!--end col-->
                     </div>
                     <!--end grid-->
-                </div>
-                <!--end tab pane-->
-                <div class="hidden tab-pane" id="documentsTabs">
-                    <div class="flex items-center gap-3 mb-4">
-                        <h5 class="underline grow">Documents</h5>
-                        <div class="shrink-0">
-                            <button data-modal-target="addDocuments" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Add Document</button>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full align-middle border-separate whitespace-nowrap border-spacing-y-1">
-                            <thead class="text-left bg-white dark:bg-zink-700">
-                                <tr>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent">
-                                        <div class="flex items-center h-full">
-                                            <input id="Checkbox1" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox" value="">
-                                        </div>
-                                    </th>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent">Documents Type</th>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent">Documents Name</th>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent">File Size</th>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent">Modify Date</th>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent">Uploaded</th>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent">Status</th>
-                                    <th class="px-3.5 py-2.5 font-semibold border-b border-transparent text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-white dark:bg-zink-700">
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center h-full">
-                                            <input id="Checkbox2" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-slate-100 border-transparent text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">Docs</span>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">starcode Docs File</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">2.5MB</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">15 Feb, 2023</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">Admin</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent"><span class="ppx-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Successful</span></td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="eye" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="file-edit" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="arrow-down-to-line" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="trash-2" class="size-3"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white dark:bg-zink-700">
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center h-full">
-                                            <input id="Checkbox2" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-slate-100 border-transparent text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">PSD</span>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">starcode Design Kit.psd</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">234.87 MB</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">29 Jan, 2023</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">StarCode Kh</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent"><span class="ppx-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Successful</span></td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="eye" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="file-edit" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="arrow-down-to-line" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="trash-2" class="size-3"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white dark:bg-zink-700">
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center h-full">
-                                            <input id="Checkbox2" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-slate-100 border-transparent text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">SVG</span>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">home Pattern Wave.svg</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">3.87 MB</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">24 Sept, 2023</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">Admin</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent"><span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">Error</span></td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="eye" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="file-edit" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="arrow-down-to-line" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="trash-2" class="size-3"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white dark:bg-zink-700">
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center h-full">
-                                            <input id="Checkbox2" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-slate-100 border-transparent text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">SCSS</span>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">tailwind.scss</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">0.100 KB</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">03 April, 2023</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">Paula</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent"><span class="ppx-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Successful</span></td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="eye" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="file-edit" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="arrow-down-to-line" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="trash-2" class="size-3"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white dark:bg-zink-700">
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center h-full">
-                                            <input id="Checkbox2" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-slate-100 border-transparent text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">MP4</span>
-                                    </td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">starcode Guide Video.mp4</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">149.33 MB</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">12 Nov, 2023</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">StarCode Kh</td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent"><span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-yellow-100 border-transparent text-yellow-500 dark:bg-yellow-500/20 dark:border-transparent">Pending</span></td>
-                                    <td class="px-3.5 py-2.5 border-y border-transparent">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="eye" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="file-edit" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="arrow-down-to-line" class="size-3"></i></a>
-                                            <a href="#!" class="flex items-center justify-center transition-all duration-150 ease-linear rounded-md size-8 bg-slate-100 hover:bg-slate-200 dark:bg-zink-600 dark:hover:bg-zink-500"><i data-lucide="trash-2" class="size-3"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="flex flex-col items-center gap-4 mt-4 mb-4 md:flex-row">
-                        <div class="grow">
-                            <p class="text-slate-500 dark:text-zink-200">Showing <b>6</b> of <b>18</b> Results</p>
-                        </div>
-                        <ul class="flex flex-wrap items-center gap-2 shrink-0">
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevron-left"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">1</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">2</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto active">3</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">4</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">5</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">6</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevron-right"></i></a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
                 <!--end tab pane-->
                 <div class="hidden tab-pane" id="propertiesTabs">
@@ -502,7 +327,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-x-5">
                         <div class="relative card">
                             <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs ltr:left-0 rtl:right-0 text-custom-600 bg-custom-100 dark:bg-custom-500/20 top-5 ltr:rounded-e rtl:rounded-l">Executive Operations</p>
+                                <p class="absolute inline-block px-5 py-1 text-xs ltr:left-0 rtl:right-0 text-red-600 bg-custom-100 dark:bg-red-500/20 top-5 ltr:rounded-e rtl:rounded-l">IsPaid?</p>
                                 <div class="flex items-center justify-end">
                                     <p class="text-slate-500 dark:text-zink-200">Doj : 15 Jan, 2023</p>
                                 </div>
@@ -512,19 +337,19 @@
                                             <img src="{{ URL::to('assets/images/avatar-3.png') }}" alt="" class="">
                                         </div>
                                     </div>
-                                    <a href="#!"><h4 class="mt-4 mb-2 font-semibold text-16">Ralaphe Flores </h4></a>
+                                    <a href="#!"><h4 class="mt-4 mb-2 font-semibold text-16">Name Name </h4></a>
                                     <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">floral12@starcode.com</p>
+                                        <p class="mb-1">email@gmail.com</p>
                                         <p>+213 617 219 6245</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 1.5 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $463.42 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
+                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">House Number: houseNo</p>
+                                        <h4 class="text-15 text-custom-500">Debt : $463.42 <span class="text-xs font-normal text-slate-500 dark:text-zink-200"><span></span></span></h4>
                                     </div>
                                 </div>
                             </div>
                         </div><!--end card-->
                         <div class="relative card">
                             <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs text-green-600 bg-green-100 ltr:left-0 rtl:right-0 dark:bg-green-500/20 top-5 ltr:rounded-e rtl:rounded-l">Project Manager</p>
+                                <p class="absolute inline-block px-5 py-1 text-xs text-green-600 bg-green-100 ltr:left-0 rtl:right-0 dark:bg-green-500/20 top-5 ltr:rounded-e rtl:rounded-l">IsPaid?</p>
                                 <div class="flex items-center justify-end">
                                     <p class="text-slate-500 dark:text-zink-200">Doj : 29 Feb, 2023</p>
                                 </div>
@@ -535,157 +360,13 @@
                                         </div>
                                     </div>
                                     <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">James Lash </h4>
+                                        <h4 class="mt-4 mb-2 font-semibold text-16">Names Names </h4>
                                     </a>
                                     <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">jameslash@starcode.com</p>
-                                        <p>+210 85 383 2388</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 0.5 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $701.77 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end card-->
-                        <div class="relative card">
-                            <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs ltr:left-0 rtl:right-0 text-sky-600 bg-sky-100 dark:bg-sky-500/20 top-5 ltr:rounded-e rtl:rounded-l">React Developer</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 04 March, 2023</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-4.png') }}" alt="" class="">
-                                        </div>
-                                    </div>
-                                    <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">Angus Garnsey</h4>
-                                    </a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">angusgarnsey@starcode.com</p>
-                                        <p>+210 41521 1325</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 0.7 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $478.32 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end card-->
-                        <div class="relative card">
-                            <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs text-yellow-600 bg-yellow-100 ltr:left-0 rtl:right-0 dark:bg-yellow-500/20 top-5 ltr:rounded-e rtl:rounded-l">Shopify Developer</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 11 March, 2023</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-5.png') }}" alt="" class="">
-                                        </div>
-                                    </div>
-                                    <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">Matilda Marston</h4>
-                                    </a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">matildamarston@starcode.com</p>
-                                        <p>+210 082 288 1065</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 1 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $120.37 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end card-->
-                        <div class="relative card">
-                            <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs text-red-600 bg-red-100 ltr:left-0 rtl:right-0 dark:bg-red-500/20 top-5 ltr:rounded-e rtl:rounded-l">Angular Developer</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 22 March, 2023</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-6.png') }}" alt="" class="">
-                                        </div>
-                                    </div>
-                                    <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">Zachary Benjamin</h4>
-                                    </a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">zacharybenjamin@starcode.com</p>
-                                        <p>+120 348 9730 237</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 0 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $89.99 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end card-->
-                        <div class="relative card">
-                            <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs text-purple-600 bg-purple-100 ltr:left-0 rtl:right-0 dark:bg-purple-500/20 top-5 ltr:rounded-e rtl:rounded-l">Graphic Designer</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 09 June, 2023</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-7.png') }}" alt="" class="">
-                                        </div>
-                                    </div>
-                                    <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">Ruby Chomley</h4>
-                                    </a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">rubychomley@starcode.com</p>
-                                        <p>+120 1234 56789</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 0.2 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $214.82 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end card-->
-                        <div class="relative card">
-                            <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs text-yellow-600 bg-yellow-100 ltr:left-0 rtl:right-0 dark:bg-yellow-500/20 top-5 ltr:rounded-e rtl:rounded-l">Shopify Developer</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 27 June, 2023</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-8.png') }}" alt="" class="">
-                                        </div>
-                                    </div>
-                                    <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">Jesse Edouardy</h4>
-                                    </a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">jessedouard@starcode.com</p>
-                                        <p>+87 044 017 3869</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 1.7 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $278.96 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end card-->
-                        <div class="relative card">
-                            <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs text-orange-600 bg-orange-100 ltr:left-0 rtl:right-0 dark:bg-orange-500/20 top-5 ltr:rounded-e rtl:rounded-l">Team Leader</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 15 July, 2023</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-9.png') }}" alt="" class="">
-                                        </div>
-                                    </div>
-                                    <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">Xavier Bower</h4>
-                                    </a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">xavierbower@starcode.com</p>
-                                        <p>+159 98765 32451</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">Exp. : 6.7 years</p>
-                                        <h4 class="text-15 text-custom-500">Salary : $901.94 <span class="text-xs font-normal text-slate-500 dark:text-zink-200">/ Month<span></span></span></h4>
+                                        <p class="mb-1">email@email.com</p>
+                                        <p>+254 85 383 2388</p>
+                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">House Number: houseNo</p>
+                                        <h4 class="text-15 text-custom-500">Debt : $810.90 <span class="text-xs font-normal text-slate-500 dark:text-zink-200"><span></span></span></h4>
                                     </div>
                                 </div>
                             </div>

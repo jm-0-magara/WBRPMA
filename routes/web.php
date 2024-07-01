@@ -21,6 +21,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+
 Route::group(['middleware'=>'auth'],function()
 {
     Route::get('home',function()
@@ -69,6 +70,7 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     // -------------------------- main dashboard ----------------------//
     Route::controller(HomeController::class)->group(function () {
         Route::get('/home', 'index')->middleware('auth')->name('home');
+        Route::get('/api/payments', 'getPayments');
     });
 
     // -------------------------- pages ----------------------//
@@ -81,7 +83,9 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     // -------------------------- client ----------------------//
     Route::controller(ClientController::class)->group(function () {
         Route::get('/clients', 'clientView')->middleware('auth')->name('clients');
+        Route::get('/tenants/{id}', 'show')->name('client.show');
         Route::get('/clients/add', 'clientAdd')->middleware('auth')->name('clients/add');
+        Route::post('/add-tenant', 'addTenant')->middleware('auth')->name('addTenant');
     });
 
     // -------------------------- management ----------------------//
@@ -122,6 +126,26 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::delete('deleteStructure/{structureName}', 'deleteStructure')->middleware('auth')->name('deleteStructure');
         Route::delete('deleteHouseType/{houseType}', 'deleteHouseType')->middleware('auth')->name('deleteHouseType');
     });
+
+    // REMEMBER TO ADD DELETE & UPDATE ROUTES AND METHODS FOR THE HOUSES AND THE STRUCTURES
+
+    Route::controller(HouseController::class)->group(function () {
+        Route::get('/houses/addhouse/view', 'viewAddHouse')->middleware('auth')->name('addhouse/view');
+        Route::post('/houses/addhouse', 'addHouse')->middleware('auth')->name('addHouse');
+    });
+
+    //-------------------------MPESA FUNCTIONALITY-----------------------//
+
+    Route::controller(MPesaController::class)->group(function (){
+        Route::get('/mpesa/access-token', 'getAccessToken');
+    });
+    Route::controller(NotificationController::class)->group(function (){
+        Route::get('/notifications', 'getNotifications');
+    });
+    Route::controller(MpesaNotificationController::class)->group(function (){
+        Route::get('/mpesa/notification', 'handleMpesaNotification');
+    });
+    
 });
 
 

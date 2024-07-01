@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tenants extends Model
 {
+    public $timestamps = false;   //VERY MINISCULE BUT TOOK ME HOURS TO FIGURE OUT
+    protected $primaryKey = 'houseNo';
+    public $incrementing = false;             //THESE TOO
+    protected $keyType = 'string';
     use HasFactory;
     protected $fillable = [
         'tenantNo',
@@ -16,6 +20,7 @@ class Tenants extends Model
         'phoneNo',
         'IDNO',
         'email',
+        'img',
         'dateAdded',
     ];
 }

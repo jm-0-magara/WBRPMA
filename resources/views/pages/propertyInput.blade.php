@@ -16,7 +16,6 @@
                     </li>
                 </ul>
             </div>
-            {{-- message --}}
             {!! Toastr::message() !!}
             <div class="grid grid-cols-1 xl:grid-cols-12 gap-x-5">
                 <div class="xl:col-span-9">
@@ -68,8 +67,8 @@
                                             </td>
                                         </tr>
                                     </tbody>
+                                    @endforeach
                                 </table>
-                                @endforeach
                             </div>
                         </div>
                     </div>

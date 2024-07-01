@@ -1,9 +1,5 @@
 /*
-Template Name: StarCode & Dashboard Template
-Author: StarCode Kh
-Version: 1.1.0
-Website: https://StarCode Kh.in/
-Contact: StarCode Kh@gmail.com
+...
 File: charts apex line init Js File
 */
 

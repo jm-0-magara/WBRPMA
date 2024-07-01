@@ -1,12 +1,3 @@
-/*
-Template Name: StarCode & Dashboard Template
-Author: StarCode Kh
-Version: 1.1.0
-Website: https://StarCode Kh.in/
-Contact: StarCode Kh@gmail.com
-File: dashboard hr init Js File
-*/
-
 // rgb to hex convert
 function rgbToHex(rgb) {
     // Extract RGB values using regular expressions
@@ -66,109 +57,134 @@ function getChartColorsArray(chartId) {
     }
 }
 
-var totalEmployeeChart = "";
-var totalApplicationChart = "";
-var hiredCandidatesChart = "";
-var rejectedCandidatesChart = "";
-var applicationReceivedChart = "";
+var totalGrossProfitChart = "";
+var totalExpenditureChart = "";
+var totalNetProfitChart = "";
+var totalDebtsChart = "";
+var profitsChart = "";
 
 function loadCharts() {
-    //  Total Employee
-    var totalEmployeeColors = "";
-    totalEmployeeColors = getChartColorsArray("totalEmployee");
-    if (totalEmployeeColors) {
-        var options = {
-            series: [10],
-            chart: {
-                height: 110,
-                type: 'radialBar',
-                sparkline: {
-                    enabled: true
-                }
-            },
-            plotOptions: {
-                radialBar: {
-                    hollow: {
-                        margin: 0,
-                        size: '50%',
-                    },
-                    track: {
-                        margin: 2,
-                    },
-                    dataLabels: {
-                        show: false
+    document.addEventListener('DOMContentLoaded', function () {
+        var totalGrossProfitColors = getChartColorsArray("totalGrossProfit");
+        var totalExpenditureColors = getChartColorsArray("totalExpenditure");
+    
+        // Render Total Gross Profit Chart
+        if (totalGrossProfitColors) {
+            var optionsGrossProfit = {
+                series: [percentageIncrease],
+                chart: {
+                    height: 110,
+                    type: 'radialBar',
+                    sparkline: {
+                        enabled: true
                     }
-                }
-            },
-            grid: {
-                padding: {
-                    top: -15,
-                    bottom: -15
-                }
-            },
-            stroke: {
-                lineCap: 'round'
-            },
-            labels: ['Total Employee'],
-            colors: totalEmployeeColors
-        };
-
-        if (totalEmployeeChart != "")
-            totalEmployeeChart.destroy();
-        totalEmployeeChart = new ApexCharts(document.querySelector("#totalEmployee"), options);
-        totalEmployeeChart.render();
-    }
-
-    //  Total Application
-    var totalApplicationColors = "";
-    totalApplicationColors = getChartColorsArray("totalApplication");
-    if (totalApplicationColors) {
-        var options = {
-            series: [60],
-            chart: {
-                height: 110,
-                type: 'radialBar',
-                sparkline: {
-                    enabled: true
-                }
-            },
-            plotOptions: {
-                radialBar: {
-                    hollow: {
-                        margin: 0,
-                        size: '50%',
-                    },
-                    track: {
-                        margin: 2,
-                    },
-                    dataLabels: {
-                        show: false
+                },
+                plotOptions: {
+                    radialBar: {
+                        hollow: {
+                            margin: 0,
+                            size: '50%',
+                        },
+                        track: {
+                            margin: 2,
+                        },
+                        dataLabels: {
+                            show: false
+                        }
                     }
-                }
-            },
-            grid: {
-                padding: {
-                    top: -15,
-                    bottom: -15
-                }
-            },
-            stroke: {
-                lineCap: 'round'
-            },
-            labels: ['Total Employee'],
-            colors: totalApplicationColors
-        };
+                },
+                grid: {
+                    padding: {
+                        top: -15,
+                        bottom: -15
+                    }
+                },
+                stroke: {
+                    lineCap: 'round'
+                },
+                labels: ['Total Employee'],
+                colors: totalGrossProfitColors
+            };
+    
+            var totalGrossProfitChart = new ApexCharts(document.querySelector("#totalGrossProfit"), optionsGrossProfit);
+            totalGrossProfitChart.render();
+    
+            // Update the text color based on percentage increase
+            var percentageIncreaseText = document.getElementById('percentageIncreaseText');
+            var percentageIncreaseValue = document.getElementById('percentageIncreaseValue');
+    
+            if (percentageIncrease < 0) {
+                percentageIncreaseValue.classList.remove('text-green-500');
+                percentageIncreaseValue.classList.add('text-red-500');
+                percentageIncreaseText.innerHTML = `<span class="font-medium text-red-500">${percentageIncrease}%</span> Decrease`;
+            } else {
+                percentageIncreaseValue.classList.remove('text-red-500');
+                percentageIncreaseValue.classList.add('text-green-500');
+                percentageIncreaseText.innerHTML = `<span class="font-medium text-green-500">${percentageIncrease}%</span> Increase`;
+            }
+        }
+    
+        // Render Total Expenditure Chart
+        if (totalExpenditureColors) {
+            var optionsExpenditure = {
+                series: [percentageDecrease],
+                chart: {
+                    height: 110,
+                    type: 'radialBar',
+                    sparkline: {
+                        enabled: true
+                    }
+                },
+                plotOptions: {
+                    radialBar: {
+                        hollow: {
+                            margin: 0,
+                            size: '50%',
+                        },
+                        track: {
+                            margin: 2,
+                        },
+                        dataLabels: {
+                            show: false
+                        }
+                    }
+                },
+                grid: {
+                    padding: {
+                        top: -15,
+                        bottom: -15
+                    }
+                },
+                stroke: {
+                    lineCap: 'round'
+                },
+                labels: ['Total Employee'], // Replace with appropriate label
+                colors: totalExpenditureColors
+            };
+    
+            var totalExpenditureChart = new ApexCharts(document.querySelector("#totalExpenditure"), optionsExpenditure);
+            totalExpenditureChart.render();
+    
+            // Update the text color based on percentage decrease
+            var percentageDecreaseText = document.getElementById('percentageDecreaseText');
+            var percentageDecreaseValue = document.getElementById('percentageDecreaseValue');
+    
+            if (percentageDecrease < 0) {
+                percentageDecreaseValue.classList.remove('text-red-500');
+                percentageDecreaseValue.classList.add('text-green-500');
+                percentageDecreaseText.innerHTML = `<span class="font-medium text-green-500">${percentageDecrease}%</span> Decrease`;
+            } else {
+                percentageDecreaseValue.classList.remove('text-green-500');
+                percentageDecreaseValue.classList.add('text-red-500');
+                percentageDecreaseText.innerHTML = `<span class="font-medium text-red-500">${percentageDecrease}%</span> Decrease`;
+            }
+        }
+    });
 
-        if (totalApplicationChart != "")
-            totalApplicationChart.destroy();
-        totalApplicationChart = new ApexCharts(document.querySelector("#totalApplication"), options);
-        totalApplicationChart.render();
-    }
-
-    //  Hired Candidates
-    var hiredCandidatesColors = "";
-    hiredCandidatesColors = getChartColorsArray("hiredCandidates");
-    if (hiredCandidatesColors) {
+    // Total Net Profits
+    var totalNetProfitColors = "";
+    totalNetProfitColors = getChartColorsArray("totalNetProfit");
+    if (totalNetProfitColors) {
         var options = {
             series: [25],
             chart: {
@@ -202,19 +218,19 @@ function loadCharts() {
                 lineCap: 'round'
             },
             labels: ['Total Employee'],
-            colors: hiredCandidatesColors
+            colors: totalNetProfitColors
         };
 
-        if (hiredCandidatesChart != "")
-            hiredCandidatesChart.destroy();
-        hiredCandidatesChart = new ApexCharts(document.querySelector("#hiredCandidates"), options);
-        hiredCandidatesChart.render();
+        if (totalNetProfitChart != "")
+            totalNetProfitChart.destroy();
+        totalNetProfitChart = new ApexCharts(document.querySelector("#totalNetProfit"), options);
+        totalNetProfitChart.render();
     }
 
-    //  Rejected Candidates
-    var rejectedCandidatesColors = "";
-    rejectedCandidatesColors = getChartColorsArray("rejectedCandidates");
-    if (rejectedCandidatesColors) {
+    //  Total Debts
+    var totalDebtsColors = "";
+    totalDebtsColors = getChartColorsArray("totalDebts");
+    if (totalDebtsColors) {
         var options = {
             series: [75],
             chart: {
@@ -248,95 +264,106 @@ function loadCharts() {
                 lineCap: 'round'
             },
             labels: ['Total Employee'],
-            colors: rejectedCandidatesColors
+            colors: totalDebtsColors
         };
 
-        if (rejectedCandidatesChart != "")
-            rejectedCandidatesChart.destroy();
-        rejectedCandidatesChart = new ApexCharts(document.querySelector("#rejectedCandidates"), options);
-        rejectedCandidatesChart.render();
+        if (totalDebtsChart != "")
+            totalDebtsChart.destroy();
+        totalDebtsChart = new ApexCharts(document.querySelector("#totalDebts"), options);
+        totalDebtsChart.render();
     }
 
-    //Application Received
-    var applicationReceivedColors = "";
-    applicationReceivedColors = getChartColorsArray("applicationReceivedChart");
-    if (applicationReceivedColors) {
-        var options = {
-            series: [{
-                name: 'Total Application',
-                type: 'area',
-                data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
-            }, {
-                name: 'Hired Candidates',
-                type: 'line',
-                data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
-            }],
-            chart: {
-                height: 315,
-                type: 'line',
-                stacked: false,
-                margin: {
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0
-                },
-                toolbar: {
-                    show: false,
-                },
-            },
-            stroke: {
-                width: [2, 2],
-                curve: 'smooth'
-            },
-            plotOptions: {
-                bar: {
-                    columnWidth: '50%'
-                }
-            },
-
-            fill: {
-                opacity: [0.03, 1],
-                gradient: {
-                    inverseColors: false,
-                    shade: 'light',
-                    type: "vertical",
-                    opacityFrom: 0.85,
-                    opacityTo: 0.55,
-                    stops: [0, 100, 100, 100]
-                }
-            },
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            colors: getChartColorsArray("applicationReceivedChart"),
-            markers: {
-                size: 0
-            },
-            grid: {
-                padding: {
-                    top: -15,
-                    right: 0,
-                }
-            },
-            tooltip: {
-                shared: true,
-                intersect: false,
-                y: {
-                    formatter: function (y) {
-                        if (typeof y !== "undefined") {
-                            return y.toFixed(0) + " points";
-                        }
-                        return y;
-
-                    }
-                }
+    //PROFITS Received
+    document.addEventListener('DOMContentLoaded', function () {
+        var profitsColors = getChartColorsArray("profitsChart");
+        
+        if (profitsColors) {
+            // Function to fetch data from the Laravel endpoint
+            function fetchData() {
+                return fetch('/api/payments')
+                    .then(response => response.json())
+                    .then(data => {
+                        let grossAmounts = data.map(payment => payment.total_amount);
+                        let netAmounts = data.map(payment => payment.net_profit);
+                        let months = data.map(payment => payment.month);
+                        return { grossAmounts, netAmounts, months };
+                    });
             }
-        };
-
-        if (applicationReceivedChart != "")
-            applicationReceivedChart.destroy();
-        applicationReceivedChart = new ApexCharts(document.querySelector("#applicationReceivedChart"), options);
-        applicationReceivedChart.render();
-    }
+    
+            // Function to initialize the chart
+            function initializeChart(data) {
+                var options = {
+                    series: [{
+                        name: 'Gross Profit',
+                        type: 'area',
+                        data: data.grossAmounts
+                    }, {
+                        name: 'Net Profit',
+                        type: 'line',
+                        data: data.netAmounts
+                    }],
+                    chart: {
+                        height: 315,
+                        type: 'line',
+                        stacked: false,
+                        margin: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0
+                        },
+                        toolbar: {
+                            show: false,
+                        },
+                    },
+                    stroke: {
+                        width: [2, 2],
+                        curve: 'smooth'
+                    },
+                    fill: {
+                        opacity: [0.03, 1],
+                        gradient: {
+                            inverseColors: false,
+                            shade: 'light',
+                            type: "vertical",
+                            opacityFrom: 0.85,
+                            opacityTo: 0.55,
+                            stops: [0, 100, 100, 100]
+                        }
+                    },
+                    labels: data.months,
+                    colors: profitsColors,
+                    markers: {
+                        size: 0
+                    },
+                    grid: {
+                        padding: {
+                            top: -15,
+                            right: 0,
+                        }
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false,
+                        y: {
+                            formatter: function (y) {
+                                if (typeof y !== "undefined") {
+                                    return y.toFixed(0) + " points";
+                                }
+                                return y;
+                            }
+                        }
+                    }
+                };
+    
+                var profitsChart = new ApexCharts(document.querySelector("#profitsChart"), options);
+                profitsChart.render();
+            }
+    
+            // Fetch data and initialize the chart
+            fetchData().then(data => initializeChart(data));
+        }
+    });
 }
 
 window.addEventListener("resize", function () {
@@ -346,65 +373,59 @@ window.addEventListener("resize", function () {
 });
 loadCharts();
 
-//Stacked Columns
-var options = {
-    series: [{
-        name: 'New',
-        data: [44, 55, 41, 67, 22, 43, 14, 55, 41,]
-    }, {
-        name: 'Pending',
-        data: [13, 23, 20, 8, 13, 27, 8, 20, 8,]
-    }, {
-        name: 'Completed',
-        data: [11, 17, 15, 15, 21, 14, 24, 11, 17,]
-    }, {
-        name: 'Rejected',
-        data: [21, 7, 25, 13, 22, 8, 13, 7, 25,]
-    }],
-    chart: {
-        type: 'bar',
-        height: 350,
-        stacked: true,
-        zoom: {
-            enabled: true
-        },
-        toolbar: {
-            show: false,
-        },
-    },
-    plotOptions: {
-        bar: {
-            horizontal: false,
-            borderRadius: 2,
-            columnWidth: '25%',
-        },
-    },
-    grid: {
-        padding: {
-            top: -15,
-            bottom: 5,
-            right: 0,
-        }
-    },
-    xaxis: {
-        categories: ['01', '02', '03', '04',
-            '05', '06', '07', '08', '09'
-        ],
-    },
-    dataLabels: {
-        enabled: false
-    },
-    colors: getChartColorsArray("totalProjectChart"),
-    legend: {
-        position: 'bottom',
-    },
-    fill: {
-        opacity: 1
-    }
-};
+document.addEventListener('DOMContentLoaded', function () {
+    var totalExpenditureTableColors = getChartColorsArray("totalExpenditureTable");
 
-var chart = new ApexCharts(document.querySelector("#totalProjectChart"), options);
-chart.render();
+    if (totalExpenditureTableColors) {
+        var options = {
+            series: [{
+                name: 'Expenditure',
+                data: amounts
+            }],
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: true,
+                zoom: {
+                    enabled: true
+                },
+                toolbar: {
+                    show: false,
+                },
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadius: 2,
+                    columnWidth: '25%',
+                },
+            },
+            grid: {
+                padding: {
+                    top: -15,
+                    bottom: 5,
+                    right: 0,
+                }
+            },
+            xaxis: {
+                categories: months,
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: totalExpenditureTableColors,
+            legend: {
+                position: 'bottom',
+            },
+            fill: {
+                opacity: 1
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#totalExpenditureTable"), options);
+        chart.render();
+    }
+});
 
 const options44 = {
     settings: {

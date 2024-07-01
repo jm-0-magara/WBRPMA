@@ -1,12 +1,3 @@
-/*
-Template Name: StarCode & Dashboard Template
-Author: StarCode Kh
-Version: 1.1.0
-Website: https://souysoeng.com/
-Contact: souysoeng.kh@gmail.com
-File: Main Js File
-*/
-
 // const { document } = require("postcss");
 var navbarMenuHTML = document.querySelector(".app-menu").innerHTML;
 var moreMenuWidth = 150;

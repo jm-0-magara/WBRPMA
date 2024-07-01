@@ -75,7 +75,7 @@
                         </div><!--end col-->
                         <div class="xl:col-span-2 xl:col-start-11">
                             <div class="ltr:lg:text-right rtl:lg:text-left">
-                                <a href="apps-hr-create-leave.html" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">Add House</span></a>
+                                <a href="{{route('addhouse/view')}}" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">Add House</span></a>
                             </div>
                         </div>
                     </div><!--col grid-->
@@ -85,7 +85,7 @@
                                 <thead class="ltr:text-left rtl:text-right bg-slate-100 text-slate-500 dark:bg-zink-600 dark:text-zink-200">
                                     <tr>
                                         <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">House Number</th>
-                                        <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Locale</th>
+                                        <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Grouping</th>
                                         <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">House Type</th>
                                         <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Payment Status</th>
                                         <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Status</th>
@@ -120,7 +120,15 @@
                                         </td>
                                         <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
                                             <div class="flex justify-end gap-2">
-                                                <a href="#!" data-modal-target="houseOverviewModal" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 text-custom-500 bg-custom-100 hover:text-white hover:bg-custom-500 dark:bg-custom-500/20 dark:hover:bg-custom-500"><i data-lucide="info" class="size-4"></i></a>
+                                            <a class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500" href="pages-account.html">
+                                                <i data-lucide="eye" class="inline-block size-3"></i>
+                                            </a>
+                                            <a href="#" data-modal-target="" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                                                <i data-lucide="pencil" class="size-4"></i>
+                                            </a>
+                                            <a href="#" data-modal-target="" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 remove-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                                                <i data-lucide="trash-2" class="size-4"></i>
+                                            </a>  
                                             </div>
                                         </td>
                                     </tr>

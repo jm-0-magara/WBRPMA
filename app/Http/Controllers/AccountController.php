@@ -8,16 +8,45 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Rentals;
+use DB;
 
 class AccountController extends Controller
 {
     /** page account profile */
     public function index()
-    {
-        $userId = Session::get('user_id');
-        $rentals = Rentals::where('user_id', $userId)->get();
-        return view('pages.account', compact('rentals'));
-    }
+{
+    $userId = Session::get('user_id');
+    $rentals = Rentals::where('user_id', $userId)->get();
+
+    // Fetch payments data grouped by month
+    $payments = DB::table('payments')
+        ->select(DB::raw('SUM(amount) as total_amount, MONTHNAME(timePaid) as month'))
+        ->groupBy('month')
+        ->orderBy(DB::raw('STR_TO_DATE(month, "%M")'), 'asc')
+        ->get();
+
+    // Fetch expenditures data grouped by month
+    $expenditures = DB::table('expenditures')
+        ->select(DB::raw('SUM(amount) as total_amount, MONTHNAME(timePaid) as month'))
+        ->groupBy('month')
+        ->orderBy(DB::raw('STR_TO_DATE(month, "%M")'), 'asc')
+        ->get();
+
+    // Extract data for JavaScript
+    $months = $payments->pluck('month')->merge($expenditures->pluck('month'))->unique()->sort(function ($a, $b) {
+        return strtotime($a) - strtotime($b);
+    })->values();
+
+    $paymentAmounts = $months->map(function ($month) use ($payments) {
+        return $payments->firstWhere('month', $month)->total_amount ?? 0;
+    });
+
+    $expenditureAmounts = $months->map(function ($month) use ($expenditures) {
+        return $expenditures->firstWhere('month', $month)->total_amount ?? 0;
+    });
+
+    return view('pages.account', compact('rentals', 'months', 'paymentAmounts', 'expenditureAmounts'));
+}
     public function uploadAvatar(Request $request)
     {
         $request->validate([
