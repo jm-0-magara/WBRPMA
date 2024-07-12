@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ URL::to('assets/images/rent-signPost.png') }}">
     <!-- Layout config Js -->
     <script src="{{ URL::to('assets/js/layout.js') }}"></script>
-    <!-- StarCode CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ URL::to('assets/css/starcode2.css') }}">
     <!-- message toastr -->
 	<link rel="stylesheet" href="{{ URL::to('assets/css/toastr.min.css') }}">

@@ -119,6 +119,17 @@
                                 </div><!--end col-->
                                 <div class="flex justify-end gap-2 text-right lg:col-span-2 xl:col-span-4 xl:col-start-10">
                                     <div class="shrink-0">
+                                    <form id="broadcast-sms-form" action="{{ route('sendBroadcast') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="recipients" value="0708681664,0701234567"> <!-- Example recipients -->
+                                        <input type="hidden" name="message" value="KIND REMINDER TO PAY YOUR RENT">
+                                        <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee">
+                                            <i data-lucide="mail" class="inline-block size-4"></i> 
+                                            <span class="align-middle">BROADCAST SMS</span>
+                                        </a>
+                                    </form>
+                                    </div>
+                                    <div class="shrink-0">
                                         <a href="{{route('clients/add')}}" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee">
                                             <i data-lucide="plus" class="inline-block size-4"></i> 
                                             <span class="align-middle">Add Tenant</span>
