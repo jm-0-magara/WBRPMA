@@ -47,40 +47,4 @@ class ManagementController extends Controller
     {
         return view('management.pricing');
     }
-
-    /** leave Employee */
-    public function leaveEmployee()
-    {
-        return view('management.leave-employee');
-    }
-
-    /** create Leave Employee */
-    public function createLeaveEmployee()
-    {
-        return view('management.create-leave-employee');
-    }
-
-    /** leave management */
-    public function leavemanagement() {
-        return view('management.leave-management');
-    }
-
-    /** attendance */
-    public function attendance()
-    {
-        return view('management.attendance');
-    }
-
-    /** create Leave management */
-    public function createLeavemanagement()
-    {
-        return view('management.create-leave-management');
-    }
-
-    /** attendance Main */
-    public function attendanceMain()
-    {
-        return view('management.attendance-main');
-    }
-
 }

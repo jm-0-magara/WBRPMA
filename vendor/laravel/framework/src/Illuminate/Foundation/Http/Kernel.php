@@ -60,7 +60,12 @@ class Kernel implements KernelContract
      *
      * @var array<string, array<int, class-string|string>>
      */
-    protected $middlewareGroups = [];
+    protected $middlewareGroups = [
+        'web' => [
+            // Other middleware,
+            \App\Http\Middleware\VerifyCsrfToken::class,
+        ],
+    ];
 
     /**
      * The application's route middleware.

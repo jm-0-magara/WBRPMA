@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ URL::to('assets/images/rent-signPost.png') }}">
     <!-- Layout config Js -->
     <script src="{{ URL::to('assets/js/layout.js') }}"></script>
-    <!-- StarCode CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ URL::to('assets/css/starcode2.css') }}">
     <!-- message toastr -->
 	<link rel="stylesheet" href="{{ URL::to('assets/css/toastr.min.css') }}">
@@ -124,6 +124,8 @@
                                     </div>
                                     <div data-simplebar="" class="max-h-[350px]">
                                         <div class="flex flex-col gap-1" id="notification-list">
+                                                <!--MPESA-->
+                                                <script src="{{ URL::to('assets/js/MpesaNotifications.js') }}"></script>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-2 p-4 border-t border-slate-200 dark:border-zink-500">
@@ -539,8 +541,6 @@
     <script src="{{ URL::to('assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::to('assets/libs/lucide/umd/lucide.js') }}"></script>
     <script src="{{ URL::to('assets/js/starcode.bundle.js') }}"></script>
-    <!--MPESA-->
-    <script src="{{ URL::to('assets/js/MpesaNotifications.js') }}"></script>
     <!--apexchart js-->
     <script src="{{ URL::to('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/pages/dashboards-hr.init.js') }}"></script>

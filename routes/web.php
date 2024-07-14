@@ -92,12 +92,6 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     Route::controller(ManagementController::class)->group(function () {
         Route::get('management/employee/list', 'employeeList')->middleware('auth')->name('management/employee/list');
         Route::get('management/houses/page', 'housesPage')->middleware('auth')->name('management/houses/page');
-        Route::get('management/leave/employee/page', 'leaveEmployee')->middleware('auth')->name('management/leave/employee/page');
-        Route::get('management/create/leave/employee/page', 'createLeaveEmployee')->middleware('auth')->name('management/create/leave/employee/page');
-        Route::get('management/leave/management/page', 'leavemanagement')->middleware('auth')->name('management/leave/management/page');
-        Route::get('management/attendance/page', 'attendance')->middleware('auth')->name('management/attendance/page');
-        Route::get('management/create/leave/management/page', 'createLeavemanagement')->middleware('auth')->name('management/create/leave/management/page');
-        Route::get('management/attendance/main/page', 'attendanceMain')->middleware('auth')->name('management/attendance/main/page');
         Route::get('management/structure/page', 'structurePage')->middleware('auth')->name('management/structure/page');
         Route::get('management/pricing/page', 'pricingPage')->middleware('auth')->name('management/pricing/page');
     });
@@ -136,16 +130,33 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
 
     //-------------------------MPESA FUNCTIONALITY-----------------------//
 
-    Route::controller(MPesaController::class)->group(function (){
-        Route::get('/mpesa/access-token', 'getAccessToken');
+    Route::controller(MPesaController::class)->prefix('pesa')->as('pesa')->group(function (){
+        Route::get('/getaccesstoken', 'getAccessToken')->name('getaccesstoken');
+        Route::get('/registerurl', 'registerUrl')->name('registerurl');
+        Route::post('/validation', 'Validation')->name('validation');
+        Route::post('/confitmation', 'Confirmation')->name('confirmation');
+        Route::get('/simulate', 'Simulate')->name('simulate');
     });
     Route::controller(NotificationController::class)->group(function (){
         Route::get('/notifications', 'getNotifications');
     });
     Route::controller(MpesaNotificationController::class)->group(function (){
-        Route::get('/mpesa/notification', 'handleMpesaNotification');
+        Route::post('/mpesa/notification', 'handleMpesaNotification');
+    }); 
+
+    // ---------- Financial Management ----------- //
+
+    Route::controller(FinancialController::class)->group(function () {
+        Route::get('/payments', 'showPayments')->middleware('auth')->name('payments');
+        Route::get('/payments/download-pdf', 'downloadPdf')->middleware('auth')->name('payments.downloadPdf');
+        Route::get('/expenditures', 'showExpenditures')->middleware('auth')->name('expenditures');
+        Route::get('/expenditures/download-pdf', 'downloadExpenditurePdf')->middleware('auth')->name('expenditures.downloadPdf');
     });
-    
+
+    Route::controller(SmsController::class)->group(function(){
+        Route::post('/send-broadcast-sms', 'sendBroadcastSms')->name('sendBroadcast');
+    });
+
 });
 
 

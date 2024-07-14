@@ -31,7 +31,6 @@ class MpesaNotificationController extends Controller
         return response()->json([
             'ResultCode' => 0,
             'ResultDesc' => 'Accepted'
-        ]);
-        Toastr::success('Mpesa responded successfully :)','Success');
+        ]); 
     }
 }
