@@ -26,10 +26,7 @@ class SmsService
     {
         $client = new Client([
             'base_uri' => $this->baseUri,
-            'timeout'  => 10.0,
-            'curl'     => [
-                CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
-            ],
+            'timeout'  => 30.0,
         ]);
 
         try {

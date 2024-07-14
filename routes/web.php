@@ -130,8 +130,12 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
 
     //-------------------------MPESA FUNCTIONALITY-----------------------//
 
-    Route::controller(MPesaController::class)->group(function (){
-        Route::get('/mpesa/access-token', 'getAccessToken');
+    Route::controller(MPesaController::class)->prefix('pesa')->as('pesa')->group(function (){
+        Route::get('/getaccesstoken', 'getAccessToken')->name('getaccesstoken');
+        Route::get('/registerurl', 'registerUrl')->name('registerurl');
+        Route::post('/validation', 'Validation')->name('validation');
+        Route::post('/confitmation', 'Confirmation')->name('confirmation');
+        Route::get('/simulate', 'Simulate')->name('simulate');
     });
     Route::controller(NotificationController::class)->group(function (){
         Route::get('/notifications', 'getNotifications');
