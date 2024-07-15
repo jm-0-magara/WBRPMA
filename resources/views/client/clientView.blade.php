@@ -20,49 +20,55 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 xl:grid-cols-12 gap-x-5">
                 <div class="lg:col-span-12 xl:col-span-3 xl:row-span-2">
                     <div class="mb-5">
-                        <label for="deliveryStatusSelect" class="inline-block mb-2 text-base font-medium">Select Client</label>
-                        <select class="form-input border-slate-200 focus:outline-none focus:border-custom-500" data-choices="" data-choices-search-false="" name="deliveryStatusSelect" id="deliveryStatusSelect">
+                    <label for="clientsSelect" class="inline-block mb-2 text-base font-medium">Select Client</label>
+                        <select class="form-input border-slate-200 focus:outline-none focus:border-custom-500" data-choices="" data-choices-search-false="" name="clientsSelect" id="clientsSelect">
                         @foreach ($tenants as $tenant)
-                            <option value="{{$tenant->names}}">{{$tenant->names}}</option>
+                            <option value="{{ $tenant->id }}" 
+                                data-tenant-img="{{ $tenant->img }}" 
+                                data-tenant-name="{{ $tenant->names }}" 
+                                data-tenant-phone="0{{ $tenant->phoneNo }}" 
+                                data-tenant-houseno="{{ $tenant->houseNo }}" 
+                                data-tenant-ispaid="{{ $tenant->isPaid ? 'Paid' : 'Rent Due' }}" 
+                                data-tenant-email="{{ $tenant->email }}" 
+                                data-tenant-dateadded="{{ $tenant->dateAdded }}"
+                                data-tenant-idno="{{ $tenant->IDNO }}">
+                                {{ $tenant->names }}
+                            </option>
                         @endforeach
                         </select>
                     </div>
-                    <div class="card">
+                    <div class="card" id="tenant-details">
                         <div class="card-body">
                             <div class="text-center">
                                 <h5>Tenant</h5>
                                 <div class="mx-auto rounded-full size-20 bg-slate-100 dark:bg-zink-600">
-                                    <img src="{{ $tenant->img }}" alt="" class="h-20 rounded-full">
+                                    <img src="{{ $tenants->first()->img }}" alt="" class="h-20 rounded-full">
                                 </div>
-                                <h6 class="mt-3 mb-1 text-16"><a href="#!">{{$tenant->names}}</a></h6>
-                                @if($tenant->isPaid)
-                                <p class="text-slate-500 dark:text-zink-200">Paid</p>
-                                @else
-                                <p class="text-slate-500 dark:text-zink-200">Rent Due</p>
-                                @endif
+                                <h6 class="mt-3 mb-1 text-16"><a href="#!" class="tenant-name">{{ $tenants->first()->names }}</a></h6>
+                                <p class="text-slate-500 dark:text-zink-200 tenant-status">{{ $tenants->first()->isPaid ? 'Paid' : 'Rent Due' }}</p>
                             </div>
                             <div class="mt-5 overflow-x-auto">
                                 <table class="w-full mb-0">
                                     <tbody>
                                         <tr>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200"> Phone Number:</td>
-                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold">{{$tenant->phoneNo}}</td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold tenant-phone">0{{ $tenants->first()->phoneNo }}</td>
                                         </tr>
                                         <tr>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200">House Number:</td>
-                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold">{{$tenant->houseNo}}</td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold tenant-houseno">{{ $tenants->first()->houseNo }}</td>
                                         </tr>
                                         <tr>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200">ID Number</td>
-                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold">{{$tenant->IDNO}}</td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold tenant-idno">{{ $tenants->first()->IDNO }}</td>
                                         </tr>
                                         <tr>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200">Email</td>
-                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold">{{$tenant->email}}</td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold tenant-email">{{ $tenants->first()->email }}</td>
                                         </tr>
                                         <tr>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200">Date Added</td>
-                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold">{{$tenant->dateAdded}}</td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold tenant-dateadded">{{ $tenants->first()->dateAdded }}</td>
                                         </tr>
                                         <tr>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200">Next Of Kin phone:</td>
@@ -79,7 +85,7 @@
                         <div class="flex items-center gap-4 card-body">
                             <div class="flex items-center justify-center text-green-500 bg-green-100 rounded-md size-12 text-15 dark:bg-green-500/20 shrink-0"><i data-lucide="user-check-2"></i></div>
                             <div class="overflow-hidden grow">
-                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="32">0</span></h5>
+                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="{{ $tenantsPaid }}">0</span></h5>
                                 <p class="truncate text-slate-500 dark:text-zink-200">Tenants Paid</p>
                             </div>
                         </div>
@@ -90,7 +96,7 @@
                         <div class="flex items-center gap-4 card-body">
                             <div class="flex items-center justify-center text-red-500 bg-red-100 rounded-md size-12 text-15 dark:bg-red-500/20 shrink-0"><i data-lucide="user-x-2"></i></div>
                             <div class="overflow-hidden grow">
-                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="6">0</span></h5>
+                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="{{ $tenantsDue }}">0</span></h5>
                                 <p class="truncate text-slate-500 dark:text-zink-200">Tenants Rent Due</p>
                             </div>
                         </div>
@@ -101,7 +107,7 @@
                         <div class="flex items-center gap-4 card-body">
                             <div class="flex items-center justify-center text-yellow-500 bg-yellow-100 rounded-md size-12 text-15 dark:bg-yellow-500/20 shrink-0"><i data-lucide="refresh-cw"></i></div>
                             <div class="grow">
-                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="15">0</span></h5>
+                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="{{ $pendingPayments }}">0</span></h5>
                                 <p class="text-slate-500 dark:text-zink-200">Pending Payments</p>
                             </div>
                         </div>
@@ -149,34 +155,42 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($tenants as $tenant)
-                                        <tr>
-                                            <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Name">
-                                                <a href="#!" class="flex items-center gap-3">
-                                                    <div class="w-6 h-6 rounded-full shrink-0 bg-slate-100">
-                                                        <img src="{{ $tenant->img }}" alt="" class="h-6 rounded-full">
-                                                    </div>
-                                                    <h6 class="grow">{{ $tenant->names }}</h6>
-                                                </a>
-                                            </td>
-                                            <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
-                                                {{ $tenant->phoneNo }}
-                                            </td>
-                                            <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
-                                                {{ $tenant->houseNo }}
-                                            </td>
-                                            <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-                                             @if ($tenant->isPaid)
-                                                <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
-                                            @else
-                                                <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">Unpaid</span>
-                                            @endif
-                                            </td>
-                                            <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-                                                <div class="flex justify-end gap-2">
-                                                    <a class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500" data-tenant-id="{{ $tenant->id }}" href="#">
-                                                        <i data-lucide="eye" class="inline-block size-3"></i>
-                                                    </a>
+                                    @foreach($tenants as $tenant)
+<tr>
+    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Name">
+        <a href="#!" class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full shrink-0 bg-slate-100">
+                <img src="{{ $tenant->img }}" alt="" class="h-6 rounded-full">
+            </div>
+            <h6 class="grow">{{ $tenant->names }}</h6>
+        </a>
+    </td>
+    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
+        0{{ $tenant->phoneNo }}
+    </td>
+    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
+        {{ $tenant->houseNo }}
+    </td>
+    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+        @if ($tenant->isPaid)
+        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
+        @else
+        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">Unpaid</span>
+        @endif
+    </td>
+    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+        <div class="flex justify-end gap-2">
+            <a class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500" data-tenant-id="{{ $tenant->id }}" href="#" 
+                data-tenant-name="{{ $tenant->names }}" 
+                data-tenant-phone="0{{ $tenant->phoneNo }}" 
+                data-tenant-houseno="{{ $tenant->houseNo }}" 
+                data-tenant-img="{{ $tenant->img }}" 
+                data-tenant-ispaid="{{ $tenant->isPaid ? 'Paid' : 'Rent Due' }}" 
+                data-tenant-email="{{ $tenant->email }}" 
+                data-tenant-dateadded="{{ $tenant->dateAdded }}"
+                data-tenant-idno="{{ $tenant->IDNO }}">
+                <i data-lucide="eye" class="inline-block size-3"></i>
+            </a>
                                                     <a href="#" data-modal-target="" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
                                                         <i data-lucide="pencil" class="size-4"></i>
                                                     </a>
@@ -222,6 +236,7 @@
     </div>
     <!-- End Page-content -->
 @section('script')
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="{{ URL::to('assets/js/tenantCard.js') }}"></script>
 @endsection
 @endsection

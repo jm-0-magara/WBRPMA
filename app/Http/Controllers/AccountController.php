@@ -45,7 +45,16 @@ class AccountController extends Controller
         return $expenditures->firstWhere('month', $month)->total_amount ?? 0;
     });
 
-    return view('pages.account', compact('rentals', 'months', 'paymentAmounts', 'expenditureAmounts'));
+    //For the client cards
+    $rentalNo = Session::get('rentalNo');
+
+    $tenants = DB::table('tenants')
+                ->join('houses', 'tenants.houseNo', '=', 'houses.houseNo')
+                ->select('tenants.*', 'houses.isPaid')
+                ->where('tenants.rentalNo', $rentalNo)
+                ->get();
+
+    return view('pages.account', compact('rentals', 'months', 'paymentAmounts', 'expenditureAmounts', 'tenants'));
 }
     public function uploadAvatar(Request $request)
     {

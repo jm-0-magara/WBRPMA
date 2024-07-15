@@ -16,8 +16,11 @@ class ClientController extends Controller
     {
         $rentalNo = Session::get('rentalNo');
         $tenants = Tenants::join('houses', 'houses.houseNo', '=', 'tenants.houseNo')->where('tenants.rentalNo', $rentalNo)->select('tenants.*', 'houses.*')->get();
+        $tenantsPaid = Houses::where('rentalNo', $rentalNo)->where('isPaid', 1)->count();
+        $tenantsDue = Houses::where('rentalNo', $rentalNo)->where('isPaid', 0)->count();
+        $pendingPayments = Houses::where('rentalNo', $rentalNo)->where('isPaid', 0)->count();
 
-        return view('client.clientView', compact('tenants'));
+        return view('client.clientView', compact('tenants', 'tenantsPaid', 'tenantsDue', 'pendingPayments'));
     }
 
     public function show($id)

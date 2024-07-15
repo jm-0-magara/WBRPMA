@@ -27,7 +27,12 @@ class ManagementController extends Controller
     {
         $rentalNo = Session::get('rentalNo');
         $houses = Houses::where('rentalNo', $rentalNo)->orderBy('structureName', 'asc')->get();
-        return view('management.houses', compact('houses'));
+        $occupiedHouses = Houses::where('rentalNo', $rentalNo)->where('status', 'Occupied')->count();
+        $vacantHouses = Houses::where('rentalNo', $rentalNo)->where('status', 'Vacant')->count();
+        $recentlyEvacuatedHouses = Houses::where('rentalNo', $rentalNo)->where('status', 'Recently Evacuated')->count();
+        $reservedHouses = Houses::where('rentalNo', $rentalNo)->where('status', 'Reserved')->count();
+
+        return view('management.houses', compact('houses', 'occupiedHouses', 'vacantHouses', 'recentlyEvacuatedHouses', 'reservedHouses'));
     }
 
     public function structurePage()

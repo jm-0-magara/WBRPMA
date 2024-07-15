@@ -23,7 +23,7 @@
                         <div class="flex items-center gap-3 card-body">
                             <div class="flex items-center justify-center text-sky-500 bg-sky-100 rounded-md size-12 text-15 dark:bg-sky-500/20 shrink-0"><i data-lucide="anchor"></i></div>
                             <div class="grow">
-                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="23">0</span></h5>
+                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="{{$occupiedHouses}}">0</span></h5>
                                 <p class="text-slate-500 dark:text-zink-200">Occupied</p>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                         <div class="flex items-center gap-3 card-body">
                             <div class="flex items-center justify-center rounded-md size-12 text-red-500 bg-red-100 text-15 dark:bg-red-500/20 shrink-0"><i data-lucide="x-octagon"></i></div>
                             <div class="grow">
-                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="11">0</span></h5>
+                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="{{$vacantHouses}}">0</span></h5>
                                 <p class="text-slate-500 dark:text-zink-200">Vacant</p>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                         <div class="flex items-center gap-3 card-body">
                             <div class="flex items-center justify-center text-yellow-500 bg-yellow-100 rounded-md size-12 text-15 dark:bg-yellow-500/20 shrink-0"><i data-lucide="codepen"></i></div>
                             <div class="grow">
-                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="12">0</span></h5>
+                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="{{$reservedHouses}}">0</span></h5>
                                 <p class="text-slate-500 dark:text-zink-200">Reserved</p>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                         <div class="flex items-center gap-3 card-body">
                             <div class="flex items-center justify-center rounded-md size-12 text-purple-500 bg-red-100 text-15 dark:bg-purple-500/20 shrink-0"><i data-lucide="clock"></i></div>
                             <div class="grow">
-                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="2">0</span></h5>
+                                <h5 class="mb-1 text-16"><span class="counter-value" data-target="{{$recentlyEvacuatedHouses}}">0</span></h5>
                                 <p class="text-slate-500 dark:text-zink-200">Recently Evacuated</p>
                             </div>
                         </div>

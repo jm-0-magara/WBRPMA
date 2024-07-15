@@ -36,15 +36,15 @@
                             </div>
                             <ul class="flex flex-wrap gap-3 mt-4 text-center divide-x divide-slate-200 dark:divide-zink-500 rtl:divide-x-reverse">
                                 <li class="px-5">
-                                    <h5>1542</h5>
+                                    <h5>3</h5>
                                     <p class="text-slate-500 dark:text-zink-200">Properties</p>
                                 </li>
                                 <li class="px-5">
-                                    <h5>10.65k</h5>
+                                    <h5>47</h5>
                                     <p class="text-slate-500 dark:text-zink-200">Clients</p>
                                 </li>
                                 <li class="px-5">
-                                    <h5>Over Ksh.115+</h5>
+                                    <h5>Over Ksh.11500+</h5>
                                     <p class="text-slate-500 dark:text-zink-200">Profit</p>
                                 </li>
                             </ul>
@@ -325,52 +325,32 @@
                 <div class="hidden tab-pane" id="clientsTabs">
                     <h5 class="mb-4 underline">Clients</h5>
                     <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-x-5">
+                    @foreach($tenants as $tenant)
                         <div class="relative card">
                             <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs ltr:left-0 rtl:right-0 text-red-600 bg-custom-100 dark:bg-red-500/20 top-5 ltr:rounded-e rtl:rounded-l">IsPaid?</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 15 Jan, 2023</p>
+                            <p class="absolute inline-block px-5 py-1 text-xs {{ $tenant->isPaid ? 'text-green-600 bg-green-100 dark:bg-green-500/20' : 'text-red-600 bg-custom-100 dark:bg-red-500/20' }} ltr:left-0 rtl:right-0 top-5 ltr:rounded-e rtl:rounded-l">
+                                {{ $tenant->isPaid ? 'Rent Paid' : 'Rent Due' }}
+                            </p>
+                            <div class="flex items-center justify-end">
+                                    <p class="text-slate-500 dark:text-zink-200">Doj : {{ \Carbon\Carbon::parse($tenant->dateAdded)->format('d M, Y') }}</p>
                                 </div>
                                 <div class="mt-4 text-center">
                                     <div class="flex justify-center">
                                         <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-3.png') }}" alt="" class="">
+                                            <img src="{{ $tenant->img }}" alt="" class="">
                                         </div>
                                     </div>
-                                    <a href="#!"><h4 class="mt-4 mb-2 font-semibold text-16">Name Name </h4></a>
+                                    <a href="#!"><h4 class="mt-4 mb-2 font-semibold text-16">{{ $tenant->names }}</h4></a>
                                     <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">email@gmail.com</p>
-                                        <p>+213 617 219 6245</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">House Number: houseNo</p>
+                                        <p class="mb-1">{{ $tenant->email }}</p>
+                                        <p>0{{ $tenant->phoneNo }}</p>
+                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">House Number: {{ $tenant->houseNo }}</p>
                                         <h4 class="text-15 text-custom-500">Debt : $463.42 <span class="text-xs font-normal text-slate-500 dark:text-zink-200"><span></span></span></h4>
                                     </div>
                                 </div>
                             </div>
                         </div><!--end card-->
-                        <div class="relative card">
-                            <div class="card-body">
-                                <p class="absolute inline-block px-5 py-1 text-xs text-green-600 bg-green-100 ltr:left-0 rtl:right-0 dark:bg-green-500/20 top-5 ltr:rounded-e rtl:rounded-l">IsPaid?</p>
-                                <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : 29 Feb, 2023</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ URL::to('assets/images/avatar-2.png') }}" alt="" class="">
-                                        </div>
-                                    </div>
-                                    <a href="#!">
-                                        <h4 class="mt-4 mb-2 font-semibold text-16">Names Names </h4>
-                                    </a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">email@email.com</p>
-                                        <p>+254 85 383 2388</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">House Number: houseNo</p>
-                                        <h4 class="text-15 text-custom-500">Debt : $810.90 <span class="text-xs font-normal text-slate-500 dark:text-zink-200"><span></span></span></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end card-->
+                        @endforeach
                     </div><!--end grid-->
                     <div class="flex flex-col items-center gap-4 mb-4 md:flex-row">
                         <div class="grow">

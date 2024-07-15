@@ -154,7 +154,7 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     });
 
     Route::controller(SmsController::class)->group(function(){
-        Route::post('/send-broadcast-sms', 'sendBroadcastSms')->name('sendBroadcast');
+        Route::post('/send-broadcast-sms', 'sendsms')->name('sendBroadcast');
     });
 
 });

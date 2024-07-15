@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\SmsService;
+use Twilio\Rest\Client;
+use Brian2694\Toastr\Facades\Toastr;
 
 class SmsController extends Controller
 {
@@ -31,5 +33,22 @@ class SmsController extends Controller
         $response = $this->smsService->sendSms($recipients, $message, $from);
 
         return response()->json($response);
+    }
+
+    public function sendsms(){
+        $sid = getenv("TWILIO_SID");
+        $token = getenv("TWILIO_TOKEN");
+        $sendernumber = getenv("TWILIO_PHONE");
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages->create(
+            "+254 708 681664", // to
+            [
+                "body" =>
+                "RENT DUE! Kind reminder to pay your rent!",
+                "from" => $sendernumber,
+            ]
+        );
+        print $message->body;
     }
 }
