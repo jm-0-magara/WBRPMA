@@ -113,10 +113,10 @@
                                     <div class="flex flex-col h-full card-body">
                                         <div class="mt-5 mb-auto">
                                             <h5 class="mb-1 text-white">Congratulations</h5>
-                                            <p class="text-custom-200">on your most profitable month! 2/January/2018.</p>
+                                            <p class="text-custom-200">on your most profitable month! March/2024.</p>
                                         </div>
                                         <div class="p-3 mt-5 rounded-md bg-custom-600">
-                                            <h2 class="mb-1 text-white">Ksh.105407</h2>
+                                            <h2 class="mb-1 text-white">Ksh.8407</h2>
                                             <p class="text-custom-200">net profit gained</p>
                                         </div>
                                     </div>

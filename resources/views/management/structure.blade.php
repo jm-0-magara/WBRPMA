@@ -89,6 +89,54 @@
                             </form>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-4 text-15 grow">Add House</h6>
+                            <form action="{{route('addHouse')}}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
+                                    <div class="xl:col-span-6">
+                                        <div>
+                                            <label for="houseNo" class="inline-block mb-2 text-base font-medium">House Number</label>
+                                            <input type="text" name="houseNo" id="houseNo" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        </div>
+                                    </div>
+                                    <div class="xl:col-span-6">
+                                        <div>
+                                        <label for="structureName" class="inline-block mb-2 text-base font-medium">Select Grouping</label>
+                                            <select
+                                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                                data-choices="" data-choices-search-false="" name="structureName" id="structureName">
+                                                @foreach ($structures as $structure)
+                                                    <option value="{{$structure->structureName}}">{{$structure->structureName}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-2 xl:col-span-12">
+                                        <div>
+                                        <label for="houseType" class="inline-block mb-2 text-base font-medium">Select House Type</label>
+                                            <select
+                                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                                data-choices="" data-choices-search-false="" name="houseType" id="houseType">
+                                                @foreach ($houseTypes as $houseType)
+                                                    <option value="{{$houseType->houseType}}">{{$houseType->houseType}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="xl:col-span-6">
+                                        <div>
+                                            <input type="hidden" name="status" id="status" value="Vacant" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end gap-2 mt-4">
+                                    <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Add House</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="xl:col-span-3">
@@ -214,6 +262,27 @@
                                         </tr>
                                     </tbody>
                                     @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-4 text-15">Existing Houses</h6>
+                            <div>
+                                <table class="w-full mb-0">
+                                @foreach($houses as $house)
+                                    <tbody>
+                                        <tr>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="#">{{ $house->houseNo }}</a></td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="#"> {{ $house->structureName }}</a></td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="#"> {{ $house->status }}</a></td>
+                                        </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td><a href="{{route('management/houses/page')}}" class="text-slate-400 dark:text-zink-200">view more</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

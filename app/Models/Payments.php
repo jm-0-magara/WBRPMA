@@ -10,6 +10,7 @@ class Payments extends Model
     use HasFactory;
     //removed timestamps
     protected $primaryKey = 'paymentID';
+    public $timestamps = false;
     public $incrementing = false;        
     protected $keyType = 'int';
     protected $fillable = [

@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Payments;
 use App\Models\Expenditures;
 use App\Models\User;
+use App\Models\Houses;
+use App\Models\Paymenttypes;
 use Illuminate\Support\Facades\Session;
+use Brian2694\Toastr\Facades\Toastr;
 use DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -35,9 +38,24 @@ class FinancialController extends Controller
         $query->whereBetween('timePaid', [$request->startDate, $request->endDate]);
     }
 
-    $payments = $query->get();
+    //FOR PAYMENT TYPES AND ADDING PAYMENT
+    $query2 = DB::table('paymenttypes')
+        ->where('rentalNo', $rentalNo)
+        ->select('paymentType');
 
-    return view('finance.payments', ['payments' => $payments]);
+    $query3 = DB::table('houses')
+        ->where('rentalNo', $rentalNo)
+        ->select('houseNo');
+      
+    $payments = $query->get();
+    $paymentTypes = $query2->get();
+    $houses = $query3->get();
+
+    return view('finance.payments', [
+        'payments' => $payments,
+        'paymentTypes' => $paymentTypes,
+        'houses' => $houses
+    ]);
 }
 
 public function downloadPdf(Request $request)
@@ -111,5 +129,60 @@ public function downloadExpenditurePdf(Request $request)
     $pdf = Pdf::loadView('finance.expenditurePDF.pdf', ['expenditures' => $expenditures]);
 
     return $pdf->download('finance.expenditurePDF.pdf');
+}
+public function addPaymentType(Request $request)
+{
+    $request->validate([
+        'paymentType' => 'required|string|max:255',
+        'price' => 'required|numeric'
+    ]);
+
+    $rentalNo = Session::get('rentalNo');
+
+    $paymentTypes = new Paymenttypes();
+    $paymentTypes->paymentType = $request->paymentType;
+    $paymentTypes->rentalNo = $rentalNo;
+    $paymentTypes->price = $request->price;
+    $paymentTypes->save();
+
+    Toastr::success('Payment Type added successfully :)','Success');
+    return redirect()->back();
+}
+
+public function addPayment(Request $request){
+    DB::beginTransaction();
+    $rentalNo = Session::get('rentalNo');
+        $request->validate([
+            'paymentID' => 'required|string|max:255',
+            'houseNo' => 'required|string|max:255',
+            'paymentType' => 'required|string|max:255',
+            'amount' => 'required|numeric',
+            'timePaid' => 'required|date_format:Y-m-d',
+            'paymentMethod' => 'required|string|max:255'
+        ]);
+
+        try{
+        $payment = new Payments();
+        $payment->paymentID = $request->paymentID;
+        $payment->houseNo = $request->houseNo;
+        $payment->rentalNo = $rentalNo;
+        $payment->paymentType = $request->paymentType;
+        $payment->amount = $request->amount;
+        $payment->timePaid = $request->timePaid;
+        $payment->paymentMethod = $request->paymentMethod;
+
+        $payment->save();
+
+        DB::commit();
+
+        Toastr::success('New payment added successfully :)', 'Success');
+        
+        return redirect()->back();
+        }catch(\Exception $e) {
+        \Log::info($e);
+        DB::rollback();
+        Toastr::error('Add new payment fail :)','Error');
+        return redirect()->back()->withInput();
+        }
 }
 }

@@ -37,8 +37,8 @@ class MpesaController extends Controller
         $url = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl';
         $ShortCode = 600977;
         $ResponseType = 'Completed';
-        $ConfirmationURL = 'https://9da7-41-90-65-89.ngrok-free.app/pesa/confirmation';
-        $ValidationURL = 'https://9da7-41-90-65-89.ngrok-free.app/pesa/validation';
+        $ConfirmationURL = 'https://cfd9-41-90-65-89.ngrok-free.app/pesa/confirmation';
+        $ValidationURL = 'https://cfd9-41-90-65-89.ngrok-free.app/pesa/validation';
 
         $response = Http::withToken($accessToken)->post($url,[
             'ShortCode'=>$ShortCode,
@@ -92,5 +92,10 @@ class MpesaController extends Controller
         $data = file_get_contents('php://input');
         Storage::dist('local')->put('confirmation.txt',$data);
         //save data to DB
+
+        return response()->json([
+            'ResultCode'=>0,
+            'ResultDesc'=>'Accepted'
+        ]);
     }
 }

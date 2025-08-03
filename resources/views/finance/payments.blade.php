@@ -37,7 +37,7 @@
                             </a>
                         </div>
                         <div class="shrink-0">
-                            <a href="#!" data-modal-target="addEmployeeModal" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee">
+                            <a href="#!" data-modal-target="addPaymentModal" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee">
                                 <i data-lucide="plus" class="inline-block size-4"></i> 
                                 <span class="align-middle">Add Payment</span>
                             </a>
@@ -87,9 +87,159 @@
             </div>
         </div>
     </div>
+
+    <div id="addPaymentModal" modal-center=""
+        class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show ">
+        <div class="w-screen md:w-[30rem] bg-white shadow rounded-md dark:bg-zink-600">
+            <div class="flex items-center justify-beSTEen p-4 border-b dark:border-zink-500">
+                <h5 class="text-16" id="addEmployeeLabel">Add Payment</h5>
+                <button data-modal-close="addEmployeeModal" id="addEmployee"
+                    class="transition-all duration-200 ease-linear text-slate-400 hover:text-red-500"><i data-lucide="x"
+                        class="size-5"></i></button>
+            </div>
+            <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
+                <form class="create-form" id="create-form" method="POST" action="{{route('addPayment')}}" enctype="multipart/form-data">
+                    @csrf
+                    <div id="alert-error-msg"
+                        class="hidden px-4 py-3 text-sm text-red-500 border border-transparent rounded-md bg-red-50 dark:bg-red-500/20">
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 xl:grid-cols-12">
+                        <div class="xl:col-span-12">
+                            <label for="paymentID" class="inline-block mb-2 text-base font-medium">Payment ID</label>
+                            <input type="text" id="paymentID" name="paymentID"
+                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                value="">
+                        </div>
+                        <div class="xl:col-span-12">
+                            <label for="houseNo" class="inline-block mb-2 text-base font-medium">House Number</label>
+                            <select
+                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                data-choices="" data-choices-search-false="" name="houseNo" id="houseNo">
+                                @foreach ($houses as $house)
+                                <option value="{{$house->houseNo}}">{{$house->houseNo}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="xl:col-span-12">
+                            <label for="amount" class="inline-block mb-2 text-base font-medium">Amount</label>
+                            <input type="text" id="amount" name="amount"
+                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                placeholder="Amount Paid">
+                        </div>
+                        <div class="xl:col-span-12">
+                            <label for="paymentType"
+                                class="inline-block mb-2 text-base font-medium">Payment Type</label>
+                            <select
+                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                data-choices="" data-choices-search-false="" name="paymentType" id="paymentType">
+                                @foreach ($paymentTypes as $paymentTypes)
+                                <option value="{{$paymentTypes->paymentType}}">{{$paymentTypes->paymentType}}</option>
+                                @endforeach
+                                <option value="AddPaymentType">Add Payment Type</option>
+                            </select>
+                        </div>
+                        <div class="xl:col-span-6">
+                            <label for="paymentMethod" class="inline-block mb-2 text-base font-medium">Payment Method</label>
+                            <input type="text" id="paymentMethod" name="paymentMethod"
+                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                placeholder="Enter Payment Method" required="">
+                        </div>
+                        <div class="xl:col-span-6">
+                            <label for="timePaid"
+                                class="inline-block mb-2 text-base font-medium">Time Paid</label>
+                            <input type="date" id="timePaid" name="timePaid"
+                                class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
+                                required="">
+                        </div>    
+                    </div>
+                    <div class="flex justify-end gap-2 mt-4">
+                        <button type="reset" id="close-modal" data-modal-close="addPaymentModal"
+                            class="text-red-500 bg-white btn hover:text-red-500 hover:bg-red-100 focus:text-red-500 focus:bg-red-100 active:text-red-500 active:bg-red-100 dark:bg-zink-600 dark:hover:bg-red-500/10 dark:focus:bg-red-500/10 dark:active:bg-red-500/10">Cancel</button>
+                        <button type="submit" id="addNew"
+                            class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 ">Add
+                            Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--end add Payment-->
+
+    <!-- Add paymentType modal -->
+<div id="addPaymentTypeModal" class="fixed hidden inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-md dark:bg-zink-600">
+        <div class="flex justify-between items-center">
+            <h5 class="text-lg font-medium">Add New PaymentType</h5>
+            <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+        <form id="addPaymentTypeForm">
+            <div class="mt-4">
+                <label for="newPaymentType" class="block text-sm">Payment Type</label>
+                <input type="text" id="paymentType" name="paymentType" class="form-input mt-1 block w-full">
+            </div>
+            <div class="mt-4">
+                <label for="price" class="block text-sm">Price</label>
+                <input type="text" id="price" name="price" class="form-input mt-1 block w-full">
+            </div>
+            <div class="flex justify-center gap-2 mt-6">
+                <button type="reset" id="cancelButton" class="bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-600 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10">Cancel</button>
+                <button type="submit" id="submitAddPaymentType" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 ">
+                    Add PaymentType
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add PaymentType -->
+<script>
+    document.getElementById('typeSelect').addEventListener('change', function () {
+        if (this.value === 'AddPaymentType') {
+            document.querySelectorAll('.fixed:not(#addPaymentTypeModal)').forEach(function(modal) {
+                modal.classList.add('hidden');
+            });
+            document.getElementById('addPaymentTypeModal').classList.remove('hidden');
+        }
+    });
+
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('addPaymentTypeModal').classList.add('hidden');
+    });
+
+    document.getElementById('cancelButton').addEventListener('click', function () {
+        document.getElementById('addPaymentTypeModal').classList.add('hidden');
+    });
+
+    document.getElementById('addPaymentTypeForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const newPaymentType = document.getElementById('newPaymentType').value;
+
+        fetch('{{ route('addPaymentType') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ PaymentType: newPaymentType })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                // Handle errors
+                alert('Failed to add paymentType');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
     <script>
         document.getElementById('printButton').addEventListener('click', function() {
             window.location.href = '{{ route("payments.downloadPdf") }}';
         });
     </script>
+    @section('script')
+    <script src="{{ URL::to('assets/js/pages/apps-hr-employee.init.js') }}"></script>
+    @endsection
     @endsection

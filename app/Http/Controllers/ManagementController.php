@@ -43,13 +43,33 @@ class ManagementController extends Controller
         $rentalNo = Session::get('rentalNo');
 
         $structureTypes = Structuretypes::all();
+        $houses = Houses::where('rentalNo', $rentalNo)->orderBy('structureName', 'asc')->take(5)->get();
         $structures = Structures::where('rentalNo',$rentalNo)->orderBy('structureName', 'asc')->get();
         $houseTypes = Housetypes::where('rentalNo', $rentalNo)->get();
-        return view('management.structure', compact('rentals', 'structureTypes', 'structures', 'houseTypes'));
+        return view('management.structure', compact('rentals', 'structureTypes', 'structures', 'houseTypes', 'houses'));
     }
 
     public function pricingPage()
     {
-        return view('management.pricing');
+        $rentalNo = Session::get('rentalNo');
+        $houseTypes = Housetypes::where('rentalNo', $rentalNo)->get();
+        return view('management.pricing', compact('houseTypes'));
+    }
+    public function getHousePrice($houseType)
+    {
+    $rentalNo = Session::get('rentalNo');
+    $houseType = Housetypes::where('houseType', $houseType)
+                            ->where('rentalNo', $rentalNo)
+                            ->first();
+
+    if ($houseType) {
+        return response()->json(['price' => $houseType->price]);
+    } else {
+        return response()->json(['price' => null], 404);
+    }
+    }
+    public function maintenancePage()
+    {
+        return view('management.maintenance');
     }
 }

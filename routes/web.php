@@ -94,6 +94,11 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::get('management/houses/page', 'housesPage')->middleware('auth')->name('management/houses/page');
         Route::get('management/structure/page', 'structurePage')->middleware('auth')->name('management/structure/page');
         Route::get('management/pricing/page', 'pricingPage')->middleware('auth')->name('management/pricing/page');
+        Route::get('/get-house-price/{houseType}','getHousePrice');
+    });
+
+    Route::controller(PricingController::class)->group(function(){
+        Route::post('management/pricing/update', 'updateHousePrice')->middleware('auth')->name('management/pricing/update');
     });
 
     // -------------------------- rentals/properties ----------------------//
@@ -151,6 +156,8 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::get('/payments/download-pdf', 'downloadPdf')->middleware('auth')->name('payments.downloadPdf');
         Route::get('/expenditures', 'showExpenditures')->middleware('auth')->name('expenditures');
         Route::get('/expenditures/download-pdf', 'downloadExpenditurePdf')->middleware('auth')->name('expenditures.downloadPdf');
+        Route::post('/addPaymentType', 'addPaymentType')->middleware('auth')->name('addPaymentType');
+        Route::post('/payments/addPayment', 'addPayment')->middleware('auth')->name('addPayment');
     });
 
     Route::controller(SmsController::class)->group(function(){
