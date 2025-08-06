@@ -11,6 +11,7 @@ use App\Models\Rentals;
 use App\Models\Housetypes;
 use App\Models\Structures;
 use App\Models\Structuretypes;
+use App\Models\Paymenttypes;
 
 class ManagementController extends Controller
 {
@@ -53,7 +54,8 @@ class ManagementController extends Controller
     {
         $rentalNo = Session::get('rentalNo');
         $houseTypes = Housetypes::where('rentalNo', $rentalNo)->get();
-        return view('management.pricing', compact('houseTypes'));
+        $paymentTypes = Paymenttypes::where('rentalNo', $rentalNo)->get();
+        return view('management.pricing', compact('houseTypes', 'paymentTypes'));
     }
     public function getHousePrice($houseType)
     {

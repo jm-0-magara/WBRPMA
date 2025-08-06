@@ -94,14 +94,6 @@ public function showExpenditures(Request $request)
         ->select('expenditureID', 'expenditureType', 'amount', 'timeRecorded', 'timePaid')
         ->orderBy('timePaid', 'desc');
 
-    if ($request->filled('expenditureType')) {
-        $query->where('expenditureType', $request->expenditureType);
-    }
-
-    if ($request->filled('startDate') && $request->filled('endDate')) {
-        $query->whereBetween('timePaid', [$request->startDate, $request->endDate]);
-    }
-
     $expenditures = $query->get();
 
     return view('finance.expenditures', ['expenditures' => $expenditures]);
@@ -182,6 +174,40 @@ public function addPayment(Request $request){
         \Log::info($e);
         DB::rollback();
         Toastr::error('Add new payment fail :)','Error');
+        return redirect()->back()->withInput();
+        }
+    }
+
+    public function addExpenditure(Request $request){
+    DB::beginTransaction();
+    $user_ID = Session::get('user_id');
+    $userID = User::where('user_id', $user_ID)->firstOrFail();
+        $request->validate([
+            'expenditureID' => 'required|string|max:255',
+            'expenditureType' => 'required|string|max:255',
+            'amount' => 'required|numeric',
+            'timePaid' => 'required|date_format:Y-m-d',
+        ]);
+
+        try{
+        $expenditure = new Expenditures();
+        $expenditure->expenditureID = $request->expenditureID;
+        $expenditure->expenditureType = $request->expenditureType;
+        $expenditure->userID = $userID->user_id;
+        $expenditure->amount = $request->amount;
+        $expenditure->timePaid = $request->timePaid;
+
+        $expenditure->save();
+
+        DB::commit();
+
+        Toastr::success('New expenditure added successfully :)', 'Success');
+        
+        return redirect()->back();
+        }catch(\Exception $e) {
+        \Log::info($e);
+        DB::rollback();
+        Toastr::error('Add new expenditure fail :)','Error');
         return redirect()->back()->withInput();
         }
 }

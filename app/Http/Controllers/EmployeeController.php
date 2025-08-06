@@ -101,6 +101,7 @@ class EmployeeController extends Controller
 
         if ($request->hasFile('img')) {
             Storage::delete($employee->img);
+            $employee->img = null;
             $imagePath = $request->file('img')->store('public/assets/images');
         } else {
             $imagePath = $employee->img;
@@ -117,10 +118,13 @@ class EmployeeController extends Controller
         $employee->img = Storage::url($imagePath);;
         $employee->save();
 
+        DB::commit();
+
         Toastr::success('Employee updated successfully :)', 'Success');
         return redirect()->back();
         }catch(\Exception $e) {
             \Log::info($e);
+            DB::rollback();
             Toastr::error('Update employee fail :)','Error');
             return redirect()->back()->withInput();
         }
@@ -129,7 +133,7 @@ class EmployeeController extends Controller
     public function deleteEmployee($employeeNo)
     {
         // Find the employee by ID and delete
-        $employee = Employee::findOrFail($employeeNo);
+        $employee = Employees::findOrFail($employeeNo);
         $employee->delete();
 
         Toastr::success('Employee deleted successfully :)', 'Success');

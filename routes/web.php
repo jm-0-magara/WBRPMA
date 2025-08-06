@@ -79,6 +79,13 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::post('page/account/upload', 'uploadAvatar')->name('page/account/upload');
         Route::get('page/propertyInput', 'viewPropertyInput')->middleware('auth')->name('page/propertyInput');
     });
+    Route::controller(ReservationController::class)->group(function () {
+        Route::get('page/reservations', 'reservationView')->middleware('auth')->name('page/reservations');
+        Route::post('page/reservations/add', 'addReservation')->middleware('auth')->name('page/reservations/add');
+        Route::get('page/reservations/view/{reservationID}', 'viewReservation')->middleware('auth')->name('page/reservations/view');
+        Route::post('page/reservations/update/{reservationID}', 'updateReservation')->middleware('auth')->name('page/reservations/update');
+        Route::delete('page/reservations/delete/{reservationID}', 'deleteReservation')->middleware('auth')->name('page/reservations/delete');
+    });
 
     // -------------------------- client ----------------------//
     Route::controller(ClientController::class)->group(function () {
@@ -97,8 +104,29 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::get('/get-house-price/{houseType}','getHousePrice');
     });
 
+    // -------------------------- pricing ----------------------//
     Route::controller(PricingController::class)->group(function(){
         Route::post('management/pricing/update', 'updateHousePrice')->middleware('auth')->name('management/pricing/update');
+        Route::post('management/pricing/addPaymentType', 'addPaymentType')->middleware('auth')->name('management/pricing/addPaymentType');
+        Route::post('management/pricing/updatePaymentTypePrice', 'updatePaymentTypePrice')->middleware('auth')->name('management/pricing/updatePaymentTypePrice');
+    });
+
+    // -------------------------- maintenance ----------------------//
+    Route::controller(MaintenanceController::class)->group(function () {
+        Route::get('maintenance', 'index')->middleware('auth')->name('maintenance');
+        Route::post('maintenance/filter', 'filter')->middleware('auth')->name('maintenance/filter');
+        Route::post('maintenance/add', 'addMaintenance')->middleware('auth')->name('maintenance/add');
+        Route::post('maintenance/update/{maintenanceNo}', 'updateMaintenance')->middleware('auth')->name('maintenance/update/{maintenanceNo}');
+        Route::delete('maintenance/delete/{maintenanceNo}', 'deleteMaintenance')->middleware('auth')->name('maintenance/delete/{maintenanceNo}');
+    });
+
+    // -------------------------- water ----------------------//
+    Route::controller(WaterController::class)->group(function () {
+        Route::get('water', 'index')->middleware('auth')->name('water'); 
+        Route::post('waterdetails/filter', 'filter')->middleware('auth')->name('waterdetails/filter');
+        Route::post('waterdetails/add', 'addWaterDetails')->middleware('auth')->name('waterdetails/add');
+        Route::post('waterdetails/update/{waterConsumedID}', 'updateWaterDetails')->middleware('auth')->name('waterdetails/update/{waterConsumedID}');
+        Route::delete('waterdetails/delete/{waterConsumedID}', 'deleteWaterDetails')->middleware('auth')->name('waterdetails/delete/{waterConsumedID}');
     });
 
     // -------------------------- rentals/properties ----------------------//
@@ -114,8 +142,8 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::post('/addEmployeeRole', 'addEmployeeRole')->middleware('auth')->name('addEmployeeRole');
         Route::post('/addEmployee', 'addEmployee')->middleware('auth')->name('addEmployee');
         Route::get('view/updateEmployee/{employeeNo}', 'viewUpdateEmployee')->middleware('auth')->name('view/updateEmployee');
-        Route::post('updateEmployee/{employeeNo}', 'updateEmployee')->middleware('auth')->name('updateEmployee');
-        Route::delete('deleteEmployee/{employeeNo}', 'deleteEmployee')->middleware('auth')->name('deleteEmployee');
+        Route::post('updateEmployee/{employeeNo}', 'updateEmployee')->middleware('auth')->name('updateEmployee/{employeeNo}');
+        Route::delete('deleteEmployee/{employeeNo}', 'deleteEmployee')->middleware('auth')->name('deleteEmployee/{employeeNo}');
     });
 
     Route::controller(StructureController::class)->group(function () {
@@ -158,6 +186,7 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::get('/expenditures/download-pdf', 'downloadExpenditurePdf')->middleware('auth')->name('expenditures.downloadPdf');
         Route::post('/addPaymentType', 'addPaymentType')->middleware('auth')->name('addPaymentType');
         Route::post('/payments/addPayment', 'addPayment')->middleware('auth')->name('addPayment');
+        Route::post('/expenditures/addExpenditure', 'addExpenditure')->middleware('auth')->name('addExpenditure');
     });
 
     Route::controller(SmsController::class)->group(function(){
