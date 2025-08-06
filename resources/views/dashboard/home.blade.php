@@ -457,3 +457,15 @@
 <!-- End Page-content -->
  
 @endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        var initialChartLabels = @json($labels ?? []);
+        var initialGrossProfitData = @json($grossProfitSeries ?? []);
+        var initialExpenditureData = @json($expenditureSeries ?? []);
+        var initialNetProfitData = @json($netProfitSeries ?? []);
+        var filterFinancialsRoute = '{{ route("financials/filter") }}';
+    </script>
+    <script src="{{ URL::to('assets/js/pages/financials.js') }}"></script>
+@endsection

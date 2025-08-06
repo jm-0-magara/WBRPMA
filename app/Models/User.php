@@ -16,8 +16,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public $timestamps = false;   //VERY MINISCULE BUT TOOK ME HOURS TO FIGURE OUT
+    protected $primaryKey = 'id';
+    public $incrementing = true;             //THESE TOO
+    protected $keyType = 'int';
+    use HasFactory;
 
     protected $fillable = [
+        'id',
         'user_id',
         'name',
         'email',

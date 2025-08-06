@@ -180,13 +180,34 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     // ---------- Financial Management ----------- //
 
     Route::controller(FinancialController::class)->group(function () {
-        Route::get('/payments', 'showPayments')->middleware('auth')->name('payments');
+        /*Route::get('/payments', 'showPayments')->middleware('auth')->name('payments');
+        Route::post('/payments/addPayment', 'addPayment')->middleware('auth')->name('addPayment');
         Route::get('/payments/download-pdf', 'downloadPdf')->middleware('auth')->name('payments.downloadPdf');
+        Route::post('/addPaymentType', 'addPaymentType')->middleware('auth')->name('addPaymentType');
         Route::get('/expenditures', 'showExpenditures')->middleware('auth')->name('expenditures');
         Route::get('/expenditures/download-pdf', 'downloadExpenditurePdf')->middleware('auth')->name('expenditures.downloadPdf');
-        Route::post('/addPaymentType', 'addPaymentType')->middleware('auth')->name('addPaymentType');
-        Route::post('/payments/addPayment', 'addPayment')->middleware('auth')->name('addPayment');
         Route::post('/expenditures/addExpenditure', 'addExpenditure')->middleware('auth')->name('addExpenditure');
+        */
+        Route::get('/financials-overview', 'index')->middleware('auth')->name('financials');
+        Route::post('/financials/filter', 'filter')->middleware('auth')->name('financials/filter');
+    });
+
+    Route::controller(PaymentController::class)->group(function () {
+        Route::get('/payments', 'index')->middleware('auth')->name('payments');
+        Route::post('/payments/filter', 'filter')->middleware('auth')->name('payments/filter');
+        Route::post('/payments/addPayment', 'addPayment')->middleware('auth')->name('payments/add');
+        Route::post('/payments/updatePayment/{paymentID}', 'updatePayment')->middleware('auth')->name('payments/update');
+        Route::delete('/payments/deletePayment/{paymentID}', 'deletePayment')->middleware('auth')->name('payments/delete');
+        Route::get('/payments/showPayment/{paymentID}', 'showPayment')->middleware('auth')->name('payments/show');
+    });
+
+    Route::controller(ExpenditureController::class)->group(function () {
+        Route::get('/expenditures', 'index')->middleware('auth')->name('expenditures');
+        Route::post('/expenditures/filter', 'filter')->middleware('auth')->name('expenditures/filter');
+        Route::post('/expenditures/addExpenditure', 'addExpenditure')->middleware('auth')->name('expenditures/add');
+        Route::post('/expenditures/updateExpenditure/{expenditureID}', 'updateExpenditure')->middleware('auth')->name('expenditures/update');
+        Route::delete('/expenditures/deleteExpenditure/{expenditureID}', 'deleteExpenditure')->middleware('auth')->name('expenditures/delete');
+        Route::get('/expenditures/showExpenditure/{expenditureID}', 'showExpenditure')->middleware('auth')->name('expenditures/show');
     });
 
     Route::controller(SmsController::class)->group(function(){

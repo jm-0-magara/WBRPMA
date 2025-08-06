@@ -9,6 +9,7 @@ class Expenditures extends Model
 {
     use HasFactory;
     //removed timestamps
+    public $timestamps = false;   //VERY MINISCULE BUT TOOK ME HOURS TO FIGURE OUT
     protected $primaryKey = 'expenditureID';
     public $incrementing = false;        
     protected $keyType = 'int';
