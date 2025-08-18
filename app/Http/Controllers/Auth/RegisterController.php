@@ -90,7 +90,7 @@ class RegisterController extends Controller
         } catch(\Exception $e) {
             \Log::info($e);
             DB::rollback();
-            Toastr::error('Add new employee fail :)','Error');
+            Toastr::error('Add new user fail :)','Error');
             return redirect()->back();
         }
     }

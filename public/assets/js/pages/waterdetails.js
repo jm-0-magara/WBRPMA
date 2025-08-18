@@ -194,6 +194,7 @@ $(document).ready(function() {
                                     '<td class="px-4 py-2">' + payment.timePaid.split(' ')[0] + '</td>' +
                                     '<td class="px-4 py-2">' + payment.amount.toFixed(2) + '</td>' +
                                     '<td class="px-4 py-2">' + payment.paymentMethod + '</td>' +
+                                    '<td class="px-4 py-2">' + payment.narration + '</td>' +
                                 '</tr>'
                             );
                         });

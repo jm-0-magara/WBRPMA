@@ -6,6 +6,8 @@
         // Initial data passed from the controller
         var initialChartLabels = @json($labels);
         var initialChartData = @json($data);
+        var initialMonthlyLabels = @json($monthlyLabels);
+        var initialMonthlyExpendituresData = @json($monthlyExpendituresData);
         var filterRoute = '{{ route("expenditures/filter") }}';
         var addExpenditureRoute = '{{ route("expenditures/add") }}';
         var updateExpenditureRouteBase = '{{ url("expenditures/update") }}'; // Base URL for update
@@ -207,6 +209,9 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                     <div class="card p-4 bg-white dark:bg-zink-700 rounded-lg shadow-md">
+                        <div id="monthlyExpendituresChart" class="apex-charts"></div>
                     </div>
                 </div>
             </div>

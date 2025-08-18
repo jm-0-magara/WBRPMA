@@ -52,6 +52,20 @@ class ExpenditureController extends Controller
             $data[] = $dailyExpenditures->sum('amount');
         }
 
+        // For the bar chart
+        $monthlyExpendituresData = [];
+        $monthlyLabels = [];
+
+        // Aggregate expenditures by month for the bar chart
+        $expendituresByMonth = $expenditures->groupBy(function($date) {
+            return Carbon::parse($date->timePaid)->format('Y-m');
+        });
+
+        foreach ($expendituresByMonth as $month => $monthlyGroup) {
+            $monthlyLabels[] = $month;
+            $monthlyExpendituresData[] = $monthlyGroup->sum('amount');
+        }
+
         // Calculate total amount spent
         $totalAmountSpent = $expenditures->sum('amount');
 
@@ -61,6 +75,8 @@ class ExpenditureController extends Controller
             'labels' => $labels,
             'data' => $data,
             'totalAmountSpent' => $totalAmountSpent,
+            'monthlyLabels' => $monthlyLabels,
+            'monthlyExpendituresData' => $monthlyExpendituresData,
         ];
     }
 
@@ -83,6 +99,8 @@ class ExpenditureController extends Controller
                 'labels' => [],
                 'data' => [],
                 'totalAmountSpent' => 0,
+                'monthlyLabels' => [],
+                'monthlyExpendituresData' => [],
             ]);
         }
 
@@ -140,7 +158,7 @@ class ExpenditureController extends Controller
             'expenditureID' => 'required|string|unique:expenditures,expenditureID', // Ensure expenditureID is unique
             'expenditureType' => 'required|string',
             'amount' => 'required|numeric|min:0',
-            'timePaid' => 'required|date',
+            'timePaid' => 'required|date|before_or_equal:today', 
         ]);
 
         $userId = Session::get('user_id');
@@ -192,7 +210,7 @@ class ExpenditureController extends Controller
         $request->validate([
             'expenditureType' => 'required|string',
             'amount' => 'required|numeric|min:0',
-            'timePaid' => 'required|date',
+            'timePaid' => 'required|date|before_or_equal:today', 
         ]);
 
         $userId = Session::get('user_id');

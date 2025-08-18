@@ -28,22 +28,22 @@
                                     <div class="xl:col-span-6">
                                         <div>
                                             <label for="rentalName" class="inline-block mb-2 text-base font-medium">Property Name</label>
-                                            <input type="text" name="rentalName" id="rentalName" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                            <input type="text" name="rentalName" id="rentalName" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Enter a unique name for your property here." data-step="3">
                                         </div>
                                     </div>
                                     <div class="xl:col-span-6">
                                         <label for="rentalImage" class="inline-block mb-2 text-base font-medium">Property Image</label>
-                                        <input type="file" name="rentalImage" id="rentalImage" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="file" name="rentalImage" id="rentalImage" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Add an image of your new property. *Inconsequential" data-step="4">
                                     </div>
                                     <div class="md:col-span-2 xl:col-span-12">
                                         <div>
                                             <label for="description" class="inline-block mb-2 text-base font-medium">Description</label>
-                                            <textarea name="description" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" id="description" rows="3"></textarea>
+                                            <textarea name="description" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" id="description" rows="3" data-intro="Provide a brief description of the property." data-step="5"></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex justify-end gap-2 mt-4">
-                                    <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Add Property</button>
+                                    <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20" data-intro="Once you've filled in the details, click here to add the property. You will then be redirected to configure its structure." data-step="6">Add Property</button>
                                 </div>
                             </form>
                         </div>
@@ -62,7 +62,7 @@
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="#">{{ $rental->rentalName }}</a></td>
                                             <td>
                                                 <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                                    <img src="{{ $rental->rentalImage }}" alt="" class="w-12 h-12 rounded">
+                                                    <img src="{{ $rental->rentalImage ?? asset('assets/images/rentalDefault.png')}}" alt="" class="w-12 h-12 rounded">
                                                 </div>
                                             </td>
                                         </tr>

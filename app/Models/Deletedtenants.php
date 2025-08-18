@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tenants extends Model
+class Deletedtenants extends Model
 {
     public $timestamps = false;   //VERY MINISCULE BUT TOOK ME HOURS TO FIGURE OUT
     protected $primaryKey = 'houseNo';
@@ -13,15 +13,12 @@ class Tenants extends Model
     protected $keyType = 'string';
     use HasFactory;
     protected $fillable = [
-        'tenantNo',
+        'deletedTenantNo',
         'houseNo',
         'rentalNo',
         'names',
         'phoneNo',
-        'IDNO',
-        'email',
-        'img',
-        'dateAdded',
-        'rentDepositPaid',
+        'debt',
+        'dateDeleted',
     ];
 }

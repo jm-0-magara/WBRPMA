@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Houses;
 use App\Models\Maintenances;
+use App\Models\Expenditures;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Brian2694\Toastr\Facades\Toastr;
 
@@ -90,12 +92,14 @@ class MaintenanceController extends Controller
     {
         $request->validate([
             'houseNo' => 'required|string|max:255',
-            'maintenanceDate' => 'required|date',
+            'maintenanceDate' => 'required|date|before_or_equal:today',
             'amount' => 'required|numeric|min:0',
             'maintenanceDescription' => 'nullable|string',
         ]);
 
         $rentalNo = Session::get('rentalNo');
+        $userId = Session::get('user_id');
+        $userID = User::where('user_id', $userId)->value('id');
 
         $maintenance = new Maintenances();
         $maintenance->houseNo = $request->houseNo;
@@ -104,6 +108,14 @@ class MaintenanceController extends Controller
         $maintenance->amount = $request->amount;
         $maintenance->maintenanceDescription = $request->maintenanceDescription;
         $maintenance->save();
+
+        $expenditure = new Expenditures();
+        $expenditure->expenditureID = rand(0, 1000000);
+        $expenditure->expenditureType = 'Maintenance';
+        $expenditure->userID = $userID;
+        $expenditure->amount = $request->amount;
+        $expenditure->timePaid = $request->maintenanceDate;
+        $expenditure->save();
 
         Toastr::success('Maintenance record added successfully.', 'Success');
         return redirect()->back();
@@ -130,12 +142,21 @@ class MaintenanceController extends Controller
     public function updateMaintenance(Request $request, $maintenanceNo)
     {
         $request->validate([
-            'maintenanceNo' => 'required|integer',
             'houseNo' => 'required|string|max:255',
-            'maintenanceDate' => 'required|date',
+            'maintenanceDate' => 'required|date|before_or_equal:today',
             'amount' => 'required|numeric|min:0',
             'maintenanceDescription' => 'nullable|string',
         ]);
+
+        //I USED THIS FOR DEBUGGING
+        /*\Log::debug('update-Maintenance-debug', [
+            'maintenanceNo' => $maintenanceNo,
+            'houseNo' => $request->houseNo,
+            'maintenanceDate' => $request->maintenanceDate,
+            'amount' => $request->amount,
+            'maintenanceDescription' => $request->maintenanceDescription,
+        ]);*/
+        
     
         $maintenance = Maintenances::find($request->maintenanceNo);
     
@@ -144,11 +165,16 @@ class MaintenanceController extends Controller
             return redirect()->back();
         }
     
-        $maintenance->houseNo = $request->houseNo;
-        $maintenance->maintenanceDate = $request->maintenanceDate;
-        $maintenance->amount = $request->amount;
-        $maintenance->maintenanceDescription = $request->maintenanceDescription;
-        $maintenance->save();
+        try{
+            $maintenance->houseNo = $request->houseNo;
+            $maintenance->maintenanceDate = $request->maintenanceDate;
+            $maintenance->amount = $request->amount;
+            $maintenance->maintenanceDescription = $request->maintenanceDescription;
+            $maintenance->save();
+        } catch (\Exception $e) {
+            Toastr::error('An error occurred: ' . $e->getMessage(), 'Error');
+            return redirect()->back();
+        }
     
         Toastr::success('Maintenance record updated successfully.', 'Success');
         return redirect()->back();

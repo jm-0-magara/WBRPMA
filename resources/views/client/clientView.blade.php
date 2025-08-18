@@ -24,7 +24,7 @@
                         <select class="form-input border-slate-200 focus:outline-none focus:border-custom-500" data-choices="" data-choices-search-false="" name="clientsSelect" id="clientsSelect">
                         @foreach ($tenants as $tenant)
                             <option value="{{ $tenant->id }}" 
-                                data-tenant-img="{{ $tenant->img }}" 
+                                data-tenant-img="{{ $tenant->img ?? asset('assets/images/userDefault.png') }}" 
                                 data-tenant-name="{{ $tenant->names }}" 
                                 data-tenant-phone="0{{ $tenant->phoneNo }}" 
                                 data-tenant-houseno="{{ $tenant->houseNo }}" 
@@ -41,15 +41,20 @@
                         <div class="card-body">
                             <div class="text-center">
                                 <h5>Tenant</h5>
+                                @if($tenants->isEmpty())
+                                    <p class="text-slate-500 dark:text-zink-200">No tenants available.</p>
+                                @else
                                 <div class="mx-auto rounded-full size-20 bg-slate-100 dark:bg-zink-600">
-                                    <img src="{{ $tenants->first()->img }}" alt="" class="h-20 rounded-full">
+                                    <img src="{{ $tenants->first()->img ?? asset('assets/images/userDefault.png') }}" alt="" class="h-20 rounded-full">
                                 </div>
                                 <h6 class="mt-3 mb-1 text-16"><a href="#!" class="tenant-name">{{ $tenants->first()->names }}</a></h6>
                                 <p class="text-slate-500 dark:text-zink-200 tenant-status">{{ $tenants->first()->isPaid ? 'Paid' : 'Rent Due' }}</p>
+                                @endif
                             </div>
                             <div class="mt-5 overflow-x-auto">
                                 <table class="w-full mb-0">
                                     <tbody>
+                                        @if($tenants->isNotEmpty())
                                         <tr>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200"> Phone Number:</td>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold tenant-phone">0{{ $tenants->first()->phoneNo }}</td>
@@ -74,6 +79,12 @@
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200">Next Of Kin phone:</td>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent font-semibold">...</td>
                                         </tr>
+                                        @else
+                                        <tr>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent text-slate-500 dark:text-zink-200">No tenant details available.</td>
+                                            <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"></td>
+                                        </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -156,50 +167,141 @@
                                     </thead>
                                     <tbody>
                                     @foreach($tenants as $tenant)
-<tr>
-    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Name">
-        <a href="#!" class="flex items-center gap-3">
-            <div class="w-6 h-6 rounded-full shrink-0 bg-slate-100">
-                <img src="{{ $tenant->img }}" alt="" class="h-6 rounded-full">
-            </div>
-            <h6 class="grow">{{ $tenant->names }}</h6>
-        </a>
-    </td>
-    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
-        0{{ $tenant->phoneNo }}
-    </td>
-    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
-        {{ $tenant->houseNo }}
-    </td>
-    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-        @if ($tenant->isPaid)
-        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
-        @else
-        <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">Unpaid</span>
-        @endif
-    </td>
-    <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-        <div class="flex justify-end gap-2">
-            <a class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500" data-tenant-id="{{ $tenant->id }}" href="#" 
-                data-tenant-name="{{ $tenant->names }}" 
-                data-tenant-phone="0{{ $tenant->phoneNo }}" 
-                data-tenant-houseno="{{ $tenant->houseNo }}" 
-                data-tenant-img="{{ $tenant->img }}" 
-                data-tenant-ispaid="{{ $tenant->isPaid ? 'Paid' : 'Rent Due' }}" 
-                data-tenant-email="{{ $tenant->email }}" 
-                data-tenant-dateadded="{{ $tenant->dateAdded }}"
-                data-tenant-idno="{{ $tenant->IDNO }}">
-                <i data-lucide="eye" class="inline-block size-3"></i>
-            </a>
-                                                    <a href="#" data-modal-target="" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                                        <tr>
+                                            <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Name">
+                                                <a href="#!" class="flex items-center gap-3">
+                                                    <div class="w-6 h-6 rounded-full shrink-0 bg-slate-100">
+                                                        <img src="{{ $tenant->img ?? asset('assets/images/userDefault.png') }}" alt="" class="h-6 rounded-full">
+                                                    </div>
+                                                    <h6 class="grow">{{ $tenant->names }}</h6>
+                                                </a>
+                                            </td>
+                                            <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
+                                                0{{ $tenant->phoneNo }}
+                                            </td>
+                                            <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
+                                                {{ $tenant->houseNo }}
+                                            </td>
+                                            <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                                @if ($tenant->isPaid)
+                                                <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
+                                                @else
+                                                <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">Unpaid</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                                <div class="flex justify-end gap-2">
+                                                    <a class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500" data-tenant-id="{{ $tenant->id }}" href="#" 
+                                                        data-tenant-name="{{ $tenant->names }}" 
+                                                        data-tenant-phone="0{{ $tenant->phoneNo }}" 
+                                                        data-tenant-houseno="{{ $tenant->houseNo }}" 
+                                                        data-tenant-img="{{ $tenant->img ?? asset('assets/images/userDefault.png')}}" 
+                                                        data-tenant-ispaid="{{ $tenant->isPaid ? 'Paid' : 'Rent Due' }}" 
+                                                        data-tenant-email="{{ $tenant->email }}" 
+                                                        data-tenant-dateadded="{{ $tenant->dateAdded }}"
+                                                        data-tenant-idno="{{ $tenant->IDNO }}">
+                                                        <i data-lucide="eye" class="inline-block size-3"></i>
+                                                    </a>
+                                                    <a href="#" data-modal-target="editClientModal-{{ $tenant->tenantNo }}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
                                                         <i data-lucide="pencil" class="size-4"></i>
                                                     </a>
-                                                    <a href="#" data-modal-target="" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 remove-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                                                    <a href="#" data-modal-target="deleteClientModal-{{ $tenant->tenantNo }}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 remove-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
                                                         <i data-lucide="trash-2" class="size-4"></i>
                                                     </a>  
                                                 </div>
                                             </td>
                                         </tr>
+                                        <div id="editClientModal-{{ $tenant->tenantNo }}" modal-center="" class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
+                                            <div class="w-screen md:w-[30rem] bg-white shadow rounded-md dark:bg-zink-600" data-modal-close-outside="editClientModal-{{ $tenant->tenantNo }}">
+                                                <div class="flex items-center justify-between p-4 border-b dark:border-zink-500">
+                                                    <h5 class="text-lg font-medium text-gray-900 dark:text-zink-100">Update Tenant Record</h5>
+                                                    <button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-zink-200" data-modal-close="editClientModal-{{ $tenant->tenantNo }}">
+                                                        <i data-lucide="x" class="size-4"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
+                                                    <form id="updateClientForm-{{ $tenant->tenantNo }}" action="{{ route('updateClient', ['tenantNo' => $tenant->tenantNo]) }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                                                            <div class="xl:col-span-12">
+                                                                <div
+                                                                    class="relative mx-auto mb-4 rounded-full shadow-md size-24 bg-slate-100 profile-user dark:bg-zink-500">
+                                                                        <img src="{{ $tenant->img ?? asset('assets/images/userDefault.png') }}" 
+                                                                        alt="" class="object-cover w-full h-full rounded-full user-profile-image">
+                                                                    <div
+                                                                        class="absolute bottom-0 flex items-center justify-center rounded-full size-8 ltr:right-0 rtl:left-0 profile-photo-edit">
+                                                                        <input id="img" name="img" type="file">
+                                                                        <label for="profile-img-file-input"
+                                                                            class="flex items-center justify-center bg-white rounded-full shadow-lg cursor-pointer size-8 dark:bg-zink-600 profile-photo-edit">
+                                                                            <i data-lucide="image-plus"
+                                                                                class="size-4 text-slate-500 fill-slate-200 dark:text-zink-200 dark:fill-zink-500"></i>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="xl:col-span-6">
+                                                                <div>
+                                                                    <label for="names" class="inline-block mb-2 text-base font-medium">Full Name</label>
+                                                                    <input type="text" name="names" id="names" value="{{ $tenant->names }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                                                </div>
+                                                            </div>
+                                                            <div class="xl:col-span-6">
+                                                                <div>
+                                                                    <label for="phoneNo" class="inline-block mb-2 text-base font-medium">Phone Number</label>
+                                                                    <input type="text" name="phoneNo" id="phoneNo" value="0{{ $tenant->phoneNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                                                </div>
+                                                            </div>
+                                                            <div class="md:col-span-2 xl:col-span-12">
+                                                                <div>
+                                                                    <label for="IDNO" class="inline-block mb-2 text-base font-medium">ID Number</label>
+                                                                    <input type="text" name="IDNO" id="IDNO" value="{{ $tenant->IDNO }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                                                </div>
+                                                            </div>
+                                                            <div class="md:col-span-2 xl:col-span-12">
+                                                                <div>
+                                                                    <label for="email" class="inline-block mb-2 text-base font-medium">Email</label>
+                                                                    <input type="email" name="email" id="email" value="{{ $tenant->email }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                                                </div>
+                                                            </div>
+                                                            <div class="md:col-span-2 xl:col-span-12">
+                                                                <div>
+                                                                    <label for="dateAdded" class="inline-block mb-2 text-base font-medium">Date of Joining</label>
+                                                                    <input type="date" name="dateAdded" id="dateAdded" value="{{ $tenant->dateAdded }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex justify-end gap-2 mt-4">
+                                                            <button type="submit" class="text-white btn bg-yellow-500 border-yellow-500 hover:text-white hover:bg-yellow-600">Update Tenant</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Delete Modal --}}
+                                        <div id="deleteClientModal-{{ $tenant->tenantNo }}" modal-center="" class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
+                                            <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
+                                                <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
+                                                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-zink-500">
+                                                        <h5 class="text-lg font-medium text-gray-900 dark:text-zink-100">Confirm Deletion</h5>
+                                                        <button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-zink-200" data-modal-close="deleteClientModal-{{ $tenant->tenantNo }}">
+                                                            <i data-lucide="x" class="size-4"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="p-4 overflow-y-auto">
+                                                        <p class="text-gray-700 dark:text-zink-200">Are you sure you want to delete this tenant record for <span class="font-semibold text-red-500">{{ $tenant->names }}</span>? <span class="font-semibold text-red-500">This action cannot be undone!</span></p>
+                                                        <div class="flex justify-end gap-2 mt-4">
+                                                            <button type="button" class="btn bg-gray-200 text-gray-700 hover:bg-gray-300" data-modal-close="deleteClientModal-{{ $tenant->tenantNo }}">Cancel</button>
+                                                            <form id="deleteClientForm-{{ $tenant->tenantNo }}" method="POST" action="{{ route('deleteClient', ['tenantNo' => $tenant->tenantNo]) }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn bg-red-500 text-white hover:bg-red-600">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @endforeach
                                     </tbody>
                                 </table>

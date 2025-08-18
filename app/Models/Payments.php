@@ -16,11 +16,12 @@ class Payments extends Model
     protected $fillable = [
         'paymentID',
         'houseno',
-        'rentalno',
+        'rentalNo',
         'paymenttype',
         'amount',
         'timeRecorded',
         'timePaid',
         'paymentMethod',
+        'narration',
     ];
 }

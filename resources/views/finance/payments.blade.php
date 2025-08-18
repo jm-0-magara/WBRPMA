@@ -6,6 +6,8 @@
         // Initial data passed from the controller
         var initialChartLabels = @json($labels);
         var initialChartData = @json($data);
+        var initialMonthlyLabels = @json($monthlyLabels);
+        var initialMonthlyPaymentsData = @json($monthlyPaymentsData);
         var filterRoute = '{{ route("payments/filter") }}';
         var addPaymentRoute = '{{ route("payments/add") }}';
         var updatePaymentRouteBase = '{{ url("payments/update") }}'; // Base URL for update
@@ -42,6 +44,8 @@
                             <label for="paymentTypeSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Payment Type</label>
                             <select id="paymentTypeSelect" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full">
                                 <option value="all">All Payment Types</option>
+                                    <option value="Rent">Rent</option>
+                                    <option value="Rent Deposit">Rent Deposit</option>
                                 @foreach ($paymentTypes as $type)
                                     <option value="{{ $type }}">{{ $type }}</option>
                                 @endforeach
@@ -88,11 +92,16 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-6">
+                <div class="grid grid-cols-2 gap-6">
                     <div class="card p-4 bg-white dark:bg-zink-700 rounded-lg shadow-md">
                         <div id="paymentsChart" class="apex-charts"></div>
                     </div>
+                    <div class="card p-4 bg-white dark:bg-zink-700 rounded-lg shadow-md">
+                        <div id="monthlyPaymentsChart" class="apex-charts"></div>
+                    </div>
+                </div>
 
+                <div class="grid grid-cols-1 gap-6 mt-6">
                     <div class="card p-4 bg-white dark:bg-zink-700 rounded-lg shadow-md mt-6">
                         <div class="overflow-x-auto">
                             <div class="flex items-center justify-between mb-4">
@@ -113,6 +122,7 @@
                                         <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Amount (Ksh)</th>
                                         <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Date Paid</th>
                                         <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Payment Method</th>
+                                        <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Narration</th>
                                         <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Actions</th>
                                     </tr>
                                 </thead>
@@ -126,6 +136,7 @@
                                         <td class="px-4 py-2">{{ number_format($payment->amount, 2) }}</td>
                                         <td class="px-4 py-2">{{ \Carbon\Carbon::parse($payment->timePaid)->format('Y-m-d') }}</td>
                                         <td class="px-4 py-2">{{ $payment->paymentMethod }}</td>
+                                        <td class="px-4 py-2">{{ $payment->narration ?? 'N/A' }}</td>
                                         <td class="px-4 py-2 first:pl-5 last:pr-5 ltr:text-right rtl:text-left">
                                             <div class="flex items-center gap-2 justify-end">
                                                 <div class="relative group">
@@ -175,6 +186,8 @@
                                                                 @foreach ($paymentTypes as $type)
                                                                 <option value="{{ $type }}" @if($payment->paymentType == $type) selected @endif>{{ $type }}</option>
                                                                 @endforeach
+                                                                <option value="Rent" @if($payment->paymentType == 'Rent') selected @endif>Rent</option>
+                                                                <option value="Rent Deposit" @if($payment->paymentType == 'Rent Deposit') selected @endif>Rent Deposit</option>
                                                             </select>
                                                         </div>
                                                         <div>
@@ -194,6 +207,10 @@
                                                         <div class="col-span-full">
                                                             <label for="updatePaymentDate-{{ $payment->paymentID }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date Paid</label>
                                                             <input type="date" name="timePaid" id="updatePaymentDate-{{ $payment->paymentID }}" value="{{ \Carbon\Carbon::parse($payment->timePaid)->format('Y-m-d') }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" required>
+                                                        </div>
+                                                        <div class="col-span-full">
+                                                            <label for="updatePaymentNarration-{{ $payment->paymentID }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Narration (Optional)</label>
+                                                            <textarea name="narration" id="updatePaymentNarration-{{ $payment->paymentID }}" class="form-textarea border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" rows="3">{{ $payment->narration ?? '' }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="flex justify-end gap-2 mt-4">
@@ -273,6 +290,8 @@
                         <label for="addPaymentType" class="inline-block mb-2 text-base font-medium">Payment Type</label>
                         <select name="paymentType" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" id="addPaymentType" required>
                             <option value="">Select Payment Type</option>
+                            <option value="Rent">Rent</option>
+                            <option value="Rent Deposit">Rent Deposit</option>
                             @foreach ($paymentTypes as $type)
                                 <option value="{{ $type }}">{{ $type }}</option>
                             @endforeach
@@ -296,6 +315,10 @@
                     <div class="xl:col-span-6">
                         <label for="addTimePaid" class="inline-block mb-2 text-base font-medium">Date Paid</label>
                         <input type="date" id="addTimePaid" name="timePaid" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" required>
+                    </div>
+                    <div class="xl:col-span-12">
+                        <label for="addNarration" class="inline-block mb-2 text-base font-medium">Narration</label>
+                        <textarea id="addNarration" name="narration" class="form-textarea border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" rows="3" placeholder="Enter any additional information"></textarea>
                     </div>
                 </div>
                 <div class="flex justify-end gap-2 mt-4">

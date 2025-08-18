@@ -1,5 +1,5 @@
 <script>
-    var months = @json($months);
+    var months = @json($chartLabels);
     var paymentAmounts = @json($paymentAmounts);
     var expenditureAmounts = @json($expenditureAmounts);
 </script>
@@ -17,7 +17,7 @@
                     <div class="grid grid-cols-1 gap-5 lg:grid-cols-12 2xl:grid-cols-12">
                         <div class="lg:col-span-2 2xl:col-span-1">
                             <div class="relative inline-block rounded-full shadow-md size-20 bg-slate-100 profile-user xl:size-28">
-                                <img src="{{ Session::get('avatar') }}" alt="" class="object-cover border-0 rounded-full img-thumbnail user-profile-image" id="profile-img">
+                                <img src="{{ Session::get('avatar') ?? asset('assets/images/userDefault.png') }}" alt="" class="object-cover border-0 rounded-full img-thumbnail user-profile-image" id="profile-img">
                                 <div class="absolute bottom-0 flex items-center justify-center rounded-full size-8 ltr:right-0 rtl:left-0 profile-photo-edit">
                                     <form id="profile-img-form" action="{{ route('page/account/upload') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
@@ -36,22 +36,22 @@
                             </div>
                             <ul class="flex flex-wrap gap-3 mt-4 text-center divide-x divide-slate-200 dark:divide-zink-500 rtl:divide-x-reverse">
                                 <li class="px-5">
-                                    <h5>3</h5>
+                                    <h5>{{$rentalsCount}}</h5>
                                     <p class="text-slate-500 dark:text-zink-200">Properties</p>
                                 </li>
                                 <li class="px-5">
-                                    <h5>47</h5>
+                                    <h5>{{$tenantsCount}}</h5>
                                     <p class="text-slate-500 dark:text-zink-200">Clients</p>
                                 </li>
                                 <li class="px-5">
-                                    <h5>Over Ksh.11500+</h5>
+                                    <h5>Over Ksh.{{ number_format($mostProfitableMonth['net_profit'], 2) }}</h5>
                                     <p class="text-slate-500 dark:text-zink-200">Profit</p>
                                 </li>
                             </ul>
                         </div>
                         <div class="lg:col-span-12 2xl:col-span-2">
                             <div class="flex gap-2 2xl:justify-end">
-                                <a href="mailto:james.onyonka@strathmore.edu" class="flex items-center justify-center size-[37.5px] p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20"><i data-lucide="mail" class="size-4"></i></a>
+                                <a href="" class="flex items-center justify-center size-[37.5px] p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20"><i data-lucide="mail" class="size-4"></i></a>
                                 <button type="button" class="text-white transition-all duration-200 ease-linear btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Reset Password</button>
                     
                                 <div class="relative dropdown">
@@ -113,10 +113,22 @@
                                     <div class="flex flex-col h-full card-body">
                                         <div class="mt-5 mb-auto">
                                             <h5 class="mb-1 text-white">Congratulations</h5>
-                                            <p class="text-custom-200">on your most profitable month! March/2024.</p>
+                                            <p class="text-custom-200">on your most profitable month!
+                                                @if($mostProfitableMonth)
+                                                    {{ $mostProfitableMonth['month'] }}/{{ $mostProfitableMonth['year'] }}
+                                                @else
+                                                    No data available
+                                                @endif.
+                                            </p>
                                         </div>
                                         <div class="p-3 mt-5 rounded-md bg-custom-600">
-                                            <h2 class="mb-1 text-white">Ksh.8407</h2>
+                                            <h2 class="mb-1 text-white">
+                                                @if($mostProfitableMonth)
+                                                    Ksh.{{ number_format($mostProfitableMonth['net_profit'], 2) }}
+                                                @else
+                                                    Ksh.0.00
+                                                @endif
+                                            </h2>
                                             <p class="text-custom-200">net profit gained</p>
                                         </div>
                                     </div>
@@ -146,10 +158,6 @@
                                                 <tr>
                                                     <th class="py-2 font-semibold ps-0" scope="row">Phone Number</th>
                                                     <td class="py-2 text-right text-slate-500 dark:text-zink-200">{{ Session::get('phone_number') }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="py-2 font-semibold ps-0" scope="row">Website</th>
-                                                    <td class="py-2 text-right text-slate-500 dark:text-zink-200"><a href="#" target="_blank" class="text-custom-500">www.BUMA/rentals.com</a></td>
                                                 </tr>
                                                 <tr>
                                                     <th class="py-2 font-semibold ps-0" scope="row">Email</th>
@@ -183,10 +191,9 @@
                             <div class="card-body">
                                 <div class="flex">
                                     <div class="grow">
-                                        <img src="{{ $rental->rentalImage }}" alt="" class="h-11">
+                                        <img src="{{ $rental->rentalImage ?? asset('assets/images/rentalDefault.png') }}" alt="" class="h-11">
                                     </div>
                                     <div class="shrink-0">
-                                    {!! Toastr::message() !!}
                                         <div class="relative dropdown">
                                             <button class="flex items-center justify-center size-[37.5px] dropdown-toggle p-0 text-slate-500 btn bg-slate-200 border-slate-200 hover:text-slate-600 hover:bg-slate-300 hover:border-slate-300 focus:text-slate-600 focus:bg-slate-300 focus:border-slate-300 focus:ring focus:ring-slate-100 active:text-slate-600 active:bg-slate-300 active:border-slate-300 active:ring active:ring-slate-100 dark:bg-zink-600 dark:hover:bg-zink-500 dark:border-zink-600 dark:hover:border-zink-500 dark:text-zink-200 dark:ring-zink-400/50" id="projectDropdownmenu1" data-bs-toggle="dropdown">
                                                 <i data-lucide="more-horizontal" class="size-4"></i>
@@ -219,7 +226,6 @@
                                 </div>
                             </div>
                         </div><!--end card & col-->
-                        {!! Toastr::message() !!}
                         <div id="deleteModal" modal-center=""
                         class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
                             <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
@@ -252,43 +258,6 @@
                                 </div>
                             </div>
                         @endforeach
-                    </div>
-                    <div class="flex flex-col items-center gap-4 mt-2 mb-4 md:flex-row">
-                        <div class="grow">
-                            <p class="text-slate-500 dark:text-zink-200">Showing <b>8</b> of <b>30</b> Results</p>
-                        </div>
-                        <ul class="flex flex-wrap items-center gap-2 shrink-0">
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevrons-left"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevron-left"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">1</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">2</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto active">3</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">4</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">5</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">6</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevron-right"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevrons-right"></i></a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
 
@@ -325,63 +294,41 @@
                 <div class="hidden tab-pane" id="clientsTabs">
                     <h5 class="mb-4 underline">Clients</h5>
                     <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-x-5">
-                    @foreach($tenants as $tenant)
-                        <div class="relative card">
-                            <div class="card-body">
-                            <p class="absolute inline-block px-5 py-1 text-xs {{ $tenant->isPaid ? 'text-green-600 bg-green-100 dark:bg-green-500/20' : 'text-red-600 bg-custom-100 dark:bg-red-500/20' }} ltr:left-0 rtl:right-0 top-5 ltr:rounded-e rtl:rounded-l">
-                                {{ $tenant->isPaid ? 'Rent Paid' : 'Rent Due' }}
-                            </p>
-                            <div class="flex items-center justify-end">
-                                    <p class="text-slate-500 dark:text-zink-200">Doj : {{ \Carbon\Carbon::parse($tenant->dateAdded)->format('d M, Y') }}</p>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div class="flex justify-center">
-                                        <div class="overflow-hidden rounded-full size-20 bg-slate-100">
-                                            <img src="{{ $tenant->img }}" alt="" class="">
+                        @foreach($tenants as $tenant)
+                            @php
+                                $isCurrentTenant = ($tenant->rentalNo == $currentRentalNo);
+                            @endphp
+                            <div class="relative card @unless($isCurrentTenant) opacity-50 @endunless">
+                                @if($isCurrentTenant)
+                                    <a href="{{ route('houseDetails', ['houseNo' => $tenant->houseNo]) }}">
+                                @endif
+                                <div class="card-body">
+                                    <p class="absolute inline-block px-5 py-1 text-xs {{ $tenant->isPaid ? 'text-green-600 bg-green-100 dark:bg-green-500/20' : 'text-red-600 bg-custom-100 dark:bg-red-500/20' }} ltr:left-0 rtl:right-0 top-5 ltr:rounded-e rtl:rounded-l">
+                                        {{ $tenant->isPaid ? 'Rent Paid' : 'Rent Due' }}
+                                    </p>
+                                    <div class="flex items-center justify-end">
+                                        <p class="text-slate-500 dark:text-zink-200">Doj : {{ \Carbon\Carbon::parse($tenant->dateAdded)->format('d M, Y') }}</p>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <div class="flex justify-center">
+                                            <div class="overflow-hidden rounded-full size-20 bg-slate-100">
+                                                <img src="{{ $tenant->img ?? asset('assets/images/userDefault.png')}}" alt="" class="">
+                                            </div>
+                                        </div>
+                                        <h4 class="mt-4 mb-2 font-semibold text-16">{{ $tenant->names }}</h4>
+                                        <div class="text-slate-500 dark:text-zink-200">
+                                            <p class="mb-1">{{ $tenant->email }}</p>
+                                            <p>0{{ $tenant->phoneNo }}</p>
+                                            <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">House Number: {{ $tenant->houseNo }}</p>
+                                            <h4 class="text-15 text-custom-500">Rental : {{$tenant->rentalName}} <span class="text-xs font-normal text-slate-500 dark:text-zink-200"><span></span></span></h4>
                                         </div>
                                     </div>
-                                    <a href="#!"><h4 class="mt-4 mb-2 font-semibold text-16">{{ $tenant->names }}</h4></a>
-                                    <div class="text-slate-500 dark:text-zink-200">
-                                        <p class="mb-1">{{ $tenant->email }}</p>
-                                        <p>0{{ $tenant->phoneNo }}</p>
-                                        <p class="inline-block px-3 py-1 my-4 font-semibold rounded-md text-slate-600 bg-slate-100 dark:bg-zink-600 dark:text-zink-200">House Number: {{ $tenant->houseNo }}</p>
-                                        <h4 class="text-15 text-custom-500">Debt : $463.42 <span class="text-xs font-normal text-slate-500 dark:text-zink-200"><span></span></span></h4>
-                                    </div>
                                 </div>
+                                @if($isCurrentTenant)
+                                    </a>
+                                @endif
                             </div>
-                        </div><!--end card-->
                         @endforeach
-                    </div><!--end grid-->
-                    <div class="flex flex-col items-center gap-4 mb-4 md:flex-row">
-                        <div class="grow">
-                            <p class="text-slate-500 dark:text-zink-200">Showing <b>8</b> of <b>18</b> Results</p>
-                        </div>
-                        <ul class="flex flex-wrap items-center gap-2">
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevron-left"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">1</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">2</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto active">3</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">4</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">5</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">6</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border border-slate-200 dark:border-zink-500 rounded text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-50 dark:[&.active]:text-custom-50 [&.active]:bg-custom-500 dark:[&.active]:bg-custom-500 [&.active]:border-custom-500 dark:[&.active]:border-custom-500 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto"><i class="size-4 rtl:rotate-180" data-lucide="chevron-right"></i></a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
                 <!--end tab pane-->

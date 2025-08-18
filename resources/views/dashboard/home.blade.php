@@ -3,6 +3,8 @@
 </script>
 <script>
     var percentageDecrease = {{ $percentageDecrease }};
+    var netProfitPercentageIncrease = {{$netProfitPercentageIncrease}};
+    var totalNetProfit = {{$totalNetProfit}};
 </script>
 <script>
     var months = @json($months);
@@ -34,73 +36,75 @@
                     <div class="p-4">
                         <div class="grid grid-cols-3">
                             <div class="px-4 text-center ltr:border-r rtl:border-l border-slate-200 dark:border-zink-500 ltr:last:border-r-0 rtl:last:border-l-0">
-                                <h6 class="mb-1 font-bold"><span class="counter-value" data-target="36"></span></h6>
+                                <h6 class="mb-1 font-bold"><span class="counter-value" data-target="{{$paidHouses}}"></span></h6>
                                 <p class="text-slate-500 dark:text-zink-200">Units Paid</p>
                             </div>
                             <div class="px-4 text-center ltr:border-r rtl:border-l border-slate-200 dark:border-zink-500 ltr:last:border-r-0 rtl:last:border-l-0">
-                                <h6 class="mb-1 font-bold"><span class="counter-value" data-target="465"></span></h6>
+                                <h6 class="mb-1 font-bold"><span class="counter-value" data-target="{{$reservedHouses}}"></span></h6>
                                 <p class="text-slate-500 dark:text-zink-200">Units Reserved</p>
                             </div>
                             <div class="px-4 text-center ltr:border-r rtl:border-l border-slate-200 dark:border-zink-500 ltr:last:border-r-0 rtl:last:border-l-0">
-                                <h6 class="mb-1 font-bold"><span class="counter-value" data-target="50"></span></h6>
+                                <h6 class="mb-1 font-bold"><span class="counter-value" data-target="{{$dueHouses}}"></span></h6>
                                 <p class="text-slate-500 dark:text-zink-200">Units Due</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 @if(session('rentals'))
-        <div id="propertyModal" class="fixed flex flex-col transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
-            <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
-                <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
-                    <div class="float-right">
-                        <button data-modal-close="propertyModal" id="closePropertyModal" class="transition-all duration-200 ease-linear text-slate-500 hover:text-red-500"><i data-lucide="x" class="size-5"></i></button>
-                    </div>
-                    <div class="mt-5 text-center">
-                        <h5 class="mb-1">Select a Property</h5>
-                        <table class="w-full mb-0">
-                            @foreach(session('rentals') as $rental)
-                                <tbody>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="{{route('rentals/selectProperty', ['rentalNo' => $rental->rentalNo])}}">{{ $rental->rentalName }}</a></td>
-                                        <td>
-                                            <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                                <img src="{{ $rental->rentalImage }}" alt="" class="w-12 h-12 rounded">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            @endforeach
-                        </table>
-                        <div class="flex justify-center gap-2 mt-6">
-                            <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20"><a  href="{{ route('page/propertyInput') }}" >Add Property</a></button>
+                    <div id="propertyModal" class="fixed flex flex-col transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show" data-intro="Welcome to your dashboard! It looks like you don't have any properties yet. Let's add your first one!" data-step="1">
+                        <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
+                            <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
+                                <div class="float-right">
+                                    <button data-modal-close="propertyModal" id="closePropertyModal" class="transition-all duration-200 ease-linear text-slate-500 hover:text-red-500"><i data-lucide="x" class="size-5"></i></button>
+                                </div>
+                                <div class="mt-5 text-center">
+                                    <h5 class="mb-1">Select a Property</h5>
+                                    <table class="w-full mb-0">
+                                        @foreach(session('rentals') as $rental)
+                                            <tbody>
+                                                <tr>
+                                                    <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="{{route('rentals/selectProperty', ['rentalNo' => $rental->rentalNo])}}">{{ $rental->rentalName }}</a></td>
+                                                    <td>
+                                                        <div class="rounded bg-slate-100 dark:bg-zink-500">
+                                                            <img src="{{ $rental->rentalImage ?? asset('assets/images/rentalDefault.png') }}" alt="" class="w-12 h-12 rounded">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        @endforeach
+                                    </table>
+                                    <div class="flex justify-center gap-2 mt-6">
+                                        <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20" data-intro="Click this button to add your first property." data-step="2"><a href="{{ route('page/propertyInput') }}" >Add Property</a></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
- @endif
+                @endif
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var closeModal = document.querySelector('[data-modal-close="propertyModal"]');
-            var modal = document.getElementById('propertyModal');
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var closeModal = document.querySelector('[data-modal-close="propertyModal"]');
+                        var modal = document.getElementById('propertyModal');
 
-            closeModal.addEventListener('click', function () {
-                modal.style.display = 'none';
-            });
-        });
-    </script>
+                        closeModal.addEventListener('click', function () {
+                            modal.style.display = 'none';
+                        });
+                    });
+                </script>
+
+
                 <div class="col-span-12 md:order-3 lg:col-span-6 2xl:col-span-3 card"><a href="{{route('payments')}}">
                     <div class="card-body">
                         <div class="grid grid-cols-12">
                             <div class="col-span-8 md:col-span-9">
                                 <p class="text-slate-500 dark:text-slate-200">Total Gross Profit</p>
-                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="{{$totalGrossProfit}}"></h5>
+                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="{{ $totalGrossProfit }}"></h5>
                             </div>
                             <div class="col-span-4 md:col-span-3">
                                 <div id="totalGrossProfit" data-chart-colors='["bg-custom-500"]' dir="ltr" class="grow apex-charts"></div>
                                 <p id="percentageIncreaseText" class="text-slate-500 dark:text-slate-200 grow">
-                                    <span class="font-medium" id="percentageIncreaseValue">{{ $percentageIncrease }}%</span> Increase
+                                    <span class="font-medium" id="percentageIncreaseValue">{{  number_format($percentageIncrease, 2) }}%</span> Increase
                                 </p> 
                             </div>
                         </div>
@@ -143,11 +147,13 @@
                         <div class="grid grid-cols-12">
                             <div class="col-span-8 md:col-span-9">
                                 <p class="text-slate-500 dark:text-slate-200">Total Net Profit</p>
-                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="{{$totalGrossProfit - $totalExpenditure}}"></span></h5>
+                                <h5 class="mt-3 mb-4"><span class="counter-value" data-target="{{$totalNetProfit}}"></span></h5>
                             </div>
                             <div class="col-span-4 md:col-span-3">
                                 <div id="totalNetProfit" data-chart-colors='["bg-green-500"]' dir="ltr" class="grow apex-charts"></div>
-                                <p class="text-slate-500 dark:text-slate-200 grow"><span class="font-medium text-green-500">05%</span> Increase</p>
+                                <p id="netProfitPercentageIncreaseText" class="text-slate-500 dark:text-slate-200 grow">
+                                    <span class="font-medium" id="netProfitPercentageIncreaseValue">{{ $netProfitPercentageIncrease }}%</span> Increase
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -187,7 +193,7 @@
                             <thead class="ltr:text-left rtl:text-right">
                                 <tr class="bg-slate-100 dark:bg-zink-600">
                                     <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 ID">
-                                        Employee No
+                                        Rental
                                     </th>
                                     <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500 Name">
                                         First Name
@@ -212,13 +218,13 @@
                             <tbody class="list" id="employeeList">
                                 @foreach ($employees as $employee)
                                 <tr>
-                                    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 ID">
-                                        <a href="#!" class="transition-all duration-150 ease-linear text-custom-500 hover:text-custom-600">#{{ $employee->employeeNo }}</a>
+                                    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Role">
+                                        {{ $employee->rentalName }}
                                     </td>
                                     <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 Name">
                                         <a href="#!" class="flex items-center gap-3">
                                             <div class="w-6 h-6 rounded-full shrink-0 bg-slate-100">
-                                                <img src="{{ $employee->img }}" alt="" class="h-6 rounded-full">
+                                                <img src="{{ $employee->img ?? asset('assets/images/userDefault.png') }}" alt="" class="h-6 rounded-full">
                                             </div>
                                             <h6 class="grow">{{ $employee->fname }}</h6>
                                         </a>
@@ -240,21 +246,21 @@
                                             <a class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500" href="pages-account.html">
                                                 <i data-lucide="eye" class="inline-block size-3"></i>
                                             </a>
-                                            <a href="#" data-modal-target="updateEmployeeModal" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                                            <a href="#" data-modal-target="updateEmployeeModal-{{ $employee->employeeNo }}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
                                                 <i data-lucide="pencil" class="size-4"></i>
                                             </a>
-                                            <a href="#" data-modal-target="deleteModal" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 remove-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+                                            <a href="#" data-modal-target="deleteEmployeeModal-{{ $employee->employeeNo }}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 remove-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
                                                 <i data-lucide="trash-2" class="size-4"></i>
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
-                                <div id="deleteModal" modal-center=""
+                                <div id="deleteEmployeeModal-{{ $employee->employeeNo }}" modal-center=""
                                     class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
                                     <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
                                         <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
                                             <div class="float-right">
-                                                <button data-modal-close="deleteModal" id="deleteRecord-close"
+                                                <button data-modal-close="deleteEmployeeModal-{{ $employee->employeeNo }}" id="deleteRecord-close"
                                                     class="transition-all duration-200 ease-linear text-slate-500 hover:text-red-500"><i
                                                         data-lucide="x" class="size-5"></i></button>
                                             </div>
@@ -264,7 +270,7 @@
                                                 <h5 class="mb-1">Are you sure?</h5>
                                                 <p class="text-slate-500 dark:text-zink-200">Are you certain you want to delete this record?</p>
                                                 <div class="flex justify-center gap-2 mt-6">
-                                                    <button type="reset" data-modal-close="deleteModal"
+                                                    <button type="reset" data-modal-close="deleteEmployeeModal-{{ $employee->employeeNo }}"
                                                         class="bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-600 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10">Cancel</button>
                                                     <button type="submit" id="delete-record"
                                                         class="text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20">Yes,
@@ -281,6 +287,71 @@
                             </div>
                         </div>
                         <!--end delete modal-->
+
+                                <!-- Update Employee Modal -->
+                                <div id="updateEmployeeModal-{{ $employee->employeeNo }}" modal-center="" class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
+                                    <div class="w-screen md:w-[30rem] bg-white shadow rounded-md dark:bg-zink-600" data-modal-close-outside="updateEmployeeModal-{{ $employee->employeeNo }}">
+                                        <div class="flex items-center justify-between p-4 border-b dark:border-zink-500">
+                                            <h5 class="text-lg font-medium text-gray-900 dark:text-zink-100">Update Employee</h5>
+                                            <button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-zink-200" data-modal-close="updateEmployeeModal-{{ $employee->employeeNo }}">
+                                                <i data-lucide="x" class="size-4"></i>
+                                            </button>
+                                        </div>
+                                        <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
+                                            <form action="{{ route('updateEmployee/{employeeNo}', ['employeeNo' => $employee->employeeNo]) }}" method="POST" id="updateEmployeeForm-{{ $employee->employeeNo }}" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                                                    <div class="xl:col-span-12">
+                                                        <div
+                                                            class="relative mx-auto mb-4 rounded-full shadow-md size-24 bg-slate-100 profile-user dark:bg-zink-500">
+                                                                <img src="{{ $employee->img ?? asset('assets/images/userDefault.png') }}" 
+                                                                alt="" class="object-cover w-full h-full rounded-full user-profile-image">
+                                                            <div
+                                                                class="absolute bottom-0 flex items-center justify-center rounded-full size-8 ltr:right-0 rtl:left-0 profile-photo-edit">
+                                                                <input id="img" name="img" type="file">
+                                                                <label for="profile-img-file-input"
+                                                                    class="flex items-center justify-center bg-white rounded-full shadow-lg cursor-pointer size-8 dark:bg-zink-600 profile-photo-edit">
+                                                                    <i data-lucide="image-plus"
+                                                                        class="size-4 text-slate-500 fill-slate-200 dark:text-zink-200 dark:fill-zink-500"></i>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="xl:col-span-12">
+                                                        <label for="updateFirstName-{{ $employee->employeeNo }}" class="inline-block mb-2 text-base font-medium">First Name <span class="text-red-500">*</span></label>
+                                                        <input type="text" id="updateFirstName-{{ $employee->employeeNo }}" name="fname" value="{{ $employee->fname }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="First Name" required>
+                                                    </div>
+                                                    <div class="xl:col-span-12">
+                                                        <label for="updateLastName-{{ $employee->employeeNo }}" class="inline-block mb-2 text-base font-medium">Last Name <span class="text-red-500">*</span></label>
+                                                        <input type="text" id="updateLastName-{{ $employee->employeeNo }}" name="lname" value="{{ $employee->lname }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="Last Name" required>
+                                                    </div>
+                                                    <div class="md:col-span-2">
+                                                        <label for="updateRole-{{ $employee->employeeNo }}" class="inline-block mb-2 text-base font-medium">Role <span class="text-red-500">*</span></label>
+                                                        <select class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" name="employeeRole" id="updateRole-{{ $employee->employeeNo }}" required>
+                                                            <option value="{{ $employee->employeeRole }}" selected>{{ $employee->employeeRole }}</option>
+                                                            @foreach ($employeeRoles as $employeeRole)
+                                                            <option value="{{$employeeRole->employeeRole}}">{{$employeeRole->employeeRole}}</option>
+                                                            @endforeach
+                                                            <a data-modal-target="addRoleModal"><option  data-modal-target="addRoleModal" value="AddRole">Add Role</option></a>
+                                                        </select>
+                                                    </div>
+                                                    <div class="xl:col-span-12">
+                                                        <label for="updatePhoneNo-{{ $employee->employeeNo }}" class="inline-block mb-2 text-base font-medium">Phone No. <span class="text-red-500">*</span></label>
+                                                        <input type="tel" id="updatePhoneNo-{{ $employee->employeeNo }}" name="phoneNo" value="{{ $employee->phoneNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="0712345678" required>
+                                                    </div>
+                                                    <div class="md:col-span-2">
+                                                        <label for="updateSalary-{{ $employee->employeeNo }}" class="inline-block mb-2 text-base font-medium">Salary</label>
+                                                        <input type="number" step="0.01" id="updateSalary-{{ $employee->employeeNo }}" name="salary" value="{{ $employee->salary }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="e.g. 50000.00">
+                                                    </div>
+                                                </div>
+                                                <div class="flex justify-end gap-2 mt-4">
+                                                    <button type="submit" class="text-white btn bg-yellow-500 border-yellow-500 hover:text-white hover:bg-yellow-600">Update Employee</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end update modal-->
                                 @endforeach
                             </tbody>
                             </table>
@@ -311,21 +382,33 @@
                 </div>
                 <div class="col-span-12 md:order-9 lg:col-span-6 lg:row-span-2 xl:col-span-4 xl:row-span-2 2xl:row-span-2 2xl:col-span-3 card">
                     <div class="card-body">
-                        <h6 class="mb-3 text-15 grow">Recent Maintenance Records(loop)</h6>
+                        <h6 class="mb-3 text-15 grow">Recent Maintenance Records</h6>
                         <div id="calendar" class="w-auto p-1"></div>
                         <div class="flex flex-col gap-4 mt-3">
-                            <div class="flex gap-3">
-                                <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
-                                    <h6>28</h6>  <span class="text-sm text-slate-500 dark:text-zink-200">July</span>
+                            @foreach ($maintenances as $maintenance)
+                                @php
+                                    $date = \Carbon\Carbon::parse($maintenance->maintenanceDate);
+                                @endphp
+                                <div class="flex gap-3">
+                                    <div class="flex flex-col items-center justify-center border rounded-sm size-12 border-slate-200 dark:border-zink-500 shrink-0">
+                                        <h6>{{ $date->format('d') }}</h6>
+                                        <span class="text-sm text-slate-500 dark:text-zink-200">{{ $date->format('F') }}</span>
+                                    </div>
+                                    <div class="grow">
+                                        <h6 class="mb-1">
+                                            {{ $maintenance->maintenanceDescription ?? 'Maintenance Title' }}
+                                            <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">
+                                                House Number: {{ $maintenance->houseNo ?? 'houseNo' }}
+                                            </small>
+                                        </h6>
+                                        <p class="text-slate-500 dark:text-zink-200">Amount Spent: KES {{ number_format($maintenance->amount, 2) }}</p>
+                                    </div>
                                 </div>
-                                <div class="grow">
-                                    <h6 class="mb-1">Maintenance Title<small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">Time: 09:57 AM</small></h6>
-                                    <p class="text-slate-500 dark:text-zink-200">Serviced By: Name</p>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
+
                 <div class="col-span-12 md:order-10 lg:col-span-6 xl:col-span-4 2xl:col-span-3 card">
                     <div class="card-body">
                         <div class="flex items-center gap-2 mb-3">
@@ -369,7 +452,7 @@
                                     <div class="border rounded-md border-slate-200 dark:border-zink-500 mb-4">
                                         <div class="flex flex-wrap items-center gap-3 p-2">
                                             <div class="rounded-full size-10 shrink-0">
-                                                <img src="{{ $rental->rentalImage }}" alt="{{ $rental->rentalName }}" class="h-10 rounded-full">
+                                                <img src="{{ $rental->rentalImage ?? asset('assets/images/rentalDefault.png') }}" alt="{{ $rental->rentalName }}" class="h-10 rounded-full">
                                             </div>
                                            <div class="grow">
                                                 <h6 class="mb-1"><a href="#!">{{ $rental->rentalName }}</a></h6>

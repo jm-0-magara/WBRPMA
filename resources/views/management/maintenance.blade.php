@@ -139,33 +139,28 @@
                                             </button>
                                         </div>
                                         <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
-                                            <form id="updateMaintenanceForm-{{ $maintenance->maintenanceNo }}" action="{{ route('maintenance/update/{maintenanceNo}', ['maintenanceNo' => $maintenance->maintenanceNo]) }}" method="POST">
+                                            <form action="{{ route('maintenance/update/{maintenanceNo}', ['maintenanceNo' => $maintenance->maintenanceNo]) }}" method="POST" id="updateMaintenanceForm-{{ $maintenance->maintenanceNo }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                                                     <div>
                                                         <label for="updateHouseNo" class="inline-block mb-2 text-base font-medium">Select House</label>
                                                         <select name="houseNo" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" id="updateHouseNo-{{ $maintenance->maintenanceNo }}" required>
-                                                            <option value="{{ $maintenance->houseNo }}" selected>{{ $maintenance->houseNo }}</option>
                                                             @foreach ($houses as $house)
-                                                                <option value="{{ $house->houseNo }}">{{ $house->houseNo }}</option>
+                                                                <option value="{{ $house->houseNo }}" @if($maintenance->houseNo == $house->houseNo) selected @endif>{{ $house->houseNo }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div>
                                                         <label for="addDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date</label>
-                                                        <input type="date" name="date" id="addDate-{{ $maintenance->maintenanceNo }}" value="{{ $maintenance->maintenanceDate }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" required>
-                                                    </div>
-                                                    <div class="col-span-2">
-                                                        <label for="addDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
-                                                        <input type="text" name="description" value="{{ $maintenance->maintenanceDescription }}" id="addDescription-{{ $maintenance->maintenanceNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="e.g. Broken pipe" required>
+                                                        <input type="date" name="maintenanceDate" id="addDate-{{ $maintenance->maintenanceNo }}" value="{{ \Carbon\Carbon::parse($maintenance->maintenanceDate)->format('Y-m-d') }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" required>
                                                     </div>
                                                     <div>
                                                         <label for="addAmount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Amount</label>
-                                                        <input type="number" step="0.01" name="amount" value="{{ $maintenance->amount }}" id="addAmount-{{ $maintenance->maintenanceNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="e.g. 1500.00" required>
+                                                        <input type="number" name="amount" value="{{ $maintenance->amount }}" id="addAmount-{{ $maintenance->maintenanceNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="e.g. 1500.00" required>
                                                     </div>
                                                     <div class="col-span-2">
-                                                        <label for="addNotes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes (Optional)</label>
-                                                        <textarea id="addNotes-{{ $maintenance->maintenanceNo }}" name="notes" rows="2" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full">{{ $maintenance->notes }}</textarea>
+                                                        <label for="addDescription" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description (Optional)</label>
+                                                        <textarea id="addDescription-{{ $maintenance->maintenanceNo }}" name="maintenanceDescription" rows="2" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full">{{ $maintenance->maintenanceDescription }}</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="flex justify-end gap-2 mt-4">
@@ -211,13 +206,6 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-12 gap-x-5 mt-5">
-            <div class="col-span-12 lg:col-span-6 card">
-                <div class="card-body">
-                    <h6 class="mb-4 text-15">Add New Maintenance Record</h6>
-                </div>
-            </div>
-        </div>
     </div>
     </div>
 

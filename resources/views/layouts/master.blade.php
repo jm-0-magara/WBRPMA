@@ -17,6 +17,9 @@
 	<link rel="stylesheet" href="{{ URL::to('assets/css/toastr.min.css') }}">
 	<script src="{{ URL::to('assets/js/toastr_jquery.min.js') }}"></script>
 	<script src="{{ URL::to('assets/js/toastr.min.js') }}"></script>
+    <!-- Intro.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css" rel="stylesheet">
 </head>
 <body class="text-base bg-body-bg text-body font-public dark:text-zink-100 dark:bg-zink-800 group-data-[skin=bordered]:bg-body-bordered group-data-[skin=bordered]:dark:bg-zink-700">
     <div class="group-data-[sidebar-size=sm]:min-h-sm group-data-[sidebar-size=sm]:relative">
@@ -143,7 +146,7 @@
                             <div class="relative flex items-center dropdown h-header">
                                 <button type="button" class="inline-block p-0 transition-all duration-200 ease-linear bg-topbar rounded-full text-topbar-item dropdown-toggle btn hover:bg-topbar-item-bg-hover hover:text-topbar-item-hover group-data-[topbar=dark]:text-topbar-item-dark group-data-[topbar=dark]:bg-topbar-dark group-data-[topbar=dark]:hover:bg-topbar-item-bg-hover-dark group-data-[topbar=dark]:hover:text-topbar-item-hover-dark group-data-[topbar=brand]:bg-topbar-brand group-data-[topbar=brand]:hover:bg-topbar-item-bg-hover-brand group-data-[topbar=brand]:hover:text-topbar-item-hover-brand group-data-[topbar=dark]:dark:bg-zink-700 group-data-[topbar=dark]:dark:hover:bg-zink-600 group-data-[topbar=brand]:text-topbar-item-brand group-data-[topbar=dark]:dark:hover:text-zink-50 group-data-[topbar=dark]:dark:text-zink-200" id="dropdownMenuButton" data-bs-toggle="dropdown">
                                     <div class="bg-pink-100 rounded-full">
-                                        <img src="{{ Session::get('avatar') }}" alt="" class="w-[37.5px] h-[37.5px] rounded-full">
+                                        <img src="{{ Session::get('avatar') ?? asset('assets/images/userDefault.png') }}" alt="" class="w-[37.5px] h-[37.5px] rounded-full">
                                     </div>
                                 </button>
                                 <div class="absolute z-50 hidden p-4 ltr:text-left rtl:text-right bg-white rounded-md shadow-md !top-4 dropdown-menu min-w-[14rem] dark:bg-zink-600" aria-labelledby="dropdownMenuButton">
@@ -151,7 +154,7 @@
                                     <a href="#!" class="flex gap-3 mb-3">
                                         <div class="relative inline-block shrink-0">
                                             <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                                <img src="{{ Session::get('avatar') }}" alt="" class="w-12 h-12 rounded">
+                                                <img src="{{ Session::get('avatar') ?? asset('assets/images/userDefault.png') }}" alt="" class="w-12 h-12 rounded">
                                             </div>
                                             <span class="-top-1 ltr:-right-1 rtl:-left-1 absolute w-2.5 h-2.5 bg-green-400 border-2 border-white rounded-full dark:border-zink-600"></span>
                                         </div>
@@ -534,6 +537,17 @@
             <a href="#!" class="w-full text-white transition-all duration-200 ease-linear bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100">Buy Now</a>
         </div>
     </div>
+    @if(Session::get('showTour'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const intro = introJs();
+
+            // Start the tour
+            intro.start();
+        });
+    </script>
+    @endif
 
     <script src="{{ URL::to('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script src="{{ URL::to('assets/libs/%40popperjs/core/umd/popper.min.js') }}"></script>
@@ -547,6 +561,9 @@
     <script src="{{ URL::to('assets/js/pages/dashboards-hr.init.js') }}"></script>
     <!-- App js -->
     <script src="{{ URL::to('assets/js/app.js') }}"></script>
+    <!-- Intro tour js -->
+    <script src="https://cdn.jsdelivr.net/npm/intro.js/minified/intro.min.js"></script>
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     @yield('script')
 </body>
 </html>

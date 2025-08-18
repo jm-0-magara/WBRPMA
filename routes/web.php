@@ -86,6 +86,9 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::post('page/reservations/update/{reservationID}', 'updateReservation')->middleware('auth')->name('page/reservations/update');
         Route::delete('page/reservations/delete/{reservationID}', 'deleteReservation')->middleware('auth')->name('page/reservations/delete');
     });
+    Route::controller(DeletedTenantsController::class)->group(function () {
+        Route::get('page/deletedTenants', 'viewDeletedTenants')->middleware('auth')->name('page/deletedTenants');
+    });
 
     // -------------------------- client ----------------------//
     Route::controller(ClientController::class)->group(function () {
@@ -93,6 +96,8 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::get('/tenants/{id}', 'show')->name('client.show');
         Route::get('/clients/add', 'clientAdd')->middleware('auth')->name('clients/add');
         Route::post('/add-tenant', 'addTenant')->middleware('auth')->name('addTenant');
+        Route::post('/update-tenant/{tenantNo}', 'updateClient')->middleware('auth')->name('updateClient');
+        Route::delete('/delete-tenant/{tenantNo}', 'deleteClient')->middleware('auth')->name('deleteClient');
     });
 
     // -------------------------- management ----------------------//
@@ -159,6 +164,14 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     Route::controller(HouseController::class)->group(function () {
         Route::get('/houses/addhouse/view', 'viewAddHouse')->middleware('auth')->name('addhouse/view');
         Route::post('/houses/addhouse', 'addHouse')->middleware('auth')->name('addHouse');
+        Route::post('/houses/updateHouse/{houseNo}', 'updateHouse')->middleware('auth')->name('updateHouse');
+        Route::delete('/houses/deleteHouse/{houseNo}', 'deleteHouse')->middleware('auth')->name('deleteHouse');
+        Route::get('/houses/viewHouse/{houseNo}', 'viewHouse')->middleware('auth')->name('viewHouse');
+    });
+
+    Route::controller(HouseDetailsController::class)->group(function () {
+        Route::get('/houses/details/{houseNo}', 'showHouseDetails')->middleware('auth')->name('houseDetails');
+        Route::get('/management/house-details/{houseNo}/filter', 'filterHousePayments')->middleware('auth')->name('management/house_details/filter');
     });
 
     //-------------------------MPESA FUNCTIONALITY-----------------------//

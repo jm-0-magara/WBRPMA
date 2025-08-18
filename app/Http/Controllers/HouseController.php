@@ -28,29 +28,82 @@ class HouseController extends Controller
 
     public function addHouse(Request $request)
     {
-    $request->validate([
-        'houseNo' => 'required|string|max:255',
-        'structureName' => 'required|string|max:255',
-        'houseType' => 'required|string|max:255',
-        'status' => 'required|string|max:255',
-    ]);
+        $request->validate([
+            'houseNo' => 'required|string|max:255',
+            'structureName' => 'required|string|max:255',
+            'houseType' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+        ]);
 
-    $isPaid = false;
-    $rentalNo = Session::get('rentalNo');
+        $isPaid = false;
+        $rentalNo = Session::get('rentalNo');
 
-    $houses = Houses::where('rentalNo', $rentalNo)->get();
+        $houses = Houses::where('rentalNo', $rentalNo)->get();
 
-    $hse = new Houses();
-    $hse->houseNo = $request->houseNo;
-    $hse->rentalNo = $rentalNo;
-    $hse->structureName = $request->structureName;
-    $hse->houseType = $request->houseType;
-    $hse->status = $request->status;
-    $hse->isPaid = $isPaid;
-    $hse->save();
+        $hse = new Houses();
+        $hse->houseNo = $request->houseNo;
+        $hse->rentalNo = $rentalNo;
+        $hse->structureName = $request->structureName;
+        $hse->houseType = $request->houseType;
+        $hse->status = $request->status;
+        $hse->isPaid = $isPaid;
+        $hse->save();
 
 
-    Toastr::success('House added successfully :)','Success');
-    return redirect()->back();
+        Toastr::success('House added successfully :)','Success');
+        return redirect()->back();
+    }
+
+    public function getHouse($houseNo)
+    {
+        $house = Houses::where('houseNo', $houseNo)->first();
+        if (!$house) {
+            Toastr::error('House not found.', 'Error');
+            return redirect()->back();
+        }
+        return response()->json($house);
+    }
+
+    public function updateHouse(Request $request, $houseNo)
+    {
+        $request->validate([
+            'houseNo' => 'required|string|max:255',
+            'structureName' => 'required|string|max:255',
+            'houseType' => 'required|string|max:255',
+        ]);
+
+
+        $rentalNo = Session::get('rentalNo');
+
+        $house = Houses::where('houseNo', $houseNo) 
+                ->where('rentalNo', $rentalNo)->first();
+
+        if (!$house) {
+            Toastr::error('House not found.', 'Error');
+            return redirect()->back();
+        }
+        try{
+            $house->structureName = $request->structureName;
+            $house->houseType = $request->houseType;
+            $house->save();
+        } catch (\Exception $e) {
+            Toastr::error('An error occurred: ' . $e->getMessage(), 'Error');
+            return redirect()->back();
+        }
+
+        Toastr::success('House updated successfully :)', 'Success');
+        return redirect()->back();
+    }
+
+    public function deleteHouse($houseNo)
+    {
+        $house = Houses::where('houseNo', $houseNo)->first();
+        if (!$house) {
+            Toastr::error('House not found.', 'Error');
+            return redirect()->back();
+        }
+        $house->delete();
+        Toastr::success('House deleted successfully :)', 'Success');
+        return redirect()->back();
     }
 }

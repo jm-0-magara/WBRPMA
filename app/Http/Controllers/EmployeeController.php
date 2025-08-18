@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employeeroles;
 use App\Models\Employees;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Session;
 use DB;
 
 class EmployeeController extends Controller
@@ -39,28 +41,40 @@ class EmployeeController extends Controller
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        if ($request->hasFile('img')) {
-            $imagePath = $request->file('img')->store('public/assets/images');
-        } else {
-            $imagePath = null;
+        $rentalNo = Session::get('rentalNo');
+        if (!$rentalNo) {
+            Toastr::error('Rental not selected', 'Error');
+            return redirect()->back();
         }
 
+        $userId = Session::get('user_id');
+        $userID = User::where('user_id', $userId)->value('id');
+
         try{
-        $employee = new Employees();
-        $employee->fname = $request->fname;
-        $employee->lname = $request->lname;
-        $employee->employeeRole = $request->employeeRole;
-        $employee->phoneNo = $request->phoneNo;
-        $employee->salary = $request->salary;
-        $employee->img = Storage::url($imagePath);
+            $employee = new Employees();
 
-        $employee->save();
+            if ($request->hasFile('img')) {
+                $imagePath = $request->file('img')->store('public/assets/images');
+                $employee->img = Storage::url($imagePath);
+            } else {
+                $employee->img = null;
+            }
 
-        DB::commit();
+            $employee->fname = $request->fname;
+            $employee->lname = $request->lname;
+            $employee->rentalNo = $rentalNo;
+            $employee->userID = $userID;
+            $employee->employeeRole = $request->employeeRole;
+            $employee->phoneNo = $request->phoneNo;
+            $employee->salary = $request->salary;
 
-        Toastr::success('New employee added successfully :)', 'Success');
-        
-        return redirect()->back();
+            $employee->save();
+
+            DB::commit();
+
+            Toastr::success('New employee added successfully :)', 'Success');
+            
+            return redirect()->back();
         }catch(\Exception $e) {
         \Log::info($e);
         DB::rollback();
@@ -99,23 +113,22 @@ class EmployeeController extends Controller
 
         $employee = Employees::where('employeeNo', $employeeNo)->firstOrFail();
 
-        if ($request->hasFile('img')) {
-            Storage::delete($employee->img);
-            $employee->img = null;
-            $imagePath = $request->file('img')->store('public/assets/images');
-        } else {
-            $imagePath = $employee->img;
-        }
-
-
+        DB::beginTransaction();
         try
         {
+            if ($request->hasFile('img')) {
+                if ($employee->img) {
+                    $oldImagePath = str_replace('/storage/', 'public/', $employee->img);
+                    Storage::delete($oldImagePath);
+                }
+            $imagePath = $request->file('img')->store('public/assets/images');
+            $employee->img = Storage::url($imagePath);
+            }
         $employee->fname = $request->input('fname');
         $employee->lname = $request->input('lname');
         $employee->employeeRole = $request->input('employeeRole');
         $employee->phoneNo = $request->input('phoneNo');
         $employee->salary = $request->input('salary');
-        $employee->img = Storage::url($imagePath);;
         $employee->save();
 
         DB::commit();

@@ -64,10 +64,18 @@ class LoginController extends Controller
                 // Update last login time
                 $user->last_login = $todayDate;
                 $user->save();
+                Session::put('last_login', $user->last_login);
 
                 // Retrieve user's rentals and flash to session
                 $rentals = Rentals::where('user_id', $user->user_id)->get();
                 $request->session()->flash('rentals', $rentals);
+
+                $propertyCount = Rentals::where('user_id', $user->user_id)->count();
+                if($propertyCount == 0) {
+                    Session::put('showTour', true);
+                }else{
+                    Session::put('showTour', false);
+                }
 
                 Toastr::success('Login successfully :)', 'Success');
                 return redirect()->intended('/home');

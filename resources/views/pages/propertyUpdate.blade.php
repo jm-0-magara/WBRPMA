@@ -64,7 +64,7 @@
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="#">{{ $rental->rentalName }}</a></td>
                                             <td>
                                                 <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                                    <img src="{{ $rental->rentalImage }}" alt="" class="w-12 h-12 rounded">
+                                                    <img src="{{ $rental->rentalImage ?? asset('assets/images/rentalDefault.png') }}" alt="" class="w-12 h-12 rounded">
                                                 </div>
                                             </td>
                                         </tr>

@@ -1,8 +1,3 @@
-/*...
-File: pages account init js
-*/
-
-// common function to get charts colors from class
 function getChartColorsArray(chartId) {
     const chartElement = document.getElementById(chartId);
     if (chartElement) {

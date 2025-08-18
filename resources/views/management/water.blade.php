@@ -229,7 +229,8 @@
                             <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Date</th>
                             <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Amount Paid</th>
                             <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Payment Method</th>
-                            <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">              </th>
+                            <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">Narration</th>
+                            <th class="px-4 py-3 font-semibold text-sm border-b border-slate-200 dark:border-zink-500">     </th>
                         </tr>
                     </thead>
                     <tbody id="waterPaymentsBody">
@@ -240,6 +241,7 @@
                             <td class="px-4 py-2">{{ \Carbon\Carbon::parse($payment->timePaid)->format('Y-m-d') }}</td>
                             <td class="px-4 py-2">{{ number_format($payment->amount, 2) }}</td>
                             <td class="px-4 py-2">{{ $payment->paymentMethod }}</td>
+                            <td class="px-4 py-2">{{ $payment->narration }}</td>
                             <td class="px-4 py-2 first:pl-5 last:pr-5 ltr:text-right rtl:text-left">
                                 <div class="flex items-center gap-2 justify-end">
                                     <div class="relative group">
@@ -271,7 +273,7 @@
                                     </button>
                                 </div>
                                 <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
-                                    <form id="updatePaymentForm-{{ $payment->paymentID }}" action="" method="POST">
+                                    <form id="updatePaymentForm-{{ $payment->paymentID }}" action="{{route('payments/update',[ 'paymentID' => $payment->paymentID ])}}" method="POST">
                                         @csrf
                                         <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                                             <div>
@@ -299,6 +301,11 @@
                                                     <option value="Bank Transfer" @if($payment->paymentMethod == 'Bank Transfer') selected @endif>Bank Transfer</option>
                                                 </select>
                                             </div>
+                                            <div class="col-span-2">
+                                                <label for="updatePaymentNarration" class="block text sm font-medium text-gray-700 dark:text-gray-300 mb-1">Narration (Optional)</label>
+                                                <textarea id="updatePaymentNarration-{{ $payment->paymentID }}" name="narration" rows="2" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full">{{ $payment->narration }}</textarea>
+                                            </div>
+                                            <input type="hidden" name="paymentType" value="{{ $payment->paymentType }}">
                                         </div>
                                         <div class="flex justify-end gap-2 mt-4">
                                             <button type="submit" class="text-white btn bg-yellow-500 border-yellow-500 hover:text-white hover:bg-yellow-600">Update Payment</button>
@@ -321,7 +328,7 @@
                                         <p class="text-gray-700 dark:text-zink-200">Are you sure you want to delete the payment record for house <span class="font-semibold text-red-500">{{ $payment->houseNo }}</span> on <span class="font-semibold text-red-500">{{ \Carbon\Carbon::parse($payment->timePaid)->format('Y-m-d') }}</span>?</p>
                                         <div class="flex justify-end gap-2 mt-4">
                                             <button type="button" class="btn bg-gray-200 text-gray-700 hover:bg-gray-300" data-modal-close="deletePaymentModal-{{ $payment->paymentID }}">Cancel</button>
-                                            <form id="deletePaymentForm-{{ $payment->paymentID }}" method="POST" action="">
+                                            <form id="deletePaymentForm-{{ $payment->paymentID }}" action="{{route('payments/delete',[ 'paymentID' => $payment->paymentID ])}}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="hidden" name="paymentID" value="{{ $payment->paymentID }}">
@@ -360,7 +367,7 @@
                     class="size-5"></i></button>
         </div>
         <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
-            <form class="create-form" id="create-form" method="POST" action="{{route('addPayment')}}" enctype="multipart/form-data">
+            <form class="create-form" id="create-form" method="POST" action="{{route('payments/add')}}" enctype="multipart/form-data">
                 @csrf
                 <div id="alert-error-msg"
                     class="hidden px-4 py-3 text-sm text-red-500 border border-transparent rounded-md bg-red-50 dark:bg-red-500/20">

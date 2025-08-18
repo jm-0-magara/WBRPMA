@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Rentals;
+use App\Models\Paymenttypes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Brian2694\Toastr\Facades\Toastr;
@@ -18,14 +20,14 @@ class RentalController extends Controller
         DB::beginTransaction();
         $request->validate([
             'rentalName' => 'required|string|max:255',
-            'rentalImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'rentalImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required|string|max:1000',
         ]);
 
         if ($request->hasFile('rentalImage')) {
             $imagePath = $request->file('rentalImage')->store('public/assets/images');
         } else {
-            $imagePath = null;
+            $imagePath = null; 
         }
 
         $userId = Session::get('user_id');
@@ -38,13 +40,37 @@ class RentalController extends Controller
             $rental = new Rentals;
             $rental->rentalName = $request->rentalName;
             $rental->user_id = $userId;
-            $rental->rentalImage = Storage::url($imagePath);
             $rental->description = $request->description;
+            $rental->rentalImage = $imagePath ? Storage::url($imagePath) : null;
+
             $rental->save();
 
             DB::commit();
 
+            /* THIS CREATES PROBLEMS!!
+            $paymentType = new Paymenttypes;
+            $paymentType->paymentType = 'Rent';
+            $paymentType->rentalNo = $rental->rentalNo;
+            $paymentType->save();
+
+            $paymentType2 = new Paymenttypes;
+            $paymentType2->paymentType = 'Rent Deposit';
+            $paymentType2->rentalNo = $rental->rentalNo;
+            $paymentType2->save();
+            */
+
+            Session::put('rentalNo', $rental->rentalNo);
+            Session::put('rentalName', $rental->rentalName);
+            Session::put('rental_name', $rental->rentalName);
+
             Toastr::success('New property added successfully :)', 'Success');
+            Toastr::success('Default property set :)', 'Success');
+
+            // Redirect to the structure page if the tour is enabled
+            if (session('showTour')) {
+                return redirect('management/structure/page');
+            }
+
             return redirect()->back();
         }catch(\Exception $e) {
             \Log::info($e);
@@ -70,7 +96,7 @@ class RentalController extends Controller
     public function updateRental(Request $request, $rentalNo){
         $request->validate([
             'rentalName' => 'required|string|max:255',
-            'rentalImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'rentalImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required|string|max:1000',
         ]);
 
@@ -111,6 +137,7 @@ class RentalController extends Controller
         $rentalName = $rental->rentalName;
         Session::put('rentalNo', $rentalNo);
         Session::put('rentalName', $rentalName);
+        Session::put('rental_name', $rentalName); //THIS IS HOW IT IS SET IN THE LOGIN CONTROLLER
         Toastr::success('Default property set :)', 'Success');
         return redirect()->back();
     }

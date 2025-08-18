@@ -134,6 +134,11 @@
                                             <option value="cancelled">Cancelled</option>
                                         </select>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="amountDeposited" class="inline-block mb-2 text-base font-medium">Amount Deposited <span class="text-red-500">*</span></label>
+                                        <input type="number" id="amountDeposited" name="amount_deposited" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Ksh. 0.00" required>
+                                    </div>
                                     
                                     <div class="mb-4">
                                         <label for="notes" class="inline-block mb-2 text-base font-medium">Notes</label>
@@ -196,6 +201,7 @@
                                             <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Phone Number</th>
                                             <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Entry Date</th>
                                             <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Status</th>
+                                            <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Amount Deposited</th>
                                             <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">Action</th>
                                         </tr>
                                     </thead>
@@ -226,6 +232,9 @@
                                                             @default
                                                                 <span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-yellow-100 border-transparent text-yellow-500 dark:bg-yellow-500/20 dark:border-transparent">Pending</span>
                                                         @endswitch
+                                                    </td>
+                                                    <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
+                                                        <span class="text-sm font-medium text-slate-700 dark:text-zink-100">Ksh. {{ number_format($reservation->amountDeposited, 2) }}</span>
                                                     </td>
                                                     <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">
                                                         <div class="flex gap-2">
@@ -264,7 +273,7 @@
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="clientPhone" class="inline-block mb-2 text-base font-medium">Phone Number <span class="text-red-500">*</span></label>
-                                                                        <input type="tel" id="editClientPhone-{{ $reservation->reservationID }}" name="client_phone" value="{{ $reservation->clientPhone }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="0712345678" required>
+                                                                        <input type="tel" id="editClientPhone-{{ $reservation->reservationID }}" name="client_phone" value="{{ $reservation->clientPhoneNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="0712345678" required>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="clientEmail" class="inline-block mb-2 text-base font-medium">Email Address</label>
@@ -272,23 +281,18 @@
                                                                     </div>
                                                                     <div class="mb-4">
                                                                         <label for="clientIdNo" class="inline-block mb-2 text-base font-medium">ID Number</label>
-                                                                        <input type="text" id="editClientIdNo-{{ $reservation->reservationID }}" name="client_id_no" value="{{ $reservation->clientIdNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="12345678">
+                                                                        <input type="text" id="editClientIdNo-{{ $reservation->reservationID }}" name="client_id_no" value="{{ $reservation->clientIDNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="12345678">
                                                                     </div>
                                                                 </div>
                                                                 <div class="mb-4">
                                                                     <h6 class="mb-3 text-sm font-semibold text-slate-600 dark:text-zink-200">Reservation Details</h6>
                                                                     <div class="mb-3">
                                                                         <label for="houseNumber" class="inline-block mb-2 text-base font-medium">House Number <span class="text-red-500">*</span></label>
-                                                                        <select class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" name="house_number" id="editHouseNumber-{{ $reservation->reservationID }}" required>
-                                                                            <option value="{{ $reservation->houseNumber }}" selected>{{ $reservation->houseNumber }}</option>
-                                                                            @foreach ($availableHouses as $house)
-                                                                                <option value="{{ $house->houseNo }}">{{ $house->houseNo }}</option>
-                                                                            @endforeach
-                                                                        </select>
+                                                                        <input type="text" id="editHouseNumber-{{ $reservation->reservationID }}" name="house_number" value="{{ $reservation->houseNo }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" readonly>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="reservationDate" class="inline-block mb-2 text-base font-medium">Reservation Date <span class="text-red-500">*</span></label>
-                                                                        <input type="date" id="editReservationDate-{{ $reservation->reservationID }}" name="reservation_date" value="{{ $reservation->reservationDate }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" required>
+                                                                        <input type="date" id="editReservationDate-{{ $reservation->reservationID }}" name="entry_date" value="{{ $reservation->reservationDate }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" required>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="status" class="inline-block mb-2 text-base font-medium">Status <span class="text-red-500">*</span></label>
@@ -297,6 +301,10 @@
                                                                             <option value="Confirmed" @if($reservation->status == 'Confirmed') selected @endif>Confirmed</option>
                                                                             <option value="Expired" @if($reservation->status == 'Expired') selected @endif>Expired</option>
                                                                         </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="amountDeposited" class="inline-block mb-2 text-base font-medium">Amount Deposited <span class="text-red-500">*</span></label>
+                                                                        <input type="number" id="editAmountDeposited-{{ $reservation->reservationID }}" name="amount_deposited" value="{{ $reservation->amountDeposited }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="Ksh. 0.00" required>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="reservationNotes" class="inline-block mb-2 text-base font-medium">Notes</label>
@@ -427,72 +435,3 @@
 
     @endsection
 
-    @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Modal functionality
-            document.querySelectorAll('[data-modal-target]').forEach(function(trigger) {
-                trigger.addEventListener('click', function() {
-                    var targetModal = document.getElementById(this.getAttribute('data-modal-target'));
-                    if (targetModal) {
-                        targetModal.classList.remove('hidden');
-                    }
-                });
-            });
-
-            document.querySelectorAll('[data-modal-close]').forEach(function(closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    var targetModal = document.getElementById(this.getAttribute('data-modal-close'));
-                    if (targetModal) {
-                        targetModal.classList.add('hidden');
-                    }
-                });
-            });
-
-            // Handle edit button click
-            document.querySelectorAll('.edit-reservation-btn').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    const reservationId = event.currentTarget.getAttribute('data-reservation-id');
-                    
-                    // Fetch reservation data
-                    fetch(`/reservations/${reservationId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Populate the edit modal form
-                            document.getElementById('editClientName').value = data.client_name;
-                            document.getElementById('editClientPhone').value = data.client_phone;
-                            document.getElementById('editClientEmail').value = data.client_email;
-                            document.getElementById('editClientIdNo').value = data.client_id_no;
-                            document.getElementById('editHouseNumber').value = data.houseNo;
-                            document.getElementById('editEntryDate').value = data.reservationDate;
-                            document.getElementById('editReservationStatus').value = data.status;
-                            document.getElementById('editNotes').value = data.notes;
-
-                            // Update form action URL dynamically
-                            const editForm = document.getElementById('editReservationForm');
-                            editForm.action = `{{ url('page/reservations/update') }}/${reservationId}`;
-                        })
-                        .catch(error => console.error('Error fetching reservation data:', error));
-                });
-            });
-
-            // Handle delete button click
-            document.querySelectorAll('.delete-reservation-btn').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    const reservationId = event.currentTarget.getAttribute('data-reservation-id');
-                    const clientName = event.currentTarget.getAttribute('data-client-name');
-                    
-                    document.getElementById('deleteClientName').textContent = clientName;
-                    document.getElementById('deleteReservationId').value = reservationId;
-                    document.getElementById('deleteReservationForm').action = `{{ url('page/reservations/delete') }}/${reservationId}`;
-                });
-            });
-
-            // Set minimum date to today for add and edit forms
-            var today = new Date().toISOString().split('T')[0];
-            document.getElementById('entryDate').setAttribute('min', today);
-            document.getElementById('newEntryDate').setAttribute('min', today);
-            document.getElementById('editEntryDate').setAttribute('min', today);
-        });
-    </script>
-@endsection

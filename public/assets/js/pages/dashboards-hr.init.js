@@ -169,7 +169,7 @@ function loadCharts() {
             var percentageDecreaseText = document.getElementById('percentageDecreaseText');
             var percentageDecreaseValue = document.getElementById('percentageDecreaseValue');
     
-            if (percentageDecrease < 0) {
+            if (percentageDecrease > 0) {
                 percentageDecreaseValue.classList.remove('text-red-500');
                 percentageDecreaseValue.classList.add('text-green-500');
                 percentageDecreaseText.innerHTML = `<span class="font-medium text-green-500">${percentageDecrease}%</span> Decrease`;
@@ -186,7 +186,7 @@ function loadCharts() {
     totalNetProfitColors = getChartColorsArray("totalNetProfit");
     if (totalNetProfitColors) {
         var options = {
-            series: [25],
+            series: [netProfitPercentageIncrease],
             chart: {
                 height: 110,
                 type: 'radialBar',
@@ -217,14 +217,26 @@ function loadCharts() {
             stroke: {
                 lineCap: 'round'
             },
-            labels: ['Total Employee'],
+            labels: ['Total Net'],
             colors: totalNetProfitColors
         };
 
-        if (totalNetProfitChart != "")
-            totalNetProfitChart.destroy();
         totalNetProfitChart = new ApexCharts(document.querySelector("#totalNetProfit"), options);
         totalNetProfitChart.render();
+
+        var netProfitPercentageIncreaseText = document.getElementById('netProfitPercentageIncreaseText');
+            var netProfitPercentageIncreaseValue = document.getElementById('netProfitPercentageIncreaseValue');
+    
+            if (netProfitPercentageIncrease > 0) {
+                netProfitPercentageIncreaseValue.classList.remove('text-red-500');
+                netProfitPercentageIncreaseValue.classList.add('text-green-500');
+                netProfitPercentageIncreaseText.innerHTML = `<span class="font-medium text-green-500">${netProfitPercentageIncrease}%</span> Increase`;
+            } else {
+                netProfitPercentageIncreaseValue.classList.remove('text-green-500');
+                netProfitPercentageIncreaseValue.classList.add('text-red-500');
+                netProfitPercentageIncreaseText.innerHTML = `<span class="font-medium text-red-500">${netProfitPercentageIncrease}%</span> Increase`;
+            }
+
     }
 
     //  Total Debts
@@ -348,7 +360,7 @@ function loadCharts() {
                         y: {
                             formatter: function (y) {
                                 if (typeof y !== "undefined") {
-                                    return y.toFixed(0) + " points";
+                                    return "KES " + y.toFixed(2);
                                 }
                                 return y;
                             }

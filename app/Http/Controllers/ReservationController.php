@@ -58,6 +58,7 @@ class ReservationController extends Controller
             'house_number' => 'required|exists:houses,houseNo', // Ensure the house exists
             'entry_date' => 'required|date|after_or_equal:today', // Reservation date cannot be in the past
             'status' => 'required|string|in:pending,confirmed,cancelled',
+            'amount_deposited' => 'required|numeric|min:0',
             'notes' => 'nullable|string',
         ]);
 
@@ -72,6 +73,7 @@ class ReservationController extends Controller
             $reservation->clientIDNo = $request->client_id_no;
             $reservation->reservationDate = $request->entry_date;
             $reservation->status = $request->status;
+            $reservation->amountDeposited = $request->amount_deposited;
             $reservation->notes = $request->notes;
             $reservation->timeRecorded = Carbon::now();
             $reservation->save();
@@ -90,13 +92,13 @@ class ReservationController extends Controller
         return redirect()->back();
     }
 
-    public function show($id)
+    public function show($reservationID)
     {
-        $reservation = Reservations::findOrFail($id);
-        return response()->json($reservation);
+        $reservation = Reservations::findOrFail($reservationID);
+        return response()->json($reservationID);
     }
 
-    public function updateReservation(Request $request, $id)
+    public function updateReservation(Request $request, $reservationID)
     {
         $request->validate([
             'client_name' => 'required|string|max:255',
@@ -105,63 +107,33 @@ class ReservationController extends Controller
             'client_id_no' => 'nullable|string|max:20',
             'house_number' => 'required|exists:houses,houseNo',
             'entry_date' => 'required|date|after_or_equal:today',
-            'status' => 'required|string|in:pending,confirmed,cancelled',
+            'status' => 'required|string|max:255',
+            'amount_deposited' => 'required|numeric|min:0',
             'notes' => 'nullable|string',
         ]);
 
-        try {
-            $reservation = Reservations::findOrFail($id);
-
-            DB::transaction(function () use ($request, $reservation) {
-                // If the house number is changing, update the status of the old house
-                if ($reservation->houseNo !== $request->house_number) {
-                    $oldHouse = Houses::where('houseNo', $reservation->houseNo)->first();
-                    if ($oldHouse) {
-                        $oldHouse->status = 'Vacant';
-                        $oldHouse->save();
-                    }
-
-                    // Update the status of the new house
-                    $newHouse = Houses::where('houseNo', $request->house_number)->first();
-                    if ($newHouse) {
-                        $newHouse->status = 'Reserved';
-                        $newHouse->save();
-                    }
-                }
-                
-                // If the reservation status changes to 'cancelled', make the house vacant
-                if ($request->status === 'cancelled' && $reservation->status !== 'cancelled') {
-                    $house = Houses::where('houseNo', $reservation->houseNo)->first();
-                    if ($house) {
-                        $house->status = 'Vacant';
-                        $house->save();
-                    }
-                } elseif ($request->status !== 'cancelled' && $reservation->status === 'cancelled') {
-                    // If the reservation status changes from 'cancelled' to something else, make the house reserved again
-                    $house = Houses::where('houseNo', $reservation->houseNo)->first();
-                    if ($house) {
-                        $house->status = 'Reserved';
-                        $house->save();
-                    }
-                }
-
-                // Update the reservation record
-                $reservation->houseNo = $request->house_number;
-                $reservation->clientName = $request->client_name;
-                $reservation->clientPhoneNo = $request->client_phone;
-                $reservation->clientEmail = $request->client_email;
-                $reservation->clientIDNo = $request->client_id_no;
-                $reservation->reservationDate = $request->entry_date;
-                $reservation->status = $request->status;
-                $reservation->notes = $request->notes;
-                $reservation->save();
-            });
+        $reservation = Reservations::where('reservationID', $reservationID)->first();
+        if (!$reservation) {
+            Toastr::error('Reservation not found.', 'Error');
+            return redirect()->back();
+        }
+        try { 
+            $reservation->houseNo = $request->house_number;
+            $reservation->clientName = $request->client_name;
+            $reservation->clientPhoneNo = $request->client_phone;
+            $reservation->clientEmail = $request->client_email;
+            $reservation->clientIDNo = $request->client_id_no;
+            $reservation->reservationDate = $request->entry_date;
+            $reservation->status = $request->status;
+            $reservation->amountDeposited = $request->amount_deposited; 
+            $reservation->notes = $request->notes;
+            $reservation->timeRecorded = Carbon::now();
+            $reservation->save();
 
             Toastr::success('Reservation updated successfully :)', 'Success');
         } catch (\Exception $e) {
             Toastr::error('An error occurred: ' . $e->getMessage(), 'Error');
         }
-
         return redirect()->back();
     }
 

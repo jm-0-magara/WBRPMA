@@ -69,15 +69,88 @@ $(document).ready(function() {
                 const date = initialChartLabels[dataPointIndex];
                 const amount = series[seriesIndex][dataPointIndex];
                 return '<div class="p-2 bg-white rounded-md shadow-md dark:bg-zink-600">' +
-                    '<b>Date: </b>' + date + '<br/>' +
+                    //'<b>Date: </b>' + date + '<br/>' +
                     '<b>Amount Paid: </b>Ksh ' + amount.toFixed(2) +
                     '</div>';
             }
         }
     };
-
     var chart = new ApexCharts(document.querySelector("#paymentsChart"), options);
     chart.render();
+
+    var monthlyPaymentsOptions = {
+        chart: {
+            type: 'bar',
+            height: 350,
+            foreColor: '#9ca3af',
+            toolbar: {
+                show: true
+            }
+        },
+        series: [{
+            name: 'Amount Paid (Ksh)',
+            data: initialMonthlyPaymentsData
+        }],
+        xaxis: {
+            categories: initialMonthlyLabels,
+            labels: {
+                style: {
+                    colors: '#9ca3af'
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#9ca3af'
+                }
+            },
+            title: {
+                text: 'Amount (Ksh)',
+                style: {
+                    color: '#9ca3af'
+                }
+            }
+        },
+        title: {
+            text: 'Monthly Payments Trend',
+            align: 'center',
+            style: {
+                fontSize: '16px',
+                color: '#fff'
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        fill: {
+            opacity: 1,
+            colors: ['#0ea5e9'] // Match line chart color or use a different one
+        },
+        tooltip: {
+            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                const month = initialMonthlyLabels[dataPointIndex];
+                const amount = series[seriesIndex][dataPointIndex];
+                return '<div class="p-2 bg-white rounded-md shadow-md dark:bg-zink-600">' +
+                    //'<b>Month: </b>' + month + '<br/>' +
+                    '<b>Total Payments: </b>Ksh ' + amount.toFixed(2) +
+                    '</div>';
+            }
+        }
+    };
+    var monthlyPaymentsChart = new ApexCharts(document.querySelector("#monthlyPaymentsChart"), monthlyPaymentsOptions);
+    monthlyPaymentsChart.render();
 
     // Event listener for the filter button
     $('#filterButton').on('click', function() {
@@ -123,6 +196,17 @@ $(document).ready(function() {
                         data: newData
                     }]);
 
+                    //Update bar chart now
+                    monthlyPaymentsChart.updateOptions({
+                        xaxis: {
+                            categories: response.monthlyLabels
+                        }
+                    });
+                    monthlyPaymentsChart.updateSeries([{
+                        name: 'Amount Paid (Ksh)',
+                        data: response.monthlyPaymentsData
+                    }]);
+
                     // Update the total amount paid display
                     $('#totalAmountPaid').text('Ksh ' + response.totalAmountPaid.toFixed(2));
 
@@ -140,6 +224,7 @@ $(document).ready(function() {
                                     '<td class="px-4 py-2">' + payment.amount.toFixed(2) + '</td>' +
                                     '<td class="px-4 py-2">' + payment.timePaidFormatted + '</td>' +
                                     '<td class="px-4 py-2">' + payment.paymentMethod + '</td>' +
+                                    '<td class="px-4 py-2">' + payment.narration + '</td>' +
                                     '<td class="px-4 py-2 first:pl-5 last:pr-5 ltr:text-right rtl:text-left">' +
                                         '<div class="flex items-center gap-2 justify-end">' +
                                             '<div class="relative group">' +
@@ -197,6 +282,7 @@ $(document).ready(function() {
                 $(`#${modalId} #updatePaymentType-${paymentID}`).val(payment.paymentType);
                 $(`#${modalId} #updatePaymentAmount-${paymentID}`).val(payment.amount);
                 $(`#${modalId} #updatePaymentMethod-${paymentID}`).val(payment.paymentMethod);
+                $(`#${modalId} #updatePaymentNarration-${paymentID}`).val(payment.narration || '');
                 // Format date for input type="date"
                 $(`#${modalId} #updatePaymentDate-${paymentID}`).val(moment(payment.timePaid).format('YYYY-MM-DD'));
             },

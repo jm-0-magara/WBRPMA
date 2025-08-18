@@ -69,15 +69,89 @@ $(document).ready(function() {
                 const date = initialChartLabels[dataPointIndex];
                 const amount = series[seriesIndex][dataPointIndex];
                 return '<div class="p-2 bg-white rounded-md shadow-md dark:bg-zink-600">' +
-                    '<b>Date: </b>' + date + '<br/>' +
+                    //'<b>Date: </b>' + date + '<br/>' +
                     '<b>Amount Spent: </b>Ksh ' + amount.toFixed(2) +
                     '</div>';
             }
         }
     };
-
     var chart = new ApexCharts(document.querySelector("#expendituresChart"), options);
     chart.render();
+
+    var monthlyExpendituresOptions = {
+        chart: {
+            type: 'bar',
+            height: 350,
+            foreColor: '#9ca3af',
+            toolbar: {
+                show: true
+            }
+        },
+        series: [{
+            name: 'Amount Spent (Ksh)',
+            data: initialMonthlyExpendituresData
+        }],
+        xaxis: {
+            categories: initialMonthlyLabels,
+            labels: {
+                style: {
+                    colors: '#9ca3af'
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#9ca3af'
+                }
+            },
+            title: {
+                text: 'Amount (Ksh)',
+                style: {
+                    color: '#9ca3af'
+                }
+            }
+        },
+        title: {
+            text: 'Monthly Expenditures Trend',
+            align: 'center',
+            style: {
+                fontSize: '16px',
+                color: '#fff'
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        fill: {
+            opacity: 1,
+            colors: ['#ef4444'] // A different color, like red, to distinguish from payments
+        },
+        tooltip: {
+            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                const month = initialMonthlyLabels[dataPointIndex];
+                const amount = series[seriesIndex][dataPointIndex];
+                return '<div class="p-2 bg-white rounded-md shadow-md dark:bg-zink-600">' +
+                    //'<b>Month: </b>' + month + '<br/>' +
+                    '<b>Total Expenditures: </b>Ksh ' + amount.toFixed(2) +
+                    '</div>';
+            }
+        }
+    };
+
+    var monthlyExpendituresChart = new ApexCharts(document.querySelector("#monthlyExpendituresChart"), monthlyExpendituresOptions);
+    monthlyExpendituresChart.render();
 
     // Event listener for the filter button
     $('#filterButton').on('click', function() {
@@ -119,6 +193,17 @@ $(document).ready(function() {
                     chart.updateSeries([{
                         name: 'Amount Spent (Ksh)',
                         data: newData
+                    }]);
+
+                    //Bar chart
+                    monthlyExpendituresChart.updateOptions({
+                        xaxis: {
+                            categories: response.monthlyLabels
+                        }
+                    });
+                    monthlyExpendituresChart.updateSeries([{
+                        name: 'Amount Spent (Ksh)',
+                        data: response.monthlyExpendituresData
                     }]);
 
                     // Update the total amount spent display

@@ -24,6 +24,7 @@ class Reservations extends Model
         'reservationDate',
         'timeRecorded',
         'notes',
+        'amountDeposited',
     ];
 
     //The following is only for a functionality in the associated controller

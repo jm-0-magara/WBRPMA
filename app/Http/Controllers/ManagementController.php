@@ -8,6 +8,7 @@ use App\Models\Employees;
 use App\Models\Employeeroles;
 use App\Models\Houses;
 use App\Models\Rentals;
+use App\Models\User;
 use App\Models\Housetypes;
 use App\Models\Structures;
 use App\Models\Structuretypes;
@@ -18,7 +19,11 @@ class ManagementController extends Controller
     /** employee list */
     public function employeeList()
     {
-        $employees = Employees::all();
+        $userId = Session::get('user_id');
+        $userID = User::where('user_id', $userId)->value('id');
+        $employees = Employees::where('userID', $userID)
+                ->join('rentals', 'employees.rentalNo', '=', 'rentals.rentalNo') 
+                ->get();
         $employeeRoles = Employeeroles::all();
         return view('management.employee', compact('employees', 'employeeRoles'));
     }
@@ -33,7 +38,10 @@ class ManagementController extends Controller
         $recentlyEvacuatedHouses = Houses::where('rentalNo', $rentalNo)->where('status', 'Recently Evacuated')->count();
         $reservedHouses = Houses::where('rentalNo', $rentalNo)->where('status', 'Reserved')->count();
 
-        return view('management.houses', compact('houses', 'occupiedHouses', 'vacantHouses', 'recentlyEvacuatedHouses', 'reservedHouses'));
+        $structures = Structures::where('rentalNo',$rentalNo)->orderBy('structureName', 'asc')->get();
+        $houseTypes = Housetypes::where('rentalNo', $rentalNo)->get();
+
+        return view('management.houses', compact('houses', 'occupiedHouses', 'vacantHouses', 'recentlyEvacuatedHouses', 'reservedHouses', 'structures', 'houseTypes'));
     }
 
     public function structurePage()

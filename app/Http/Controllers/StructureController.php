@@ -14,7 +14,7 @@ use DB;
 
 class StructureController extends Controller
 {
-    public function addStructureType(Request $request)
+    /*public function addStructureType(Request $request)
     {
     $request->validate([
         'structureType' => 'required|string|max:255'
@@ -26,7 +26,7 @@ class StructureController extends Controller
 
     Toastr::success('Structure added successfully :)','Success');
     return redirect()->back();
-    }
+    }*/
 
     public function addStructure(Request $request)
     {
@@ -61,6 +61,10 @@ class StructureController extends Controller
     $houseType->save();
 
     Toastr::success('House Type added successfully :)','Success');
+
+    if (session('showTour')) {
+        return redirect('management/pricing/page');
+    }
     return redirect()->back();
     }
 

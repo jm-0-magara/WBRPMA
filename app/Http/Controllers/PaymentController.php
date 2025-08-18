@@ -57,6 +57,20 @@ class PaymentController extends Controller
             $data[] = $dailyPayments->sum('amount');
         }
 
+        //For the bar chart
+        $monthlyPaymentsData = [];
+        $monthlyLabels = [];
+
+        // Aggregate payments by month for the bar chart
+        $paymentsByMonth = $payments->groupBy(function($date) {
+            return Carbon::parse($date->timePaid)->format('Y-m');
+        });
+
+        foreach ($paymentsByMonth as $month => $monthlyGroup) {
+            $monthlyLabels[] = $month;
+            $monthlyPaymentsData[] = $monthlyGroup->sum('amount');
+        }
+
         // Calculate total amount paid
         $totalAmountPaid = $payments->sum('amount');
 
@@ -67,6 +81,8 @@ class PaymentController extends Controller
             'labels' => $labels,
             'data' => $data,
             'totalAmountPaid' => $totalAmountPaid,
+            'monthlyLabels' => $monthlyLabels,
+            'monthlyPaymentsData' => $monthlyPaymentsData,
         ];
     }
 
@@ -89,6 +105,8 @@ class PaymentController extends Controller
                 'labels' => [],
                 'data' => [],
                 'totalAmountPaid' => 0,
+                'monthlyLabels' => [],
+                'monthlyPaymentsData' => [],
             ]);
         }
 
@@ -144,12 +162,13 @@ class PaymentController extends Controller
     public function addPayment(Request $request)
     {
         $request->validate([
-            'paymentID' => 'required|integer|unique:payments,paymentID', // Ensure paymentID is unique
+            'paymentID' => 'required|string|unique:payments,paymentID', // Ensure paymentID is unique
             'houseNo' => 'required|string',
             'amount' => 'required|numeric|min:0',
             'paymentType' => 'required|string',
             'paymentMethod' => 'required|string',
-            'timePaid' => 'required|date',
+            'timePaid' => 'required|date|before_or_equal:today', 
+            'narration' => 'nullable|string|max:500',
         ]);
 
         $rentalNo = Session::get('rentalNo');
@@ -163,12 +182,13 @@ class PaymentController extends Controller
             $payment = new Payments();
             $payment->paymentID = $request->paymentID;
             $payment->houseNo = $request->houseNo;
-            $payment->rentalno = $rentalNo;
+            $payment->rentalNo = $rentalNo;
             $payment->amount = $request->amount;
             $payment->paymentType = $request->paymentType;
             $payment->paymentMethod = $request->paymentMethod;
             $payment->timePaid = $request->timePaid;
             $payment->timeRecorded = Carbon::now(); // Set current time for timeRecorded
+            $payment->narration = $request->narration;
             $payment->save();
 
             Toastr::success('Payment added successfully :)', 'Success');
@@ -204,7 +224,8 @@ class PaymentController extends Controller
             'amount' => 'required|numeric|min:0',
             'paymentType' => 'required|string',
             'paymentMethod' => 'required|string',
-            'timePaid' => 'required|date',
+            'timePaid' => 'required|date|before_or_equal:today',
+            'narration' => 'nullable|string|max:500',
         ]);
 
         try {
@@ -215,6 +236,7 @@ class PaymentController extends Controller
             $payment->paymentType = $request->paymentType;
             $payment->paymentMethod = $request->paymentMethod;
             $payment->timePaid = $request->timePaid;
+            $payment->narration = $request->narration;
             // timeRecorded is not updated here as it's the initial record time
             $payment->save();
 
@@ -224,13 +246,7 @@ class PaymentController extends Controller
         }
         return redirect()->back();
     }
-
-    /**
-     * Remove the specified payment from storage.
-     *
-     * @param int $paymentID
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    
     public function deletePayment($paymentID)
     {
         try {

@@ -20,30 +20,11 @@
                 <div class="xl:col-span-9">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="mb-4 text-15 grow">Add Structure</h6>
-                            <form action="{{route('structure/addStructureType')}}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                                <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
-                                    <div class="xl:col-span-6">
-                                        <div>
-                                            <label for="structureType" class="inline-block mb-2 text-base font-medium">Add Structure</label>
-                                            <input type="text" name="structureType" id="structureType" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex justify-end gap-2 mt-4">
-                                    <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Add Structure</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
                             <h6 class="mb-4 text-15 grow">Add Group</h6>
                             <form action="{{route('structure/addStructure')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
-                                    <div class="xl:col-span-6">
+                                    <div class="xl:col-span-6" data-intro="First, select the structure type for your property, such as 'Apartments' or 'Villas'." data-step="7">
                                         <div>
                                             <label for="structureType" class="inline-block mb-2 text-base font-medium">Select Structure</label>
                                             <select
@@ -57,7 +38,7 @@
                                     </div>
                                     <div class="xl:col-span-6">
                                         <label for="structureName" class="inline-block mb-2 text-base font-medium">Add Grouping</label>
-                                        <input type="text" name="structureName" id="structureName" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="text" name="structureName" id="structureName" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Next, add a grouping for your units, like 'Floor 1' or 'West Wing'." data-step="8">
                                     </div>
                                 </div>
                                 <div class="flex justify-end gap-2 mt-4">
@@ -75,12 +56,12 @@
                                     <div class="xl:col-span-6">
                                         <div>
                                             <label for="houseType" class="inline-block mb-2 text-base font-medium">Add house type</label>
-                                            <input type="text" name="houseType" id="houseType" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                            <input type="text" name="houseType" id="houseType" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Now, you can define the type of units, such as '1-bedroom' or 'studio'." data-step="9">
                                         </div>
                                     </div>
                                     <div class="xl:col-span-6">
                                         <label for="price" class="inline-block mb-2 text-base font-medium">Set Price</label>
-                                        <input type="text" name="price" id="price" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="text" name="price" id="price" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Set the price for this house type." data-step="10">
                                     </div>
                                 </div>
                                 <div class="flex justify-end gap-2 mt-4">
@@ -150,7 +131,7 @@
                                         <tr>
                                         <td>
                                             <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                                    <img src="{{ $rental->rentalImage }}" alt="" class="w-12 h-12 rounded">
+                                                    <img src="{{ $rental->rentalImage ?? asset('assets/images/rentalDefault.png') }}" alt="" class="w-12 h-12 rounded">
                                                 </div>
                                             <div class="shrink-0">
                                         </td>

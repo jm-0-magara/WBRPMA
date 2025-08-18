@@ -27,7 +27,7 @@
                                 <div class="xl:col-span-6">
                                     <div>
                                         <label for="houseNo" class="inline-block mb-2 text-base font-medium">House Number</label>
-                                        <select name="houseNo" id="houseNo" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <select name="houseNo" id="houseNo" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                                             @foreach($houses as $house)
                                                 <option value="{{ $house->houseNo }}">{{ $house->houseNo }}</option>
                                             @endforeach
@@ -37,41 +37,37 @@
                                 <div class="xl:col-span-6">
                                     <div>
                                         <label for="names" class="inline-block mb-2 text-base font-medium">Names</label>
-                                        <input type="text" name="names" id="names" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="text" name="names" id="names" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                                     </div>
                                 </div>
                                 <div class="xl:col-span-6">
                                     <div>
                                         <label for="phoneNo" class="inline-block mb-2 text-base font-medium">Phone Number</label>
-                                        <input type="text" name="phoneNo" id="phoneNo" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="text" name="phoneNo" id="phoneNo" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                                     </div>
                                 </div>
                                 <div class="xl:col-span-6">
                                     <div>
                                         <label for="IDNO" class="inline-block mb-2 text-base font-medium">ID Number</label>
-                                        <input type="text" name="IDNO" id="IDNO" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="text" name="IDNO" id="IDNO" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                                     </div>
                                 </div>
                                 <div class="xl:col-span-6">
                                     <div>
                                         <label for="email" class="inline-block mb-2 text-base font-medium">Email</label>
-                                        <input type="email" name="email" id="email" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="email" name="email" id="email" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                                     </div>
                                 </div>
                                 <div class="xl:col-span-6">
                                     <div>
                                         <label for="img" class="inline-block mb-2 text-base font-medium">Image</label>
-                                        <input type="file" name="img" id="img" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                        <input type="file" name="img" id="img" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                                     </div>
                                 </div>
                                 <div class="xl:col-span-6">
                                     <div>
-                                        <input type="hidden" name="rentalNo" id="rentalNo" value="{{ $rentalNo }}" class="form-input">
-                                    </div>
-                                </div>
-                                <div class="xl:col-span-6">
-                                    <div>
-                                        <input type="hidden" name="dateAdded" id="dateAdded" value="{{ now() }}" class="form-input">
+                                        <label for="dateAdded" class="inline-block mb-2 text-base font-medium">Date of Joining</label>
+                                        <input type="date" name="dateAdded" id="date" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +90,7 @@
                                         <tr>
                                             <td>
                                                 <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                                    <img src="{{ $tenant->img }}" alt="" class="w-12 h-12 rounded">
+                                                    <img src="{{ $tenant->img ?? asset('assets/images/userDefault.png') }}" alt="" class="w-12 h-12 rounded">
                                                 </div>
                                             </td>
                                             <td class="px-3.5 py-2.5 first:pl-0 last:pr-0 border-y border-transparent"><a href="#">{{ $tenant->names }}</a></td>
