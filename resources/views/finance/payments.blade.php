@@ -10,9 +10,11 @@
         var initialMonthlyPaymentsData = @json($monthlyPaymentsData);
         var filterRoute = '{{ route("payments/filter") }}';
         var addPaymentRoute = '{{ route("payments/add") }}';
-        var updatePaymentRouteBase = '{{ url("payments/update") }}'; // Base URL for update
-        var deletePaymentRouteBase = '{{ url("payments/delete") }}'; // Base URL for delete
+        var updatePaymentRouteBase = '{{ url("payments/updatePayment") }}'; // Base URL for update
+        var deletePaymentRouteBase = '{{ url("payments/deletePayment") }}'; // Base URL for delete
         var showPaymentRouteBase = '{{ url("payments/show") }}'; // Base URL for showing a single payment
+        var houseNos = @json($houseNos);
+        var paymentTypes = @json($paymentTypes);
     </script>
 <script src="{{ URL::to('assets/js/pages/payments.js') }}"></script>
 
@@ -246,6 +248,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="paymentsModalsContainer"></div>
                                     @endforeach
                                     @else
                                     <tr>

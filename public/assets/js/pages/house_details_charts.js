@@ -1,16 +1,35 @@
 document.addEventListener("DOMContentLoaded", function() {
+    const prepareChartData = (payments) => {
+        const seriesMap = {};
+        payments.forEach(payment => {
+            const paymentType = payment.title;
+            if (!seriesMap[paymentType]) {
+                seriesMap[paymentType] = {
+                    name: paymentType,
+                    data: []
+                };
+            }
+            seriesMap[paymentType].data.push({
+                x: payment.x,
+                y: payment.y,
+                title: payment.title,
+                paymentMethod: payment.paymentMethod
+            });
+        });
+        return Object.values(seriesMap);
+    };
     // Payment Records Chart
     if (document.getElementById("payment-records-chart")) {
+        //This is for paymenttypes
+        var initialChartSeries = prepareChartData(paymentRecordsChartData);
         var optionsPayment = {
             chart: {
                 type: 'scatter',
                 height: 350,
                 toolbar: { show: false }
             },
-            series: [{
-                name: 'Payments',
-                data: paymentRecordsChartData
-            }],
+            series: initialChartSeries,
+            //colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#D4526E', '#8D3DAF', '#F86624'],
             xaxis: {
                 type: 'datetime',
                 title: { text: 'Date Paid' },

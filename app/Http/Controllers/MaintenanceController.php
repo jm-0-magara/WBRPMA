@@ -165,12 +165,36 @@ class MaintenanceController extends Controller
             return redirect()->back();
         }
     
+        $userId = Session::get('user_id');
+        $userID = User::where('user_id', $userId)->value('id');
+
         try{
+            // Update first expenditure record if corresponding maintenance exists
+            $expenditure = Expenditures::where('expenditureType', 'Maintenance')
+                ->where('amount', $maintenance->amount)
+                ->where('timePaid', $maintenance->maintenanceDate)
+                ->where('userID', $userID)
+                ->first();
+            if ($expenditure) {
+                $expenditure->amount = $request->amount;
+                $expenditure->timePaid = $request->maintenanceDate;
+                $expenditure->save();
+            }else { 
+                $expenditure = new Expenditures();
+                $expenditure->expenditureID = rand(0, 1000000);
+                $expenditure->expenditureType = 'Maintenance';
+                $expenditure->userID = $userID;
+                $expenditure->amount = $request->amount;
+                $expenditure->timePaid = $request->maintenanceDate;
+                $expenditure->save();
+            }
+
             $maintenance->houseNo = $request->houseNo;
             $maintenance->maintenanceDate = $request->maintenanceDate;
             $maintenance->amount = $request->amount;
             $maintenance->maintenanceDescription = $request->maintenanceDescription;
             $maintenance->save();
+            
         } catch (\Exception $e) {
             Toastr::error('An error occurred: ' . $e->getMessage(), 'Error');
             return redirect()->back();
@@ -185,6 +209,19 @@ class MaintenanceController extends Controller
         try {
             $maintenance = Maintenances::findOrFail($maintenanceNo);
 
+            $user_id = Session::get('user_id');
+            $userID = User::where('user_id', $user_id)->value('id');
+
+            $expenditure = Expenditures::where('expenditureType', 'Maintenance')
+                ->where('amount', $maintenance->amount)
+                ->where('timePaid', $maintenance->maintenanceDate)
+                ->where('userID', $userID)
+                ->first();
+            if ($expenditure) {
+                $expenditure->delete();
+            }else {
+                Toastr::error('Could not find corresponding Expenditure record', 'Error');
+            }
             $maintenance->delete();
             Toastr::success('Maintenance record deleted successfully :)', 'Success');
         } catch (\Exception $e) {

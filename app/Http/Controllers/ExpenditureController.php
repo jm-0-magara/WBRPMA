@@ -9,7 +9,9 @@ use App\Models\Expendituretypes;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use App\Models\Maintenances;
 use App\Models\User;
+use App\Models\Houses;
 use DB;
 
 class ExpenditureController extends Controller
@@ -36,7 +38,7 @@ class ExpenditureController extends Controller
         $expenditures = $query->orderBy('timePaid', 'asc')->get();
 
         // Get all available expenditure types for filter dropdowns
-        $expenditureTypes = Expendituretypes::pluck('expenditureType'); // Assuming Expendituretypes table only has 'expenditureType'
+        $expenditureTypes = Expendituretypes::pluck('expenditureType'); 
 
         // Prepare data for the chart
         $labels = []; // Dates for the X-axis
@@ -69,6 +71,10 @@ class ExpenditureController extends Controller
         // Calculate total amount spent
         $totalAmountSpent = $expenditures->sum('amount');
 
+        //FOR ADDING MAINTENANCE RECORDS
+        $rentalNo = Session::get('rentalNo');
+        $houses = Houses::where('rentalNo', $rentalNo)->get();
+
         return [
             'expenditures' => $expenditures,
             'expenditureTypes' => $expenditureTypes,
@@ -77,6 +83,7 @@ class ExpenditureController extends Controller
             'totalAmountSpent' => $totalAmountSpent,
             'monthlyLabels' => $monthlyLabels,
             'monthlyExpendituresData' => $monthlyExpendituresData,
+            'houses' => $houses,
         ];
     }
 
@@ -169,6 +176,14 @@ class ExpenditureController extends Controller
         }
 
         $userID = User::where('user_id', $userId)->value('id');
+        $rentalNo = Session::get('rentalNo');
+
+        if ($request->expenditureType === 'Maintenance') {
+            $request->validate([
+                'houseNo' => 'required|string|max:255',
+                'maintenanceDescription' => 'nullable|string',
+            ]);
+        }
 
         try {
             $expenditure = new Expenditures();
@@ -178,6 +193,16 @@ class ExpenditureController extends Controller
             $expenditure->amount = $request->amount;
             $expenditure->timePaid = $request->timePaid;
             $expenditure->save();
+
+            if ($request->expenditureType === 'Maintenance') {
+                $maintenance = new Maintenances();
+                $maintenance->houseNo = $request->houseNo;
+                $maintenance->rentalNo = $rentalNo;
+                $maintenance->maintenanceDate = $request->timePaid;
+                $maintenance->amount = $request->amount;
+                $maintenance->maintenanceDescription = $request->maintenanceDescription;
+                $maintenance->save();
+            }
 
             Toastr::success('Expenditure added successfully :)', 'Success');
         } catch (\Exception $e) {
@@ -218,6 +243,18 @@ class ExpenditureController extends Controller
 
         try {
             $expenditure = Expenditures::findOrFail($expenditureID);
+
+            if ($expenditure->expenditureType === 'Maintenance' && $request->expenditureType === 'Maintenance') {
+                $maintenance = Maintenances::where('maintenanceDate', $expenditure->timePaid)
+                    ->where('amount', $expenditure->amount)
+                    ->first();
+                if ($maintenance) {
+                    $maintenance->amount = $request->amount;
+                    $maintenance->maintenanceDate = $request->timePaid;
+                    $maintenance->save();
+                }
+            }
+
             $expenditure->expenditureType = $request->expenditureType;
             $expenditure->userID = $userID; // Ensure userID is consistent
             $expenditure->amount = $request->amount;
@@ -242,6 +279,15 @@ class ExpenditureController extends Controller
     {
         try {
             $expenditure = Expenditures::findOrFail($expenditureID);
+
+            if ($expenditure->expenditureType === 'Maintenance') {
+                $maintenance = Maintenances::where('maintenanceDate', $expenditure->timePaid)
+                    ->where('amount', $expenditure->amount)
+                    ->first();
+                if ($maintenance) {
+                    $maintenance->delete();
+                }
+            }
             $expenditure->delete();
             Toastr::success('Expenditure deleted successfully :)', 'Success');
         } catch (\Exception $e) {

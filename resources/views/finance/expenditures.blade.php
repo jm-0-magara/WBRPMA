@@ -10,9 +10,10 @@
         var initialMonthlyExpendituresData = @json($monthlyExpendituresData);
         var filterRoute = '{{ route("expenditures/filter") }}';
         var addExpenditureRoute = '{{ route("expenditures/add") }}';
-        var updateExpenditureRouteBase = '{{ url("expenditures/update") }}'; // Base URL for update
-        var deleteExpenditureRouteBase = '{{ url("expenditures/delete") }}'; // Base URL for delete
+        var updateExpenditureRouteBase = '{{ url("expenditures/updateExpenditure") }}'; // Base URL for update
+        var deleteExpenditureRouteBase = '{{ url("expenditures/deleteExpenditure") }}'; // Base URL for delete
         var showExpenditureRouteBase = '{{ url("expenditures/show") }}'; // Base URL for showing a single expenditure
+        var expenditureTypes = @json($expenditureTypes);
     </script>
 <script src="{{ URL::to('assets/js/pages/expenditures.js') }}"></script>
 
@@ -44,7 +45,13 @@
                             <label for="expenditureTypeSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Type</label>
                             <select id="expenditureTypeSelect" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full">
                                 <option value="all">All Types</option>
-                                @foreach ($expenditureTypes as $type)
+                                <?php
+                                    $filteredTypes = array_filter($expenditureTypes->toArray(), function($type) {
+                                        return strtolower($type) !== 'maintenance';
+                                    });
+                                    $filteredTypes[] = 'Maintenance';
+                                ?>
+                                @foreach ($filteredTypes as $type)
                                     <option value="{{ $type }}">{{ $type }}</option>
                                 @endforeach
                             </select>
@@ -153,9 +160,15 @@
                                                         <div>
                                                             <label for="updateExpenditureType-{{ $expenditure->expenditureID }}" class="inline-block mb-2 text-base font-medium">Expenditure Type</label>
                                                             <select name="expenditureType" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" id="updateExpenditureType-{{ $expenditure->expenditureID }}" required>
-                                                                @foreach ($expenditureTypes as $type)
+                                                                @php
+                                                                $filteredTypes = $expenditureTypes->filter(function($type) {
+                                                                    return strtolower($type) !== 'maintenance';
+                                                                });
+                                                                $filteredTypes->push('Maintenance');
+                                                            @endphp
+                                                            @foreach ($filteredTypes as $type)
                                                                 <option value="{{ $type }}" @if($expenditure->expenditureType == $type) selected @endif>{{ $type }}</option>
-                                                                @endforeach
+                                                            @endforeach
                                                             </select>
                                                         </div>
                                                         <div>
@@ -200,6 +213,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="expendituresModalsContainer"></div>
                                     @endforeach
                                     @else
                                     <tr>
@@ -238,10 +252,31 @@
                         <label for="addExpenditureType" class="inline-block mb-2 text-base font-medium">Expenditure Type</label>
                         <select name="expenditureType" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" id="addExpenditureType" required>
                             <option value="">Select Expenditure Type</option>
-                            @foreach ($expenditureTypes as $type)
-                                <option value="{{ $type }}">{{ $type }}</option>
-                            @endforeach
+                                <?php
+                                    $filteredTypes = array_filter($expenditureTypes->toArray(), function($type) {
+                                        return strtolower($type) !== 'maintenance';
+                                    });
+                                    $filteredTypes[] = 'Maintenance';
+                                ?>
+                                @foreach ($filteredTypes as $type)
+                                    <option value="{{ $type }}">{{ $type }}</option>
+                                @endforeach
                         </select>
+                    </div>
+                    <div id="maintenanceFields" class="xl:col-span-12" style="display: none;">
+                        <div class="mb-4">
+                            <label for="addHouseNo" class="inline-block mb-2 text-base font-medium">House Number</label>
+                            <select name="houseNo" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" id="addHouseNo">
+                                <option value="">Select House</option>
+                                @foreach ($houses as $house)
+                                    <option value="{{ $house->houseNo }}">{{ $house->houseNo }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="xl:col-span-12">
+                            <label for="addMaintenanceDescription" class="inline-block mb-2 text-base font-medium">Description (Optional)</label>
+                            <textarea id="addMaintenanceDescription" name="maintenanceDescription" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 dark:bg-zink-700 dark:text-zink-100 w-full" placeholder="Enter maintenance description"></textarea>
+                        </div>
                     </div>
                     <div class="xl:col-span-12">
                         <label for="addAmount" class="inline-block mb-2 text-base font-medium">Amount</label>
