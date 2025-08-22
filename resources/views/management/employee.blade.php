@@ -16,7 +16,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="card" id="employeeTable">
+            <div class="card" id="employeeTable" data-intro="This table displays all the employees in the system, specific to you as a user. You can add, edit, or delete employee records here." data-step="20">
                 <div class="card-body">
                     <div class="flex items-center gap-3 mb-4">
                         <h6 class="text-15 grow">Employee<b class="total-Employs"></b></h6>

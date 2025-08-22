@@ -140,7 +140,7 @@
                                         @csrf
                                         <input type="hidden" name="recipients" value="0708681664,0701234567"> <!-- Example recipients -->
                                         <input type="hidden" name="message" value="KIND REMINDER TO PAY YOUR RENT">
-                                        <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee">
+                                        <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee" data-intro="Clicking this will prompt sending of a preconstructed broadcast reminder to all the clients enlisted." data-step="23">
                                             <i data-lucide="mail" class="inline-block size-4"></i> 
                                             <span class="align-middle">BROADCAST SMS</span>
                                         </a>

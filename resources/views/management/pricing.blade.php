@@ -26,18 +26,18 @@
                                     <div class="xl:col-span-6">
                                         <div>
                                             <label for="utilityType" class="inline-block mb-2 text-base font-medium">Enter Utility</label>
-                                            <input type="text" name="paymentType" id="paymentType" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Finally, you can add any utilities or services and set their prices, such as 'Garbage Collection' or 'Water Bill'." data-step="11">
+                                            <input type="text" name="paymentType" id="paymentType" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Finally, you can add any utilities or services and set their prices, such as 'Garbage Collection' or 'Water Bill'." data-step="14">
                                         </div>
                                     </div>
                                     <div class="xl:col-span-6">
                                         <div>
                                             <label for="price" class="inline-block mb-2 text-base font-medium">Price</label>
-                                            <input type="text" name="price" id="paymentTypePrice" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Set the price for the utility or service you entered." data-step="12">
+                                            <input type="text" name="price" id="paymentTypePrice" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="Set the price for the utility or service you entered." data-step="15">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex justify-end gap-2 mt-4">
-                                    <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20" data-intro="Click here to save the utility and price. You can add more as needed. This will help with payment recording" data-step="13">Add Utility</button>
+                                    <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20" data-intro="Click here to save the utility and price. You can add more as needed. This will help with payment recording" data-step="16">Add Utility</button>
                                 </div>
                             </form>
                         </div>
@@ -49,7 +49,7 @@
                             <form action="{{route('management/pricing/updatePaymentTypePrice')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
-                                    <div class="xl:col-span-6">
+                                    <div class="xl:col-span-6" data-intro="This dropdown will display any utilities or services you have added above, like 'Garbage Collection' or 'Water Bill'. And is used for editing the selected utility price" data-step="17">
                                         <div>
                                             <label for="utilityType" class="inline-block mb-2 text-base font-medium">Select Utility</label>
                                             <select
@@ -64,7 +64,7 @@
                                     <div class="xl:col-span-6">
                                         <div>
                                             <label for="price" class="inline-block mb-2 text-base font-medium">Adjust Price</label>
-                                            <input type="text" name="price" id="price" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                            <input type="text" name="price" id="price" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="This sets the new price for the selected utility or service." data-step="18">
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" data-intro="This section allows you to adjust the unit price for different house types, such as '1-bedroom' or 'studio'. This is important for setting the base rental price for each type of house." data-step="19">
                             <h6 class="mb-4 text-15 grow">Adjust Unit Price</h6>
                             <form action="{{route('management/pricing/update')}}" method="POST" enctype="multipart/form-data">
                             @csrf

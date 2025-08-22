@@ -6,7 +6,7 @@
         <div class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto">
 
             <!-- Breadcrumb -->
-            <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+            <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden" data-intro="This is the Reservations page where you can manage all reservations for the selected property. You can add new reservations, view existing ones, and filter them by status. An overdue reservation will be automatically considered 'Expired'" data-step="25">
                 <div class="grow">
                     <h5 class="text-16">Reservations</h5>
                 </div>

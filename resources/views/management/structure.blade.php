@@ -79,10 +79,10 @@
                                     <div class="xl:col-span-6">
                                         <div>
                                             <label for="houseNo" class="inline-block mb-2 text-base font-medium">House Number</label>
-                                            <input type="text" name="houseNo" id="houseNo" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                            <input type="text" name="houseNo" id="houseNo" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-intro="This is where you will enter the house number for identification." data-step="11">
                                         </div>
                                     </div>
-                                    <div class="xl:col-span-6">
+                                    <div class="xl:col-span-6" data-intro="This dropdown will display any grouping you will have added above, like 'Floor 1' or 'West Wing'." data-step="12">
                                         <div>
                                         <label for="structureName" class="inline-block mb-2 text-base font-medium">Select Grouping</label>
                                             <select
@@ -94,7 +94,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="md:col-span-2 xl:col-span-12">
+                                    <div class="md:col-span-2 xl:col-span-12" data-intro="Finally, this dropdown will require you to select the house type, such as '1-bedroom' or 'studio'." data-step="13">
                                         <div>
                                         <label for="houseType" class="inline-block mb-2 text-base font-medium">Select House Type</label>
                                             <select

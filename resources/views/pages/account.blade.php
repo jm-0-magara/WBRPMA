@@ -11,7 +11,7 @@
 
 <!-- Page-content -->
     <div class="group-data-[sidebar-size=lg]:ltr:md:ml-vertical-menu group-data-[sidebar-size=lg]:rtl:md:mr-vertical-menu group-data-[sidebar-size=md]:ltr:ml-vertical-menu-md group-data-[sidebar-size=md]:rtl:mr-vertical-menu-md group-data-[sidebar-size=sm]:ltr:ml-vertical-menu-sm group-data-[sidebar-size=sm]:rtl:mr-vertical-menu-sm pt-[calc(theme('spacing.header')_*_1)] pb-[calc(theme('spacing.header')_*_0.8)] px-4 group-data-[navbar=bordered]:pt-[calc(theme('spacing.header')_*_1.3)] group-data-[navbar=hidden]:pt-0 group-data-[layout=horizontal]:mx-auto group-data-[layout=horizontal]:max-w-screen-2xl group-data-[layout=horizontal]:px-0 group-data-[layout=horizontal]:group-data-[sidebar-size=lg]:ltr:md:ml-auto group-data-[layout=horizontal]:group-data-[sidebar-size=lg]:rtl:md:mr-auto group-data-[layout=horizontal]:md:pt-[calc(theme('spacing.header')_*_1.6)] group-data-[layout=horizontal]:px-3 group-data-[layout=horizontal]:group-data-[navbar=hidden]:pt-[calc(theme('spacing.header')_*_0.9)]">
-        <div class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto">
+        <div class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto" data-intro="This section displays your profile information, including your name, role, and statistics about your economic endeavors, properties and clients." data-step="27">
             <div class="mt-1 -ml-3 -mr-3 rounded-none card">
                 <div class="card-body !px-2.5">
                     <div class="grid grid-cols-1 gap-5 lg:grid-cols-12 2xl:grid-cols-12">
@@ -44,7 +44,7 @@
                                     <p class="text-slate-500 dark:text-zink-200">Clients</p>
                                 </li>
                                 <li class="px-5">
-                                    <h5>Over Ksh.{{ number_format($mostProfitableMonth['net_profit'], 2) }}</h5>
+                                    <h5>Over Ksh.{{Session::get('showTour') ? 0 : number_format($mostProfitableMonth['net_profit'], 2)}}</h5>
                                     <p class="text-slate-500 dark:text-zink-200">Profit</p>
                                 </li>
                             </ul>

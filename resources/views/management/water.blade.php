@@ -19,7 +19,7 @@
 <div class="group-data-[sidebar-size=lg]:ltr:md:ml-vertical-menu group-data-[sidebar-size=lg]:rtl:md:mr-vertical-menu group-data-[sidebar-size=md]:ltr:ml-vertical-menu-md group-data-[sidebar-size=md]:rtl:mr-vertical-menu-md group-data-[sidebar-size=sm]:ltr:ml-vertical-menu-sm group-data-[sidebar-size=sm]:rtl:mr-vertical-menu-sm pt-[calc(theme('spacing.header')_*_1)] pb-[calc(theme('spacing.header')_*_0.8)] px-4 group-data-[navbar=bordered]:pt-[calc(theme('spacing.header')_*_1.3)] group-data-[navbar=hidden]:pt-0 group-data-[layout=horizontal]:mx-auto group-data-[layout=horizontal]:max-w-screen-2xl group-data-[layout=horizontal]:px-0 group-data-[layout=horizontal]:group-data-[sidebar-size=lg]:ltr:md:ml-auto group-data-[layout=horizontal]:group-data-[sidebar-size=lg]:rtl:md:mr-auto group-data-[layout=horizontal]:md:pt-[calc(theme('spacing.header')_*_1.6)] group-data-[layout=horizontal]:px-3 group-data-[layout=horizontal]:group-data-[navbar=hidden]:pt-[calc(theme('spacing.header')_*_0.9)]">
     <div class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto">
 
-        <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+        <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden" data-intro="This is the Water Consumption Management page where you can view and manage water consumption records for the selected property." data-step="24">
             <div class="grow">
                 <h5 class="text-16">Water Consumption</h5>
             </div>
@@ -399,7 +399,7 @@
                             class="inline-block mb-2 text-base font-medium">Payment Type</label>
                         <input type="text" id="paymentType" name="paymentType"
                             class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
-                            value="{{ $paymentType }}" readonly>
+                            value="{{ $paymentType ?? 0}}" readonly>
                     </div>
                     <div class="xl:col-span-6">
                         <label for="paymentMethod" class="inline-block mb-2 text-base font-medium">Payment Method</label>
