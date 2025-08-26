@@ -22,7 +22,7 @@
                 </div>
                 <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
                     <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">   
-                        <a href="#!" class="text-slate-400 dark:text-zink-200">{{ Session::has('rentalName') ? Session::get('rentalName') : 'Select a property' }}</a>
+                        <a href="{{ route('home') }}#propertiesSection" class="text-slate-400 dark:text-zink-200">{{ Session::has('rentalName') ? Session::get('rentalName') : 'Select a property' }}</a>
                     </li>
                     <li class="text-slate-700 dark:text-zink-100">Home</li>
                 </ul>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 @if(session('rentals'))
-                    <div id="propertyModal" class="fixed flex flex-col transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show" data-intro="Welcome to your dashboard! It looks like you don't have any properties yet. Let's add your first one!" data-step="1">
+                    <div id="propertyModal"class="fixed flex flex-col transition-all duration-300 ease-in-out left-1/2 top-1/2 z-drawer -translate-x-1/2 -translate-y-2/4 show" data-intro="Welcome to your dashboard! It looks like you don't have any properties yet. Let's add your first one!" data-step="1">
                         <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
                             <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
                                 <div class="float-right">
@@ -440,7 +440,7 @@
                         <div id="totalExpenditureTable" class="-ml-2 apex-charts" data-chart-colors='["bg-custom-500", "bg-yellow-500", "bg-green-400", "bg-red-400"]' dir="ltr"></div>
                     </div>
                 </div>
-                <div class="col-span-12 md:order-11 lg:col-span-6 xl:col-span-4 2xl:col-span-3 card">
+                <div id="propertiesSection" class="col-span-12 md:order-11 lg:col-span-6 xl:col-span-4 2xl:col-span-3 card">
                     <div class="!pb-0 card-body">
                         <h6 class="mb-3 text-15">Properties</h6>
                     </div>

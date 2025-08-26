@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AfricasTalkingService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Houses;
@@ -252,5 +253,63 @@ class ClientController extends Controller
 
         Toastr::success('Tenant deleted successfully :)', 'Success');
         return redirect()->back();
+    }
+
+
+    public function broadcastSMS(Request $request, $rentalNo, AfricasTalkingService $atService)
+    {
+        // 1) validate message input
+        $request->validate([
+            'message' => 'required|string|max:3200',
+        ]);
+
+        $message = $request->input('message');
+        $rentalNo = Session::get('rentalNo');
+
+        // 2) fetch tenants phone numbers for the rental
+        // adapt to your model names. Example:
+        $tenants = Tenants::where('rentalNo', $rentalNo)->pluck('phoneNo')->toArray();
+
+        if (empty($tenants)) {
+            Toastr::error('No tenants found for this rental.', 'Error');
+            return back()->with('error', 'No tenants found for this rental.');
+        }
+
+        // 3) normalize numbers to international format
+        $to = array_map(function($n){
+            return \App\Http\Controllers\ClientController::normalizePhone($n);
+        }, $tenants);
+
+
+        try {
+            $result = $atService->send($to, $message);
+            // $result contains Africa's Talking response. Save / log as needed.
+            \Log::info('AT SMS result', ['response' => $result]);
+            Toastr::success('Broadcast queued/sent.','Success');
+            return back()->with('success', 'Broadcast queued/sent.')->with('at_result', $result);
+        } catch (\Exception $e) {
+            Toastr::error('Failed to send SMS: '.$e->getMessage(), 'Error');
+            \Log::error('AT SMS error: '.$e->getMessage(), ['payload' => compact('to','message','from')]);
+            return back()->with('error','Failed to send SMS: '.$e->getMessage());
+        }
+    }
+
+    // A simple normalizer — adapt for your countries
+    public static function normalizePhone($raw)
+    {
+        $n = trim($raw);
+        $n = preg_replace('/\s+/', '', $n); // remove spaces
+        // If already starts with +, assume ok
+        if (strpos($n, '+') === 0) return $n;
+        // Handle 9-digit local (Kenya) e.g. 712345678
+        if (preg_match('/^7\d{8}$/', $n)) {
+            return '+254' . $n;
+        }
+        // Handle 2547XXXXXXXX
+        if (preg_match('/^2547\d{8}$/', $n)) {
+            return '+' . $n;
+        }
+        // fallback - return as-is (provider may reject)
+        return $n;
     }
 }

@@ -98,6 +98,7 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
         Route::post('/add-tenant', 'addTenant')->middleware('auth')->name('addTenant');
         Route::post('/update-tenant/{tenantNo}', 'updateClient')->middleware('auth')->name('updateClient');
         Route::delete('/delete-tenant/{tenantNo}', 'deleteClient')->middleware('auth')->name('deleteClient');
+        Route::post('/clients/sendBroadcastSMS/{rentalNo}', 'broadcastSMS')->middleware('auth')->name('clients/sendBroadcastSMS');
     });
 
     // -------------------------- management ----------------------//

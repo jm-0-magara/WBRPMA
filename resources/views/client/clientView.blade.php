@@ -10,7 +10,7 @@
                 </div>
                 <ul class="flex items-center gap-2 text-sm font-normal shrink-0">
                     <li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
-                        <a href="#!" class="text-slate-400 dark:text-zink-200">{{ Session::has('rentalName') ? Session::get('rentalName') : 'Select a property' }}</a>
+                        <a href="{{ route('home') }}#propertiesSection" class="text-slate-400 dark:text-zink-200">{{ Session::has('rentalName') ? Session::get('rentalName') : 'Select a property' }}</a>
                     </li>
                     <li class="text-slate-700 dark:text-zink-100">
                         Clients
@@ -136,15 +136,14 @@
                                 </div><!--end col-->
                                 <div class="flex justify-end gap-2 text-right lg:col-span-2 xl:col-span-4 xl:col-start-10">
                                     <div class="shrink-0">
-                                    <form id="broadcast-sms-form" action="{{ route('sendBroadcast') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="recipients" value="0708681664,0701234567"> <!-- Example recipients -->
-                                        <input type="hidden" name="message" value="KIND REMINDER TO PAY YOUR RENT">
-                                        <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee" data-intro="Clicking this will prompt sending of a preconstructed broadcast reminder to all the clients enlisted." data-step="23">
+                                        <!--@csrf
+                                        <input type="hidden" name="recipients" value="0708681664,0701234567"> -- Example recipients 
+                                        <input type="hidden" name="message" value="KIND REMINDER TO PAY YOUR RENT"> -->
+                                        <a href="#" data-modal-target="broadcastSMSModal" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee" data-intro="Clicking this will prompt sending of a preconstructed broadcast reminder to all the clients enlisted." data-step="23">
                                             <i data-lucide="mail" class="inline-block size-4"></i> 
                                             <span class="align-middle">BROADCAST SMS</span>
                                         </a>
-                                    </form>
+                                    
                                     </div>
                                     <div class="shrink-0">
                                         <a href="{{route('clients/add')}}" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee">
@@ -277,6 +276,32 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {{-- Broadcast SMS Modal --}}
+                                        <div id="broadcastSMSModal" modal-center="" class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
+                                            <div class="w-screen md:w-[30rem] bg-white shadow rounded-md dark:bg-zink-600" data-modal-close-outside="broadcastSMSModal">
+                                                <div class="flex items-center justify-between p-4 border-b dark:border-zink-500">
+                                                        <h5 class="text-lg font-medium text-gray-900 dark:text-zink-100">Send Broadcast SMS</h5>
+                                                        <button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-zink-200" data-modal-close="broadcastSMSModal">
+                                                            <i data-lucide="x" class="size-4"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
+                                                        <form id="broadcastSMSForm" action="{{ route('clients/sendBroadcastSMS', ['rentalNo' => Session::get('rentalNo')]) }}" method="POST">
+                                                            @csrf
+                                                            <div>
+                                                                <label for="message" class="inline-block mb-2 text-base font-medium">Message</label>
+                                                                <textarea name="message" id="message" rows="4" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" required>{{ old('message', 'Hello tenants KIND REMINDER TO PAY YOUR RENT') }}</textarea>
+                                                            </div>
+                                                            <div class="flex justify-end gap-2 mt-4">
+                                                                <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600">Send SMS</button>
+                                                            </div>
+                                                        </form> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
                                         {{-- Delete Modal --}}
                                         <div id="deleteClientModal-{{ $tenant->tenantNo }}" modal-center="" class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
