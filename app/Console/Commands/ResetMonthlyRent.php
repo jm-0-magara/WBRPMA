@@ -26,11 +26,11 @@ class ResetMonthlyRent extends Command
      */
     public function handle()
     {
-        
-        Houses::update(['isPaid' => 0]);
+        // Reset isPaid status for all houses
+        $affectedRows = Houses::query()->update(['isPaid' => 0]);
 
-        $this->info('Monthly rent status has been reset for all occupied houses.');
-        
+        $this->info("Monthly rent status has been reset for {$affectedRows} houses.");
+
         return Command::SUCCESS;
     }
 }
