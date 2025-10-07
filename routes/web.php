@@ -18,8 +18,40 @@ function set_show($route) {
 }
 
 Route::get('/', function () {
+    return view('landing');
+})->name('landing');
+
+Route::get('/app', function () {
     return view('auth.login');
 });
+
+// Cron job endpoint for external services (e.g., cron-job.org)
+Route::get('/cron/rent-reset', function () {
+    // Simple token authentication to prevent unauthorized access
+    $cronToken = env('CRON_TOKEN', 'change-me-in-production');
+
+    if (request('token') !== $cronToken) {
+        abort(403, 'Unauthorized - Invalid cron token');
+    }
+
+    try {
+        \Artisan::call('rent:reset');
+        $output = \Artisan::output();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Rent reset completed successfully',
+            'output' => $output,
+            'timestamp' => now()->toDateTimeString()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Rent reset failed',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+})->name('cron.rent-reset');
 
 
 Route::group(['middleware'=>'auth'],function()
